@@ -44,7 +44,7 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
             } catch (URISyntaxException e) {
                 throw new ApplicationContextException("Heroku database connection pool is not configured correctly");
             }
-            log.debug(String.format("DB URI user info=%s", dbUri.getUserInfo()));
+            log.info(String.format("DB URI user info=%s", dbUri.getUserInfo()));
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:postgresql://" +
@@ -58,7 +58,7 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
             config.addDataSourceProperty("url", dbUrl);
             config.addDataSourceProperty("user", username);
             config.addDataSourceProperty("password", password);
-            log.debug(String.format("DB information:\n \tusername=%s\n \tpassword=%s\n \thost=%s\n \tport=%s\n \turl=%s\n \tdataSourceClassName=%s", 
+            log.info(String.format("DB information:\n \tusername=%s\n \tpassword=%s\n \thost=%s\n \tport=%s\n \turl=%s\n \tdataSourceClassName=%s", 
             		username, password, dbUri.getHost(), dbUri.getPort(), dbUrl, config.getDataSourceClassName()));            
             return new HikariDataSource(config);
         } else {
