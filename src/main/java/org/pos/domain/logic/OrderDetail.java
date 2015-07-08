@@ -116,9 +116,7 @@ public class OrderDetail extends AbstractAuditingEntity implements Serializable 
 	private void post() {
 		if (null != this.item) {
 			this.itemName = this.item.getName();
-		}
-		if (null != this.item && null != this.item.getCategory()) {
-			this.itemCategoryName = this.item.getCategory().getName();
+			this.itemCategoryName = this.item.getCategoryName();
 		}
 	}
 	

@@ -1,7 +1,7 @@
 ######################
 # Project Specific
 ######################
-/src/main/webapp/dist
+#/src/main/webapp/dist
 
 ######################
 # Node
@@ -32,6 +32,7 @@ local.properties
 .settings/**
 .loadpath
 /src/main/resources/rebel.xml
+.springBeans
 
 # External tool builders
 .externalToolBuilders/**
