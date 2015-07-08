@@ -1,0 +1,48 @@
+<div>
+    <h2 translate="revenue.title">Revenue</h2>
+
+    <div class="row">  
+        <div class="col-md-12 form-inline">
+            <div class="form-group">
+                <label translate="revenue.fromDate">From date</label>
+                <input type="datetime-local" class="form-control" name="from" ng-model="from">
+            </div>
+            <div class="form-group">
+                <label translate="revenue.toDate">To date</label>
+                <input type="datetime-local" class="form-control" name="to" ng-model="to">
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="search()">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>             
+        </div>       
+    </div>
+
+    <h3>
+        <span class="label label-primary">
+            <span translate="revenue.totalAmount"></span>
+            <span number-format="totalAmount"></span>
+        </span>
+    </h3>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th translate="revenue.createdDate">Created date</th>
+                    <th translate="revenue.amount">Amount</th>
+                    <th translate="revenue.table">Table</th>
+                    <th translate="revenue.createdBy">Created by</th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+                <tr ng-repeat="order in orders">
+                    <td>{{order.createdDate | amDateFormat: constants.dateTimePattern}}</a></td>
+                    <td><span number-format="order.amount"></span></td>
+                    <td>{{order.tableNo.name}}</td>
+                    <td>{{order.createdBy}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

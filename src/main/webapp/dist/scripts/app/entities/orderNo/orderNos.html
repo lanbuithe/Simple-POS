@@ -1,0 +1,189 @@
+<div>
+
+    <h2 translate="posApp.orderNo.home.title">OrderNo</h2>
+
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveOrderNoModal" ng-click="clear()">
+        <span class="glyphicon glyphicon-flash"></span> <span translate="posApp.orderNo.home.createLabel">Create a new OrderNo</span>
+    </button>
+    <div class="modal fade" id="saveOrderNoModal" tabindex="-1" role="dialog" aria-labelledby="myOrderNoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="create()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myOrderNoLabel" translate="posApp.orderNo.home.createOrEditLabel">Create or edit a OrderNo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="orderNo.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="posApp.orderNo.amount">Amount</label>
+                            <input type="number" class="form-control" name="amount"
+                                   ng-model="orderNo.amount" required min="4" max="10">
+
+                            <div ng-show="editForm.amount.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.amount.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.amount.$error.min" translate="entity.validation.min" translate-value-min="4">
+                                    This field should be more than 4.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.amount.$error.max" translate="entity.validation.max" translate-value-max="10">
+                                    This field cannot be more than 10.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.amount.$error.number" translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="posApp.orderNo.status">Status</label>
+                            <input type="text" class="form-control" name="status"
+                                   ng-model="orderNo.status" required ng-minlength="1" ng-maxlength="100">
+
+                            <div ng-show="editForm.status.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.status.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.status.$error.minlength" translate="entity.validation.minlength" translate-value-min="1">
+                                    This field is required to be at least 1 characters.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.status.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="100">
+                                    This field cannot be longer than 100 characters.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="posApp.orderNo.createdDate">CreatedDate</label>
+                            <input type="date" class="form-control" name="createdDate"
+                                   ng-model="orderNo.createdDate" required>
+
+                            <div ng-show="editForm.createdDate.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.createdDate.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>                                   
+                        </div>
+                        <div class="form-group">
+                            <label translate="posApp.orderNo.lastModifiedDate">LastModifiedDate</label>
+                            <input type="date" class="form-control" name="lastModifiedDate"
+                                   ng-model="orderNo.lastModifiedDate" required>
+
+                            <div ng-show="editForm.lastModifiedDate.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.lastModifiedDate.$error.required" translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="posApp.orderNo.tableNo">tableNo</label>
+                            <select class="form-control" name="tableNo" ng-model="orderNo.tableNo.id" ng-options="tableNo.id as tableNo.name for tableNo in tablenos">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteOrderNoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(orderNo.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="posApp.orderNo.delete.question" translate-values="{id: '{{orderNo.id}}'}">Are you sure you want to delete this OrderNo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="posApp.orderNo.amount">Amount</th>
+                    <th translate="posApp.orderNo.status">Status</th>
+                    <th translate="posApp.orderNo.createdDate">CreatedDate</th>
+                    <th translate="posApp.orderNo.lastModifiedDate">LastModifiedDate</th>
+                    <th translate="posApp.orderNo.tableNo">tableNo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="orderNo in orderNos">
+                    <td><a ui-sref="orderNoDetail({id:orderNo.id})">{{orderNo.id}}</a></td>
+                    <td>{{orderNo.amount}}</td>
+                    <td>{{orderNo.status}}</td>
+                    <td>{{orderNo.createdDate}}</td>
+                    <td>{{orderNo.lastModifiedDate}}</td>
+                    <td>{{orderNo.tableNo.name}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="orderNoDetail({id:orderNo.id})"
+                                class="btn btn-info">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="update(orderNo.id)"
+                                class="btn btn-primary">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(orderNo.id)"
+                                class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pager">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a href="#">&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a href="#">&lt;</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a href="#">&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a href="#">&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
