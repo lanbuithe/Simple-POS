@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('SettingsController', function ($scope, Principal, Auth, Language, $translate) {
         $scope.success = null;
         $scope.error = null;

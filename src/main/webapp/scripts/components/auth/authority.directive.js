@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .directive('hasAnyRole', ['Principal', function (Principal) {
         return {
             restrict: 'A',

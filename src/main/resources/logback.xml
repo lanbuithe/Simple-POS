@@ -27,7 +27,7 @@
     </appender>
 -->
 
-    <logger name="org.coffee" level="${logback.loglevel}"/>
+    <logger name="org.pos" level="${logback.loglevel}"/>
 
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>

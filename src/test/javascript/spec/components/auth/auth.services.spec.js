@@ -2,7 +2,7 @@
 
 describe('Services Tests ', function () {
 
-    beforeEach(module('coffeeApp'));
+    beforeEach(module('posApp'));
 
     describe('Auth', function () {
         var $httpBackend, spiedLocalStorageService, authService, spiedAuthServerProvider;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('ResetFinishController', function ($scope, $stateParams, $timeout, Auth) {
 
         $scope.keyMissing = $stateParams.key === undefined;

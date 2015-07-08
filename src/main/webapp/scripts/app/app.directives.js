@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
 	.directive('numberFormat', ['$filter', 'Utils', 'Constants', 
 		function($filter, Utils, Constants) {
 	  	return {

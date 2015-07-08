@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('NavbarController', function ($scope, $location, $state, Auth, Principal) {
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;

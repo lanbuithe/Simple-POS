@@ -2,7 +2,7 @@
 
 describe('Controllers Tests ', function () {
 
-    beforeEach(module('coffeeApp'));
+    beforeEach(module('posApp'));
 
     var $scope, q, Principal, Auth;
 

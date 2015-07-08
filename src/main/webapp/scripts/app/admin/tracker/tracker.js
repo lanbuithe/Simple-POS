@@ -1,4 +1,4 @@
-angular.module('coffeeApp')
+angular.module('posApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('tracker', {

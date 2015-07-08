@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .factory('MonitoringService', function ($rootScope, $http) {
         return {
             getMetrics: function () {

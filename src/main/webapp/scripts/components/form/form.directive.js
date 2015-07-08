@@ -1,7 +1,7 @@
 /* globals $ */
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .directive('showValidation', function() {
         return {
             restrict: 'A',

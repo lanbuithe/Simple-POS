@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .factory('AuditsService', function ($http) {
         return {
             findAll: function () {

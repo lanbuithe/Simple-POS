@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('RevenueController', function ($scope, ParseLinks, moment, Constants, Utils, OrderService) {
         $scope.from = moment().set('date', 1).toDate();
         $scope.to = moment().toDate();

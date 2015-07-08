@@ -1,9 +1,9 @@
 <div>
 
-    <h2 translate="coffeeApp.orderNo.home.title">OrderNo</h2>
+    <h2 translate="posApp.orderNo.home.title">OrderNo</h2>
 
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveOrderNoModal" ng-click="clear()">
-        <span class="glyphicon glyphicon-flash"></span> <span translate="coffeeApp.orderNo.home.createLabel">Create a new OrderNo</span>
+        <span class="glyphicon glyphicon-flash"></span> <span translate="posApp.orderNo.home.createLabel">Create a new OrderNo</span>
     </button>
     <div class="modal fade" id="saveOrderNoModal" tabindex="-1" role="dialog" aria-labelledby="myOrderNoLabel"
          aria-hidden="true">
@@ -14,7 +14,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                 ng-click="clear()">&times;</button>
-                        <h4 class="modal-title" id="myOrderNoLabel" translate="coffeeApp.orderNo.home.createOrEditLabel">Create or edit a OrderNo</h4>
+                        <h4 class="modal-title" id="myOrderNoLabel" translate="posApp.orderNo.home.createOrEditLabel">Create or edit a OrderNo</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="coffeeApp.orderNo.amount">Amount</label>
+                            <label translate="posApp.orderNo.amount">Amount</label>
                             <input type="number" class="form-control" name="amount"
                                    ng-model="orderNo.amount" required min="4" max="10">
 
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label translate="coffeeApp.orderNo.status">Status</label>
+                            <label translate="posApp.orderNo.status">Status</label>
                             <input type="text" class="form-control" name="status"
                                    ng-model="orderNo.status" required ng-minlength="1" ng-maxlength="100">
 
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label translate="coffeeApp.orderNo.createdDate">CreatedDate</label>
+                            <label translate="posApp.orderNo.createdDate">CreatedDate</label>
                             <input type="date" class="form-control" name="createdDate"
                                    ng-model="orderNo.createdDate" required>
 
@@ -80,7 +80,7 @@
                             </div>                                   
                         </div>
                         <div class="form-group">
-                            <label translate="coffeeApp.orderNo.lastModifiedDate">LastModifiedDate</label>
+                            <label translate="posApp.orderNo.lastModifiedDate">LastModifiedDate</label>
                             <input type="date" class="form-control" name="lastModifiedDate"
                                    ng-model="orderNo.lastModifiedDate" required>
 
@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="coffeeApp.orderNo.tableNo">tableNo</label>
+                            <label translate="posApp.orderNo.tableNo">tableNo</label>
                             <select class="form-control" name="tableNo" ng-model="orderNo.tableNo.id" ng-options="tableNo.id as tableNo.name for tableNo in tablenos">
                             </select>
                         </div>
@@ -121,7 +121,7 @@
                         <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
                     </div>
                     <div class="modal-body">
-                        <p translate="coffeeApp.orderNo.delete.question" translate-values="{id: '{{orderNo.id}}'}">Are you sure you want to delete this OrderNo?</p>
+                        <p translate="posApp.orderNo.delete.question" translate-values="{id: '{{orderNo.id}}'}">Are you sure you want to delete this OrderNo?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
@@ -141,11 +141,11 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th translate="coffeeApp.orderNo.amount">Amount</th>
-                    <th translate="coffeeApp.orderNo.status">Status</th>
-                    <th translate="coffeeApp.orderNo.createdDate">CreatedDate</th>
-                    <th translate="coffeeApp.orderNo.lastModifiedDate">LastModifiedDate</th>
-                    <th translate="coffeeApp.orderNo.tableNo">tableNo</th>
+                    <th translate="posApp.orderNo.amount">Amount</th>
+                    <th translate="posApp.orderNo.status">Status</th>
+                    <th translate="posApp.orderNo.createdDate">CreatedDate</th>
+                    <th translate="posApp.orderNo.lastModifiedDate">LastModifiedDate</th>
+                    <th translate="posApp.orderNo.tableNo">tableNo</th>
                     <th></th>
                 </tr>
             </thead>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('OrderNoDetailController', function ($scope, $stateParams, OrderNo, TableNo) {
         $scope.orderNo = {};
         $scope.load = function (id) {

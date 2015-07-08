@@ -9,12 +9,12 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.coffee</groupId>
-    <artifactId>coffee</artifactId>
+    <groupId>org.pos</groupId>
+    <artifactId>pos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>coffee</name>
+    <name>Simple POS</name>
 
     <prerequisites>
         <maven>3.0.0</maven>
@@ -612,11 +612,11 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost:3306/coffee</url>
-                    <defaultSchemaName>coffee</defaultSchemaName>
+                    <url>jdbc:mysql://localhost:3306/simple_pos</url>
+                    <defaultSchemaName>simple_pos</defaultSchemaName>
                     <username>root</username>
                     <password>root</password>
-                    <referenceUrl>hibernate:spring:org.coffee.domain?dialect=org.hibernate.dialect.MySQLInnoDBDialect</referenceUrl>
+                    <referenceUrl>hibernate:spring:org.pos.domain?dialect=org.hibernate.dialect.MySQLInnoDBDialect</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                     <diffExcludeObjects>oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token</diffExcludeObjects>
@@ -626,11 +626,11 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost/coffee</url>
+                    <url>jdbc:postgresql://localhost/simple_pos</url>
                     <defaultSchemaName></defaultSchemaName>
                     <username>postgres</username>
                     <password>postgres</password>
-                    <referenceUrl>hibernate:spring:org.coffee.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
+                    <referenceUrl>hibernate:spring:org.pos.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                     <diffExcludeObjects>oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token</diffExcludeObjects>

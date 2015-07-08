@@ -10,9 +10,9 @@ spring:
     datasource:
         #dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-        #url: jdbc:mysql://localhost:3306/coffee?useUnicode=yes&characterEncoding=UTF-8
-        url: jdbc:postgresql://localhost:5432/coffee
-        databaseName: coffee
+        #url: jdbc:mysql://localhost:3306/simple_pos?useUnicode=yes&characterEncoding=UTF-8
+        url: jdbc:postgresql://localhost:5432/simple_pos
+        databaseName: simple_pos
         serverName: localhost
         #username: root
         username: postgres
@@ -51,7 +51,7 @@ metrics:
         enabled: false
         host: localhost
         port: 2003
-        prefix: coffee
+        prefix: pos
 
 cache:
     timeToLiveSeconds: 3600

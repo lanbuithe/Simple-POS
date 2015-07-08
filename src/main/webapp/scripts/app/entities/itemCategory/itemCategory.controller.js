@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('ItemCategoryController', function ($scope, ItemCategory, ParseLinks) {
         $scope.itemCategorys = [];
         $scope.page = 1;

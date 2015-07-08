@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('OrderNoController', function ($scope, OrderNo, TableNo, ParseLinks) {
         $scope.orderNos = [];
         $scope.tablenos = TableNo.query();

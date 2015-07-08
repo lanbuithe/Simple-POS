@@ -1,8 +1,8 @@
 /* globals $ */
 'use strict';
 
-angular.module('coffeeApp')
-    .directive('coffeeAppPagination', function() {
+angular.module('posApp')
+    .directive('posAppPagination', function() {
         return {
             templateUrl: 'scripts/components/form/pagination.html'
         };

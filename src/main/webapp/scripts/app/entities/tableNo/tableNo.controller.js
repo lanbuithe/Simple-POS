@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('TableNoController', function ($scope, TableNo, ParseLinks) {
         $scope.tableNos = [];
         $scope.page = 1;

@@ -2,7 +2,7 @@
 
 describe('Directive Tests ', function () {
 
-    beforeEach(module('coffeeApp'));
+    beforeEach(module('posApp'));
 
     var elm, scope, $httpBackend;
 

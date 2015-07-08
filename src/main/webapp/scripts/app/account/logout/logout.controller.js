@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('LogoutController', function (Auth) {
         Auth.logout();
     });

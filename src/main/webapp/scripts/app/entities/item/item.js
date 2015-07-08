@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('item', {
@@ -8,7 +8,7 @@ angular.module('coffeeApp')
                 url: '/item',
                 data: {
                     roles: ['ROLE_ADMIN'],
-                    pageTitle: 'coffeeApp.item.home.title'
+                    pageTitle: 'posApp.item.home.title'
                 },
                 views: {
                     'content@': {
@@ -28,7 +28,7 @@ angular.module('coffeeApp')
                 url: '/item/:id',
                 data: {
                     roles: ['ROLE_USER'],
-                    pageTitle: 'coffeeApp.item.detail.title'
+                    pageTitle: 'posApp.item.detail.title'
                 },
                 views: {
                     'content@': {

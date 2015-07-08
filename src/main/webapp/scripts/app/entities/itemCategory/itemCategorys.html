@@ -1,9 +1,9 @@
 <div>
 
-    <h2 translate="coffeeApp.itemCategory.home.title">ItemCategory</h2>
+    <h2 translate="posApp.itemCategory.home.title">ItemCategory</h2>
 
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveItemCategoryModal" ng-click="clear()">
-        <span class="glyphicon glyphicon-flash"></span> <span translate="coffeeApp.itemCategory.home.createLabel">Create a new ItemCategory</span>
+        <span class="glyphicon glyphicon-flash"></span> <span translate="posApp.itemCategory.home.createLabel">Create a new ItemCategory</span>
     </button>
     <div class="modal fade" id="saveItemCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myItemCategoryLabel"
          aria-hidden="true">
@@ -14,7 +14,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                 ng-click="clear()">&times;</button>
-                        <h4 class="modal-title" id="myItemCategoryLabel" translate="coffeeApp.itemCategory.home.createOrEditLabel">Create or edit a ItemCategory</h4>
+                        <h4 class="modal-title" id="myItemCategoryLabel" translate="posApp.itemCategory.home.createOrEditLabel">Create or edit a ItemCategory</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="coffeeApp.itemCategory.name">Name</label>
+                            <label translate="posApp.itemCategory.name">Name</label>
                             <input type="text" class="form-control" name="name"
                                    ng-model="itemCategory.name" required ng-minlength="1" ng-maxlength="100">
 
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label translate="coffeeApp.itemCategory.description">Description</label>
+                            <label translate="posApp.itemCategory.description">Description</label>
                             <input type="text" class="form-control" name="description"
                                    ng-model="itemCategory.description" ng-maxlength="255">
 
@@ -80,7 +80,7 @@
                         <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
                     </div>
                     <div class="modal-body">
-                        <p translate="coffeeApp.itemCategory.delete.question" translate-values="{id: '{{itemCategory.id}}'}">Are you sure you want to delete this ItemCategory?</p>
+                        <p translate="posApp.itemCategory.delete.question" translate-values="{id: '{{itemCategory.id}}'}">Are you sure you want to delete this ItemCategory?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
@@ -100,8 +100,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th translate="coffeeApp.itemCategory.name">Name</th>
-                    <th translate="coffeeApp.itemCategory.description">Description</th>
+                    <th translate="posApp.itemCategory.name">Name</th>
+                    <th translate="posApp.itemCategory.description">Description</th>
                     <th></th>
                 </tr>
             </thead>

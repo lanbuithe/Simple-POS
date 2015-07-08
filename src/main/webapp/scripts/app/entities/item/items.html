@@ -1,9 +1,9 @@
 <div>
 
-    <h2 translate="coffeeApp.item.home.title">Item</h2>
+    <h2 translate="posApp.item.home.title">Item</h2>
 
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveItemModal" ng-click="clear()">
-        <span class="glyphicon glyphicon-flash"></span> <span translate="coffeeApp.item.home.createLabel">Create a new Item</span>
+        <span class="glyphicon glyphicon-flash"></span> <span translate="posApp.item.home.createLabel">Create a new Item</span>
     </button>
     
     <div class="modal fade" id="saveItemModal" tabindex="-1" role="dialog" aria-labelledby="myItemLabel"
@@ -15,7 +15,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                                 ng-click="clear()">&times;</button>
-                        <h4 class="modal-title" id="myItemLabel" translate="coffeeApp.item.home.createOrEditLabel">Create or edit a Item</h4>
+                        <h4 class="modal-title" id="myItemLabel" translate="posApp.item.home.createOrEditLabel">Create or edit a Item</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -25,7 +25,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="coffeeApp.item.name">Name</label>
+                            <label translate="posApp.item.name">Name</label>
                             <input type="text" class="form-control" name="name"
                                    ng-model="item.name" required ng-minlength="1" ng-maxlength="100">
 
@@ -46,7 +46,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label translate="coffeeApp.item.price">Price</label>
+                            <label translate="posApp.item.price">Price</label>
                             <!-- 
                             <input type="number" class="form-control" name="price"
                                    ng-model="item.price" required min="4" max="10">
@@ -81,7 +81,7 @@
                         </div>
                                                 
                         <div class="form-group">
-                            <label translate="coffeeApp.item.description">Description</label>
+                            <label translate="posApp.item.description">Description</label>
                             <input type="text" class="form-control" name="description"
                                    ng-model="item.description" ng-maxlength="255">
 
@@ -94,7 +94,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label translate="coffeeApp.item.category">category</label>
+                            <label translate="posApp.item.category">category</label>
                             <select class="form-control" name="category" ng-model="item.category.id" ng-options="itemCategory.id as itemCategory.name for itemCategory in itemcategorys">
                             </select>
                         </div>
@@ -123,7 +123,7 @@
                         <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
                     </div>
                     <div class="modal-body">
-                        <p translate="coffeeApp.item.delete.question" translate-values="{id: '{{item.id}}'}">Are you sure you want to delete this Item?</p>
+                        <p translate="posApp.item.delete.question" translate-values="{id: '{{item.id}}'}">Are you sure you want to delete this Item?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
@@ -143,10 +143,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th translate="coffeeApp.item.name">Name</th>
-                    <th translate="coffeeApp.item.price">Price</th>
-                    <th translate="coffeeApp.item.description">Description</th>
-                    <th translate="coffeeApp.item.category">Category</th>
+                    <th translate="posApp.item.name">Name</th>
+                    <th translate="posApp.item.price">Price</th>
+                    <th translate="posApp.item.description">Description</th>
+                    <th translate="posApp.item.category">Category</th>
                     <th></th>
                 </tr>
             </thead>

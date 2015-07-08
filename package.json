@@ -1,7 +1,7 @@
 {
-  "name": "coffee",
+  "name": "Simple POS",
   "version": "0.0.0",
-  "description": "Description for coffee",
+  "description": "Description for Simple POS",
   "private": true,
   "dependencies": {
   },

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp', ['LocalStorageModule', 'tmh.dynamicLocale',
+angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale',
     'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'infinite-scroll',
     'angularMoment', 'ngAnimate', 'toaster', 'angular-loading-bar'])
 

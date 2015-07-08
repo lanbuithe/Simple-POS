@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     
 	.factory('Utils', [function() {
 
@@ -29,7 +29,7 @@ angular.module('coffeeApp')
         perPage: 6
     });
 
-angular.module('coffeeApp')
+angular.module('posApp')
   	.run(function ($rootScope, Constants) {
     	$rootScope.constants = Constants;
    	}); 

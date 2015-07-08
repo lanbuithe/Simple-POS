@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('ItemCategoryDetailController', function ($scope, $stateParams, ItemCategory) {
         $scope.itemCategory = {};
         $scope.load = function (id) {

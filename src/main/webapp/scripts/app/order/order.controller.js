@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .controller('OrderController', function ($scope, $filter, Principal, toaster, TableNo, 
         ItemCategory, Item, ItemService, OrderNo, Constants, Utils, OrderService, ParseLinks) {
     	

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .factory('OrderNo', function ($resource) {
         return $resource('api/orderNos/:id', {}, {
             'query': { method: 'GET', isArray: true},

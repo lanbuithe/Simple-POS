@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('coffeeApp')
+angular.module('posApp')
     .service('DateUtils', function () {
       this.convertLocaleDateToServer = function(date) {
         if (date) {
