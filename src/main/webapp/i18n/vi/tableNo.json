@@ -1,0 +1,20 @@
+{
+    "coffeeApp": {
+        "tableNo" : {
+            "home": {
+                "title": "Danh sách bàn",
+                "createLabel": "Tạo mới bàn",
+                "createOrEditLabel": "Tạo hay chỉnh sửa bàn"
+            },
+            "delete": {
+                "question": "Bạn có thực sự xóa bàn có khóa {{ id }}?"
+            },
+            "detail": {
+                "title": "Bàn"
+            },
+            "name": "Tên",
+            "description": "Mô tả",
+            "other.name": "Bàn"
+        }
+    }
+}

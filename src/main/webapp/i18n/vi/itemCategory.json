@@ -1,0 +1,19 @@
+{
+    "coffeeApp": {
+        "itemCategory" : {
+            "home": {
+                "title": "Danh mục món",
+                "createLabel": "Tạo mới danh mục món",
+                "createOrEditLabel": "Tạo mới hay chỉnh sửa danh mục món"
+            },
+            "delete": {
+                "question": "Bạn có thực sự xóa danh mục món có khóa {{ id }}?"
+            },
+            "detail": {
+                "title": "Danh mục món"
+            },
+            "name": "Tên",
+            "description": "Mô tả"
+        }
+    }
+}

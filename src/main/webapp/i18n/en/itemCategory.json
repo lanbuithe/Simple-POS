@@ -1,0 +1,19 @@
+{
+    "coffeeApp": {
+        "itemCategory" : {
+            "home": {
+                "title": "ItemCategorys",
+                "createLabel": "Create a new ItemCategory",
+                "createOrEditLabel": "Create or edit a ItemCategory"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ItemCategory {{ id }}?"
+            },
+            "detail": {
+                "title": "ItemCategory"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

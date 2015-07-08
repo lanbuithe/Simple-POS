@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150421160246_added_entity_ItemCategory.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150421160437_added_entity_Item.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150421170137_added_entity_TableNo.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150422151932_added_entity_OrderNo.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150422153017_added_entity_OrderDetail.xml" relativeToChangelogFile="false"/>
+    <!-- JHipster will add liquibase changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20150707174818_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20150707175407_changelog.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>

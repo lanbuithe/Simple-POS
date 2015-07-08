@@ -1,0 +1,12 @@
+* { margin:0; padding:0; }
+html, body {  width: 100% !important; font-family:Arial, Helvetica, sans-serif; font-size:8px; text-transform:uppercase; }
+#wrapper, .container, .content, #pos, #leftdiv, #prodiv, #saletbl, table, .miantable { width: 99% !important; margin:0; padding:0;}
+#cp, #sidebar, #lefttop, #botbuttons, .satu, .prod_name, #totaldiv, #cp, table td:last-child, table th:last-child, .miantable th:nth-child(4) { display: none !important; }
+table th, table td { word-break: break-strict; word-wrap: break-word; white-space: pre-wrap; text-align:center; margin:0; padding:0; vertical-align:middle; }
+.miantable th:nth-child(2), .protable td:nth-child(2) { width:60% !important; }
+.miantable th:nth-child(3), .protable td:nth-child(3) { width:40% !important; }
+.printspan { display: inline-block !important; }
+#protbldiv, table, table td { border: 0 !important; width: auto !important; }
+#prodiv, #protbldiv, #leftdiv{ height: auto !important; overflow:visible !important; border: 0 !important;}
+table td, table th { border-bottom: 1px solid #999; color: #000000 !important;}
+#print, #printhead, #printfooter {border-bottom: 1px solid #CCC; text-align:center; display: block !important; }

@@ -1,0 +1,1 @@
+INSERT INTO tableno VALUES (1,'Bàn Số 1',NULL,'admin',now(),NULL,NULL),(2,'Bàn Số 2',NULL,'admin',now(),NULL,NULL),(3,'Bàn Số 3',NULL,'admin',now(),NULL,NULL);

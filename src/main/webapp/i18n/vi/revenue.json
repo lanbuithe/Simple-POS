@@ -1,0 +1,12 @@
+{
+    "revenue" : {
+        "title": "Doanh thu",
+        "fromDate": "Từ ngày",
+        "toDate": "Đến ngày",
+        "totalAmount": "Tổng thu",
+        "createdDate": "Ngày tạo",
+        "table": "Bàn",
+        "amount": "Thành tiền",
+        "createdBy": "Người tạo"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "coffeeApp": {
+        "orderDetail" : {
+            "home": {
+                "title": "OrderDetails",
+                "createLabel": "Create a new OrderDetail",
+                "createOrEditLabel": "Create or edit a OrderDetail"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete OrderDetail {{ id }}?"
+            },
+            "detail": {
+                "title": "OrderDetail"
+            },
+            "quantity": "Quantity",
+            "amount": "Amount",
+            "orderNo": "orderNo",
+            "item": "item"
+        }
+    }
+}

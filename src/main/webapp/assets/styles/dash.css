@@ -1,0 +1,83 @@
+.prettyFile > input {
+    display: none !important;
+}
+
+.prettyFile {
+    width:100%;
+}
+
+.pagination {
+    margin: 0;
+    padding-left: 0;
+}
+ul, ol {
+    margin-bottom: 0px;
+    margin-top: 0;
+}
+#fileData_wrapper .col-md-6 { margin: 0; padding: 0; }
+#footer {
+  height: 40px;
+  background-color: #f5f5f5;
+  min-width: 970px;
+  margin-top:15px;
+}
+
+.container .credit {
+  margin: 9px 0;
+  text-align:center;
+}
+.alert { margin-top: 15px; }
+
+.selected {
+	border:2px solid #e6791c!important;
+	box-shadow:none!important;
+	-moz-box-shadow:none!important;
+	-webkit-box-shadow:none!important;
+}
+ul.dash {
+	margin: 0; padding:0;
+	display:block;
+}
+
+ul.dash li {
+	float:left;
+	display:inline-block;
+	margin:10px;
+}
+
+
+ul.dash li a {
+	display:block;
+	width:76px;
+	height:92px;
+	text-decoration:none;
+}
+
+ul.dash li a.lg {
+	display:block;
+	width:130px;
+	height:92px;
+	text-decoration:none;
+}
+
+ul.dash li a img {
+	display:inline;
+	width:32px;
+	margin: 10px 20px 0;
+}
+
+ul.dash li a span {
+	display:block;
+	width:100%;
+	text-align:center;
+	margin-top:10px;
+	font-size:11px;
+}
+
+ul.dash li a.lg span {
+	margin-top: 15px;
+	font-size:16px;
+	line-height:18px;
+}
+
+#fileData .btn-group .btn { margin:0; }

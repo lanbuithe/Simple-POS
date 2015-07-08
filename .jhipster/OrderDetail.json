@@ -1,0 +1,68 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "orderNo",
+            "relationshipNameCapitalized": "OrderNo",
+            "relationshipFieldName": "orderNo",
+            "otherEntityName": "orderNo",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "OrderNo",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipId": 2,
+            "relationshipName": "item",
+            "relationshipNameCapitalized": "Item",
+            "relationshipFieldName": "item",
+            "otherEntityName": "item",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "Item",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "quantity",
+            "fieldType": "Integer",
+            "fieldNameCapitalized": "Quantity",
+            "fieldNameUnderscored": "quantity",
+            "fieldInJavaBeanMethod": "Quantity",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "1",
+            "fieldValidateRulesMax": "4"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldNameCapitalized": "Amount",
+            "fieldNameUnderscored": "amount",
+            "fieldInJavaBeanMethod": "Amount",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "4",
+            "fieldValidateRulesMax": "10"
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": false,
+    "fieldsContainCustomTime": false,
+    "fieldsContainBigDecimal": true,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150422153017",
+    "pagination": "pagination",
+    "validation": true
+}

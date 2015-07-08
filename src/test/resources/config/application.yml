@@ -1,0 +1,68 @@
+server:
+    port: 10344
+    address: localhost
+
+
+# security configuration (this key should be unique for your application, and kept secret)
+jhipster.security.rememberme.key: 036aa93418eedfb27f32ab1d2343460a85d1d4b9
+
+async:
+    corePoolSize: 2
+    maxPoolSize: 50
+    queueCapacity: 10000
+
+liquibase:
+    context: test
+
+spring:
+    datasource:
+        #dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+        #url: jdbc:h2:mem:coffee;DB_CLOSE_DELAY=-1
+        #databaseName:
+        #serverName:
+        #username:
+        #password:
+        dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
+        url: jdbc:postgresql://localhost:5432/coffee
+        databaseName: coffee
+        serverName: localhost
+        username: postgres
+        password: postgres      
+
+    jpa:
+        #database-platform: org.hibernate.dialect.H2Dialect
+        database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+        #database: H2
+        database: POSTGRESQL
+        openInView: false
+        show_sql: true
+        generate-ddl: false
+        hibernate:
+            ddl-auto: none
+            naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+        properties:
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.hbm2ddl.auto: validate
+
+mail:
+    host: localhost
+    port: 25
+    username:
+    password:
+    protocol: smtp
+    tls: false
+    auth: false
+
+metrics:
+    jmx.enabled: false
+
+swagger:
+    apiDocsLocation: http://localhost:8080
+    title: jhipster API
+    description: jhipster applications and beyond!
+    termsOfServiceUrl: http://jhipster.github.io/
+    contact:
+    license: Apache 2.0
+    licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html

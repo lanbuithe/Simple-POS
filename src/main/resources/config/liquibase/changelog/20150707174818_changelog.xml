@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+   <changeSet author="LanBT2 (generated)" id="1436266104801-1">
+      <addColumn tableName="ORDERDETAIL">
+         <column name="item_category_name" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-2">
+      <addColumn tableName="ORDERDETAIL">
+         <column name="item_name" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-3">
+      <addColumn tableName="ORDERNO">
+         <column name="quantity" type="int4"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-4">
+      <addColumn tableName="ORDERNO">
+         <column name="table_name" type="varchar(255)"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-5">
+      <dropDefaultValue columnDataType="timestamp"
+                        columnName="created_date"
+                        tableName="ITEM"/>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-6">
+      <dropDefaultValue columnDataType="timestamp"
+                        columnName="created_date"
+                        tableName="ITEMCATEGORY"/>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-7">
+      <dropDefaultValue columnDataType="timestamp"
+                        columnName="created_date"
+                        tableName="ORDERDETAIL"/>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-8">
+      <dropDefaultValue columnDataType="timestamp"
+                        columnName="created_date"
+                        tableName="ORDERNO"/>
+   </changeSet>
+   <changeSet author="LanBT2 (generated)" id="1436266104801-9">
+      <dropDefaultValue columnDataType="timestamp"
+                        columnName="created_date"
+                        tableName="TABLENO"/>
+   </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,21 @@
+{
+    "coffeeApp": {
+        "item" : {
+            "home": {
+                "title": "Items",
+                "createLabel": "Create a new Item",
+                "createOrEditLabel": "Create or edit a Item"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Item {{ id }}?"
+            },
+            "detail": {
+                "title": "Item"
+            },
+            "name": "Name",
+            "price": "Price",
+            "description": "Description",
+            "category": "category"
+        }
+    }
+}

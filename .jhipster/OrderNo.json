@@ -1,0 +1,82 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "tableNo",
+            "relationshipNameCapitalized": "TableNo",
+            "relationshipFieldName": "tableNo",
+            "otherEntityName": "tableNo",
+            "relationshipType": "many-to-one",
+            "otherEntityNameCapitalized": "TableNo",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldNameCapitalized": "Amount",
+            "fieldNameUnderscored": "amount",
+            "fieldInJavaBeanMethod": "Amount",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "4",
+            "fieldValidateRulesMax": "10"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "status",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Status",
+            "fieldNameUnderscored": "status",
+            "fieldInJavaBeanMethod": "Status",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "1",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "createdDate",
+            "fieldType": "LocalDate",
+            "fieldNameCapitalized": "CreatedDate",
+            "fieldNameUnderscored": "created_date",
+            "fieldInJavaBeanMethod": "CreatedDate",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "lastModifiedDate",
+            "fieldType": "LocalDate",
+            "fieldNameCapitalized": "LastModifiedDate",
+            "fieldNameUnderscored": "last_modified_date",
+            "fieldInJavaBeanMethod": "LastModifiedDate",
+            "fieldValidate": true,
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": true,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": true,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150422151932",
+    "pagination": "pager",
+    "validation": true
+}

@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="coffeeApp.item.detail.title">Item</span> {{item.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="coffeeApp.item.name">Name</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{item.name}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="coffeeApp.item.price">Name</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{item.price}}" readonly>
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        <span translate="coffeeApp.item.description">Description</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{item.description}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="coffeeApp.item.category">category</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{item.category.name}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="item"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

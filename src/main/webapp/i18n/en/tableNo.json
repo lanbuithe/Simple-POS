@@ -1,0 +1,19 @@
+{
+    "coffeeApp": {
+        "tableNo" : {
+            "home": {
+                "title": "TableNos",
+                "createLabel": "Create a new TableNo",
+                "createOrEditLabel": "Create or edit a TableNo"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TableNo {{ id }}?"
+            },
+            "detail": {
+                "title": "TableNo"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

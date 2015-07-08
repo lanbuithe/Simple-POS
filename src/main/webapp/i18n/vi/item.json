@@ -1,0 +1,21 @@
+{
+    "coffeeApp": {
+        "item" : {
+            "home": {
+                "title": "Món",
+                "createLabel": "Tạo mới món",
+                "createOrEditLabel": "Tạo mới hay chỉnh sửa món"
+            },
+            "delete": {
+                "question": "Bạn có thực sự xóa món có khóa {{ id }}?"
+            },
+            "detail": {
+                "title": "Món"
+            },
+            "name": "Tên",
+            "price": "Đỏn giá",
+            "description": "Mô tả",
+            "category": "Danh mục món"
+        }
+    }
+}

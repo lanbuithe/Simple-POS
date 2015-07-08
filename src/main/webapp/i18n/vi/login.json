@@ -1,0 +1,16 @@
+{
+    "login": {
+        "title": "Xác thực",
+        "form": {
+            "password": "Mật khẩu",
+            "password.placeholder": "Mật khẩu của bạn",
+            "rememberme": "Đăng nhập tự động",
+            "button": "Đăng nhập"
+        },
+        "messages": {
+            "error": {
+                "authentication": "<strong>Xác thực đã thất bại!</strong> Vui lòng kiểm tra thông tin của bạn và thử lại."
+            }
+        }
+    }
+}

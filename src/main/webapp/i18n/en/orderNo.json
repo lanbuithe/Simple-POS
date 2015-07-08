@@ -1,0 +1,22 @@
+{
+    "coffeeApp": {
+        "orderNo" : {
+            "home": {
+                "title": "OrderNos",
+                "createLabel": "Create a new OrderNo",
+                "createOrEditLabel": "Create or edit a OrderNo"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete OrderNo {{ id }}?"
+            },
+            "detail": {
+                "title": "OrderNo"
+            },
+            "amount": "Amount",
+            "status": "Status",
+            "createdDate": "CreatedDate",
+            "lastModifiedDate": "LastModifiedDate",
+            "tableNo": "tableNo"
+        }
+    }
+}

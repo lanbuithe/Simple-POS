@@ -1,0 +1,1 @@
+INSERT INTO itemcategory VALUES (1,'Cafe',NULL,'admin',now(),NULL,NULL),(2,'Thức ăn',NULL,'admin',now(),NULL,NULL),(3,'Nước ngọt',NULL,'admin',now(),NULL,NULL),(4,'Bia',NULL,'admin',now(),NULL,NULL),(5,'Rượu',NULL,'admin',now(),NULL,NULL),(6,'Khác',NULL,'admin',now(),NULL,NULL);

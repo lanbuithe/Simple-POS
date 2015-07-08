@@ -1,0 +1,1 @@
+INSERT INTO orderno VALUES (1,71000.00,'HOLD',1,'admin',now(),NULL,NULL);

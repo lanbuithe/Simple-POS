@@ -1,0 +1,35 @@
+{
+    "order": {
+        "item": "Món",
+        "quantity": "S.Lượng",
+        "amount": "T.Tiền",
+        "createdDate": "Ngày tạo",
+        "totalAmount": "Thành tiền",
+        "title": "Đặt món",
+        "totalItem": "Tổng Món",
+        "total": "Thành Tiền",
+        "discount": "Giảm Giá",
+        "tax": "Thuế",
+        "totalPayable": "Tổng Thu",
+        "cancelOrder": "Hủy",
+        "holdOrder": "Tạm Tính",
+        "payOrder": "Thanh Toán",
+        "hold": "Đặt món tạm tính",
+        "messages": {
+            "info": {
+                "order": {
+                    "cancel": "Hủy đặt món thành công",
+                    "hold": "Tạm tính đặt món thành công",
+                    "pay": "Thanh toán đặt món thành công"
+                }
+            },
+            "error": {
+                "order": {
+                    "cancel": "Hủy đặt món không thành công",
+                    "hold": "Tạm tính đặt món không thành công",
+                    "pay": "Thanh toán đặt món không thành công"
+                }                
+            }
+        }
+    }
+}
