@@ -7,3 +7,6 @@ then
 else
     kill $PID
 fi
+
+cd $OPENSHIFT_REPO_DIR
+rm -f nohup.out
