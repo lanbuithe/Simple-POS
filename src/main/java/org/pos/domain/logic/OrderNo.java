@@ -14,6 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
@@ -26,24 +29,24 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * A OrderNo.
  */
 @Entity
 @Table(name = "ORDERNO")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-/*@NamedEntityGraphs({
+@NamedEntityGraphs({
     @NamedEntityGraph(
         name = "orderWithDetails",
         attributeNodes = {
             @NamedAttributeNode("details")
         }
     )
-})*/
-/*@Data
-@NoArgsConstructor
-@ToString(exclude = {"tableNo", "details"})
-@EqualsAndHashCode(of = "id")*/
+})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class OrderNo extends AbstractAuditingEntity implements Serializable {
 
 	/**

@@ -6,10 +6,10 @@
 <form name="actionForm">
 <div class="well well-sm" id="leftdiv">
 	<div id="lefttop">
-        <select class="form-control input-sm" style="margin-bottom: 10px;width: 320px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables" ng-required="true">
+        <select class="form-control input-sm" style="margin-bottom: 10px;width: 250px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables" ng-required="true">
         </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 12px" data-toggle="modal" ng-click="openHoldOrder()">
-			<i class="glyphicon glyphicon-eye-open"></i>
+			<span translate="order.showHoldOrder"></span>
 		</button>
 	</div>
 	

@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 import org.pos.domain.logic.OrderNo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,7 +16,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface OrderNoRepository extends JpaRepository<OrderNo,Long> {
 
-	//@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
+	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	Page<OrderNo> findByStatusIs(String status, Pageable pageable);
 	
 	Page<OrderNo> findByStatusIsAndCreatedDateBetween(String status, DateTime from, DateTime to, Pageable pageable);

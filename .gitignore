@@ -130,4 +130,4 @@ Desktop.ini
 /*.sublime-project
 /*.sublime-workspace
 
-*.noup
+*.out
