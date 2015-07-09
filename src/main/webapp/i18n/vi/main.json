@@ -3,7 +3,7 @@
         "title": "Welcome, Java Hipster!",
         "subtitle": "This is your homepage",
         "logged": {
-            "message": "You are logged in as user \"{{username}}\"."
+            "message": "Bạn đã đăng nhập như người dùng \"{{username}}\"."
         },
         "question": "If you have any question on JHipster:",
         "link": {
@@ -13,14 +13,6 @@
             "contact": "contact @java_hipster on Twitter"
         },
         "like": "If you like JHipster, don't forget to give us a star on",
-        "github": "Github",
-        "totalItem": "Tổng Món",
-        "total": "Thành Tiền",
-        "discount": "Giảm Giá",
-        "tax": "Thuế",
-        "totalPayable": "Tổng Thu",
-        "cancelOrder": "Hủy",
-        "holdOrder": "Tạm Tính",
-        "payOrder": "Thanh Toán"
+        "github": "Github"
     }
 }

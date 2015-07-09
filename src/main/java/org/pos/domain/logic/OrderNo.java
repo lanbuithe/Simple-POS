@@ -46,7 +46,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         }
     )
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = OrderNo.class)
 public class OrderNo extends AbstractAuditingEntity implements Serializable {
 
 	/**

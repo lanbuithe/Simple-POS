@@ -60,15 +60,14 @@ angular.module('posApp')
         };
 
         $scope.cancelOrder = function() {
-        	if (Utils.isUndefinedOrNull($scope.order.status)) {
-                var message = $filter('translate')('order.messages.info.order.cancel');
+            var message = $filter('translate')('order.messages.info.order.cancel');
+        	if (Utils.isUndefinedOrNull($scope.order.id)) {
                 toaster.pop('success', message);
         		init();
-        	} else if ($scope.order.details.length > 0) {
+        	} else {
         		$scope.order.status = Constants.orderStatus.cancel;
         		OrderNo.update($scope.order,
 	                function () {
-                        var message = $filter('translate')('order.messages.info.order.cancel');
                         toaster.pop('success', message);                        
         				init();
 	                });        		
@@ -76,39 +75,44 @@ angular.module('posApp')
         };
         
         $scope.holdOrder = function() {
-        	if ($scope.order.details.length > 0) {
-        		$scope.order.status = Constants.orderStatus.hold;
-        		OrderNo.update($scope.order,
-	                function () {
-                        var message = $filter('translate')('order.messages.info.order.hold');
-                        toaster.pop('success', message);                        
-        				init();
-	                });        		
-        	}
+            var message = $filter('translate')('order.messages.info.order.hold');
+            handleOrder(message, Constants.orderStatus.hold);
         };
 
         $scope.payOrder = function() {
-            if ($scope.order.details.length > 0) {
-                $scope.order.status = Constants.orderStatus.payment;
+            var message = $filter('translate')('order.messages.info.order.pay');
+            handleOrder(message, Constants.orderStatus.payment);
+        };
+
+        function handleOrder(message, status) {
+            $scope.order.status = status;
+            if (Utils.isUndefinedOrNull($scope.order.id)) {
+                OrderNo.save($scope.order,
+                    function () {
+                        toaster.pop('success', message);                        
+                        init();
+                    });
+            } else {
                 OrderNo.update($scope.order,
                     function () {
-                        var message = $filter('translate')('order.messages.info.order.pay');
-                        toaster.pop('success', message);                         
+                        toaster.pop('success', message);                        
                         init();
                     });             
-            }
-        };        
+            }            
+        }      
         
         function sumOrderAmount() {
         	$scope.order.amount = 0;
+            $scope.order.quantity = 0;
         	$scope.total.count = 0;
+            $scope.total.payable = 0;
         	angular.forEach($scope.order.details, function(orderDetail) {
         		$scope.order.amount += orderDetail.amount;
+                $scope.order.quantity += orderDetail.quantity;
         		$scope.total.count += orderDetail.quantity;
                 // for function addOrderDetail
                 orderDetail.itemId = orderDetail.item.id;
         	});
-        	$scope.total.payable = 0;
         	$scope.total.payable = $scope.order.amount - $scope.total.discount + $scope.total.tax;
         };
         
@@ -143,9 +147,15 @@ angular.module('posApp')
         };
         
         $scope.getItemByCategoryId = function(itemCategoryId) {
-        	ItemService.getByCategory(itemCategoryId).then(function(data) {
-        		$scope.items = data;
-        	});
+            if (Utils.isUndefinedOrNull(itemCategoryId)) {
+                Item.query(function(result, headers) {
+                    $scope.items = result;
+                });
+            } else {
+                ItemService.getByCategory(itemCategoryId).then(function(data) {
+                    $scope.items = data;
+                });
+            }
         };
         
         function init() {
@@ -168,11 +178,17 @@ angular.module('posApp')
 	            $scope.account = account;
 	            $scope.isAuthenticated = Principal.isAuthenticated;
 	        });
-
+            // load all item category
             ItemCategory.query(function(result, headers) {
                 $scope.itemCategories = result;
+                if (!Utils.isUndefinedOrNull($scope.itemCategories) && $scope.itemCategories.length > 0) {
+                    var itemCategory = {
+                        name: $filter('translate')('common.all')
+                    };
+                    $scope.itemCategories.unshift(itemCategory);
+                }
             });
-
+            // load all item
             Item.query(function(result, headers) {
                 $scope.items = result;
             });            
