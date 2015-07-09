@@ -114,15 +114,4 @@ public class TableNoResource {
         tableNoRepository.delete(id);
     }
     
-    /**
-     * GET  /tableNos/order
-     */
-    @RequestMapping(value = "/tableNos/order",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public List<TableNo> findByOrderStatus(@RequestParam(value="status") String status) {
-        log.debug("REST request to get TableNo by order status: {}", status);
-        return tableNoRepository.findByOrderStatus(status); 	
-    }
 }

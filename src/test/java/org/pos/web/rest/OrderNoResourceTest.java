@@ -254,11 +254,23 @@ public class OrderNoResourceTest {
     
     @Test
     @Transactional
+    public void getByStatusCreatedDate() throws Exception {
+        // Get hold order
+    	// case null
+    	restOrderNoMockMvc.perform(get("/api/orders")
+        		.param("status", "HOLD")
+        		.param("page", "1")
+        		.param("per_page", "1"))
+        	.andExpect(status().isOk());   	
+    }
+    
+    @Test
+    @Transactional
     public void testGetSumAmountByStatusCreatedDate() throws Exception {
         // Get sum amount
     	// case null
     	MvcResult mvcResult = restOrderNoMockMvc.perform(get("/api/orders/amount")
-        		.param("status", "HOLD")
+        		.param("status",  OrderStatus.HOLD.name())
         		.param("from", DateTime.now().toString())
         		.param("to", DateTime.now().toString()))
         	.andExpect(status().isOk())

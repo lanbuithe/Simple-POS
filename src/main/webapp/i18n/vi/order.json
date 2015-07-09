@@ -15,6 +15,7 @@
         "holdOrder": "Tạm Tính",
         "payOrder": "Thanh Toán",
         "hold": "Đặt món tạm tính",
+        "showHoldOrder": "Xem tạm tính",
         "messages": {
             "info": {
                 "order": {

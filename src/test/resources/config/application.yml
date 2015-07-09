@@ -23,8 +23,8 @@ spring:
         #username:
         #password:
         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://localhost:5432/coffee
-        databaseName: coffee
+        url: jdbc:postgresql://localhost:5432/simple_pos
+        databaseName: simple_pos
         serverName: localhost
         username: postgres
         password: postgres      
