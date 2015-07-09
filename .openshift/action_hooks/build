@@ -1,3 +1,5 @@
 #!/bin/bash
 cd $OPENSHIFT_REPO_DIR
+git pull -s recursive -X theirs upstream master
+git update-index --chmod=+x .openshift/action_hooks/*
 mvn package -s .openshift/settings.xml -DskipTests=true -Popenshift
