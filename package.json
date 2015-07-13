@@ -1,7 +1,7 @@
 {
-  "name": "Simple POS",
+  "name": "pos",
   "version": "0.0.0",
-  "description": "Description for Simple POS",
+  "description": "Description for pos",
   "private": true,
   "dependencies": {
   },
@@ -14,7 +14,7 @@
     "grunt-contrib-copy": "0.8.0",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-concat": "0.5.1",
-    "grunt-contrib-cssmin": "0.12.3",
+    "grunt-contrib-cssmin": "0.11.0",
     "grunt-contrib-htmlmin": "0.4.0",
     "grunt-contrib-imagemin": "0.9.3",
     "grunt-contrib-jshint": "0.11.0",
@@ -41,7 +41,7 @@
     "karma-phantomjs-launcher": "0.2.0",
     "phantomjs": "1.9.17",
     "karma": "0.12.35",
-    "generator-jhipster": "2.16.1",
+    "generator-jhipster": "2.18.0",
     "lodash": "3.3.1",
     "xml2js": "0.4.5",
     "yo": ">=1.3.0",

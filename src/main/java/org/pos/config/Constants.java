@@ -17,7 +17,7 @@ public final class Constants {
     // Spring profile used when deploying to Heroku
     public static final String SPRING_PROFILE_HEROKU = "heroku";
     // Spring profile used when deploying to OpenShift
-    public static final String SPRING_PROFILE_OPENSHIFT = "openshift";
+    public static final String SPRING_PROFILE_OPENSHIFT = "openshift";    
 
     public static final String SYSTEM_ACCOUNT = "system";
 

@@ -3,8 +3,8 @@
         "item" : {
             "home": {
                 "title": "Món",
-                "createLabel": "Tạo mới món",
-                "createOrEditLabel": "Tạo mới hay chỉnh sửa món"
+                "createLabel": "Tạo món",
+                "createOrEditLabel": "Tạo hay chỉnh sửa món"
             },
             "delete": {
                 "question": "Bạn có thực sự xóa món có khóa {{ id }}?"

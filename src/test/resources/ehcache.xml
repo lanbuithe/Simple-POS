@@ -12,27 +12,27 @@
             overflowToDisk="false"
             />
 
-    <cache name="org.coffee.domain.User"
+    <cache name="org.pos.domain.User"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.coffee.domain.Authority"
+    <cache name="org.pos.domain.Authority"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.coffee.domain.User.authorities"
+    <cache name="org.pos.domain.User.authorities"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.coffee.domain.PersistentToken"
+    <cache name="org.pos.domain.PersistentToken"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.coffee.domain.User.persistentTokens"
+    <cache name="org.pos.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.coffee.domain.PersistentAuditEvent"
+    <cache name="org.pos.domain.PersistentAuditEvent"
            timeToLiveSeconds="3600">
     </cache>
 </ehcache>

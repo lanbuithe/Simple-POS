@@ -1,7 +1,12 @@
 package org.pos.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.pos.domain.Authority;
 import org.pos.domain.User;
 import org.pos.repository.AuthorityRepository;
@@ -14,12 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Service class for managing users.
@@ -147,4 +146,15 @@ public class UserService {
             userRepository.delete(user);
         }
     }
+    
+    public User createUserByAdmin(User newUser) {
+    	String encryptedPassword = passwordEncoder.encode(newUser.getPassword());
+		// new user gets initially a generated password
+		newUser.setPassword(encryptedPassword);
+		// new user is active
+		newUser.setActivated(true);
+		userRepository.save(newUser);
+		log.debug("Created Information for User: {}", newUser);
+		return newUser;
+    }    
 }

@@ -1,8 +1,6 @@
 package org.pos.security;
 
 import org.junit.Test;
-import org.pos.security.AuthoritiesConstants;
-import org.pos.security.SecurityUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

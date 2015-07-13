@@ -10,9 +10,9 @@ spring:
     datasource:
         #dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-        #url: jdbc:mysql://localhost:3306/simple_pos?useUnicode=yes&characterEncoding=UTF-8
-        #url: jdbc:postgresql://localhost/simple_pos
-        #databaseName: simple_pos
+        #url: jdbc:mysql://localhost:3306/pos?useUnicode=yes&characterEncoding=UTF-8
+        #url: jdbc:postgresql://localhost:5432/pos
+        #databaseName: pos
         #serverName: localhost
         #username: root
         #username: postgres

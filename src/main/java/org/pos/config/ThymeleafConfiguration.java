@@ -7,12 +7,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
-@Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
 public class ThymeleafConfiguration {
 
     private final Logger log = LoggerFactory.getLogger(ThymeleafConfiguration.class);
@@ -20,7 +18,7 @@ public class ThymeleafConfiguration {
     @Bean
     @Description("Thymeleaf template resolver serving HTML 5 emails")
     public ClassLoaderTemplateResolver emailTemplateResolver() {
-    	log.info("Initializing class loader template resolver");
+        log.info("Initializing class loader template resolver");
         ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
         emailTemplateResolver.setPrefix("mails/");
         emailTemplateResolver.setSuffix(".html");

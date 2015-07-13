@@ -1,9 +1,9 @@
 package org.pos.web.websocket;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.pos.security.SecurityUtils;
 import org.pos.web.websocket.dto.ActivityDTO;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import javax.inject.Inject;
-
 import java.security.Principal;
 import java.util.Calendar;
 

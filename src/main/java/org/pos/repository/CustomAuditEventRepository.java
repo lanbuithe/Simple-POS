@@ -1,8 +1,8 @@
 package org.pos.repository;
 
-import org.joda.time.LocalDateTime;
 import org.pos.config.audit.AuditEventConverter;
 import org.pos.domain.PersistentAuditEvent;
+import org.joda.time.LocalDateTime;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-
 import java.util.Date;
 import java.util.List;
 

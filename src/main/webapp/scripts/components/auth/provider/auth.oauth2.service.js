@@ -6,12 +6,12 @@ angular.module('posApp')
             login: function(credentials) {
                 var data = "username=" + credentials.username + "&password="
                     + credentials.password + "&grant_type=password&scope=read%20write&" +
-                    "client_secret=mySecretOAuthSecret&client_id=posApp";
+                    "client_secret=mySecretOAuthSecret&client_id=posapp";
                 return $http.post('oauth/token', data, {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "Accept": "application/json",
-                        "Authorization": "Basic " + Base64.encode("posApp" + ':' + "mySecretOAuthSecret")
+                        "Authorization": "Basic " + Base64.encode("posapp" + ':' + "mySecretOAuthSecret")
                     }
                 }).success(function (response) {
                     var expiredAt = new Date();

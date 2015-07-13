@@ -7,7 +7,7 @@ angular.module('posApp')
                 parent: 'account',
                 url: '/settings',
                 data: {
-                    roles: ['ROLE_USER'],
+                    //roles: ['ROLE_USER'],
                     pageTitle: 'global.menu.account.settings'
                 },
                 views: {

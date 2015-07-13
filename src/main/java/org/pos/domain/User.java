@@ -1,15 +1,20 @@
 package org.pos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+
 import org.hibernate.annotations.Type;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +29,12 @@ import org.joda.time.DateTime;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -34,9 +44,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(length = 50, unique = true, nullable = false)
     private String login;
 
-    @JsonIgnore
+    @JsonProperty
     @NotNull
-    @Size(min = 60, max = 60) 
+    @Size(min = 5, max = 60) 
     @Column(length = 60)
     private String password;
 
@@ -73,7 +83,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date", nullable = true)
     private DateTime resetDate = null;
 
-    @JsonIgnore
+    @JsonProperty
     @ManyToMany
     @JoinTable(
             name = "JHI_USER_AUTHORITY",
@@ -98,6 +108,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.login = login;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -170,6 +181,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.langKey = langKey;
     }
 
+    @JsonIgnore
     public Set<Authority> getAuthorities() {
         return authorities;
     }

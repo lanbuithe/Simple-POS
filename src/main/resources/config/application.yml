@@ -25,7 +25,7 @@ mail:
 
 authentication:
     oauth:
-        clientid: posApp
+        clientid: posapp
         secret: mySecretOAuthSecret
         # Token is valid 1 day
         tokenValidityInSeconds: 86400
@@ -33,6 +33,7 @@ authentication:
 swagger:
     title: pos API
     description: pos applications and beyond!
+    version: 0.0.1
     termsOfServiceUrl: http://jhipster.github.io/
     contact:
     license: Apache 2.0

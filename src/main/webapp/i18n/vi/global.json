@@ -35,17 +35,18 @@
             },
             "language": "Ngôn ngữ",
             "report": "Báo cáo",
-            "report.revenue": "Doanh thu"
+            "report.revenue": "Doanh thu",
+            "user": "Người dùng"
         },
         "form": {
             "username": "Tài khoản",
             "username.placeholder": "Tài khoản",
             "newpassword": "Mật khẩu mới",
             "newpassword.placeholder": "Mật khẩu mới",
-            "confirmpassword": "Mật khẩu mới xác nhận",
-            "confirmpassword.placeholder": "Mật khẩu mới xác nhận",
+            "confirmpassword": "Mật khẩu xác nhận",
+            "confirmpassword.placeholder": "Mật khẩu xác nhận",
             "email": "E-mail",
-            "email.placeholder": "Your e-mail"
+            "email.placeholder": "E-mail của bạn"
         },
         "messages": {
             "info": {
@@ -53,27 +54,30 @@
                 "register": "You don't have an account yet? <a href=\"#/register\">Register a new account</a>"
             },
             "error": {
-                "dontmatch" : "The password and its confirmation do not match!"
+                "dontmatch" : "Mật khẩu vá mật khẩu xác nhận không giống nhau!"
             },
             "validate": {
                 "newpassword": {
-                    "required": "Your password is required.",
-                    "minlength": "Your password is required to be at least 5 characters.",
-                    "maxlength": "Your password cannot be longer than 50 characters.",
+                    "required": "Mật khẩu bắt buộc nhập.",
+                    "minlength": "Mật khẩu có ít nhất 5 ký tự.",
+                    "maxlength": "Mật khẩu không quá 50 ký tự.",
                     "strength": "Password strength:"
                 },
                 "confirmpassword": {
-                    "required": "Your confirmation password is required.",
-                    "minlength": "Your confirmation password is required to be at least 5 characters.",
-                    "maxlength": "Your confirmation password cannot be longer than 50 characters."
+                    "required": "Mật khẩu xác nhận bắt buộc nhập.",
+                    "minlength": "Mật khẩu xác nhận có ít nhất 5 ký tự.",
+                    "maxlength": "Mật khẩu xác nhận không quá 50 ký tự."
                 },
                 "email": {
-                    "required": "Your e-mail is required.",
-                    "invalid": "Your e-mail is invalid.",
-                    "minlength": "Your e-mail is required to be at least 5 characters.",
-                    "maxlength": "Your e-mail cannot be longer than 50 characters."
+                    "required": "E-mail bắt buộc nhập.",
+                    "invalid": "E-mail không hợp lệ.",
+                    "minlength": "E-mail có ít nhất 1 ký tự.",
+                    "maxlength": "E-mail không quá 50 ký tự."
                 }
             }
+        },
+        "field": {
+            "id" : "Khóa"
         }
     },
     "entity": {

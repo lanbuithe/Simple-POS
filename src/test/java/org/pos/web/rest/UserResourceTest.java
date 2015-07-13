@@ -1,11 +1,10 @@
 package org.pos.web.rest;
 
+import org.pos.Application;
+import org.pos.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.pos.Application;
-import org.pos.repository.UserRepository;
-import org.pos.web.rest.UserResource;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;

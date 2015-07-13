@@ -1,10 +1,17 @@
 package org.pos.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.pos.domain.Authority;
 import org.pos.domain.User;
+import org.pos.repository.AuthorityRepository;
 import org.pos.repository.UserRepository;
 import org.pos.security.SecurityUtils;
 import org.pos.service.MailService;
@@ -15,15 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
+import com.codahale.metrics.annotation.Timed;
 
 /**
  * REST controller for managing the current user's account.
@@ -42,6 +47,9 @@ public class AccountResource {
 
     @Inject
     private MailService mailService;
+    
+    @Inject
+    private AuthorityRepository authorityRepository;
 
     /**
      * POST  /register -> register the user.
@@ -199,5 +207,39 @@ public class AccountResource {
 
     private boolean checkPasswordLength(String password) {
       return (!StringUtils.isEmpty(password) && password.length() >= UserDTO.PASSWORD_MIN_LENGTH && password.length() <= UserDTO.PASSWORD_MAX_LENGTH);
+    }
+    
+    /**
+     * GET  /authorities -> get all the authorities.
+     */
+    @RequestMapping(value = "/authorities",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Authority>> getAll()
+        throws URISyntaxException {
+        List<Authority> entities = authorityRepository.findAll();
+        return new ResponseEntity<List<Authority>>(entities, HttpStatus.OK);
+    }
+    
+    /**
+     * POST  /user -> save the user.
+     */
+    @RequestMapping(value = "/user",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> saveUser(@Valid @RequestBody User newUser) {
+        User user = userRepository.findOneByLogin(newUser.getLogin());
+        if (user != null) {
+            return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("login already in use");
+        } else {
+            if (userRepository.findOneByEmail(newUser.getEmail()) != null) {
+                return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("e-mail address already in use");
+            }           
+            user = userService.createUserByAdmin(newUser);
+            
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
 }

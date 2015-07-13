@@ -3,7 +3,7 @@
         "tableNo" : {
             "home": {
                 "title": "Danh sách bàn",
-                "createLabel": "Tạo mới bàn",
+                "createLabel": "Tạo bàn",
                 "createOrEditLabel": "Tạo hay chỉnh sửa bàn"
             },
             "delete": {

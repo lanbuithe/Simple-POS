@@ -1,0 +1,11 @@
+{
+	"user": {
+		"home": {
+			"title": "Danh sách người dùng",
+			"createLabel": "Tạo người dùng",
+            "createOrEditLabel": "Tạo hay chỉnh sửa người dùng"
+		},
+		"login": "Tên đăng nhập",
+		"authority": "Phân quyền"
+	}
+}

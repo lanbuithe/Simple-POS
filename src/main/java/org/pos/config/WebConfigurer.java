@@ -3,7 +3,6 @@ package org.pos.config;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
-
 import org.pos.web.filter.CachingHttpHeadersFilter;
 import org.pos.web.filter.StaticResourcesProductionFilter;
 import org.pos.web.filter.gzip.GZipServletFilter;
@@ -20,7 +19,6 @@ import org.springframework.core.env.Environment;
 
 import javax.inject.Inject;
 import javax.servlet.*;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -107,7 +105,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
     }
 
     /**
-     * Initializes the cachig HTTP Headers Filter.
+     * Initializes the caching HTTP Headers Filter.
      */
     private void initCachingHttpHeadersFilter(ServletContext servletContext,
                                               EnumSet<DispatcherType> disps) {
