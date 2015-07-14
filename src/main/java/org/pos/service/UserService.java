@@ -156,5 +156,16 @@ public class UserService {
 		userRepository.save(newUser);
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
-    }    
+    }
+    
+    public void changePassword(String username, String password) {
+        User user = userRepository.findOneByLogin(username);
+        if (null != user) {
+            String encryptedPassword = passwordEncoder.encode(password);
+            user.setPassword(encryptedPassword);
+            userRepository.save(user);
+            log.debug("Changed password for User: {}", user);        	
+        }
+    }
+    
 }

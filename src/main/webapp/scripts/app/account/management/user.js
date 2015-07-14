@@ -20,31 +20,9 @@ angular.module('posApp')
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('user');
                         $translatePartialLoader.addPart('settings');
+                        $translatePartialLoader.addPart('password');
                         $translatePartialLoader.addPart('global');
                         return $translate.refresh();
-                    }]
-                }
-            })
-            .state('user.detail', {
-                parent: 'account',
-                url: '/user/{id}',
-                data: {
-                    roles: ['ROLE_ADMIN'],
-                    pageTitle: 'user.detail.title'
-                },
-                views: {
-                    'content@': {
-                        templateUrl: 'scripts/app/account/management/user-detail.html',
-                        controller: 'UserDetailController'
-                    }
-                },
-                resolve: {
-                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('user');
-                        return $translate.refresh();
-                    }],
-                    entity: ['$stateParams', 'user', function($stateParams, User) {
-                        return User.get({id : $stateParams.id});
                     }]
                 }
             })
@@ -64,7 +42,7 @@ angular.module('posApp')
                         size: 'lg',
                         resolve: {                            
                             entity: function () {
-                                return {login: null, id: null};
+                                return {id: null, langKey: 'vi', authorities: [{'name': 'ROLE_USER'}]};
                             },
                             authorities: function () {
                                 return Authority.query(function(result) {
@@ -85,15 +63,54 @@ angular.module('posApp')
                 data: {
                     roles: ['ROLE_ADMIN'],
                 },
-                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                onEnter: ['$stateParams', '$state', '$modal', 'Authority', 'User',
+                    function($stateParams, $state, $modal, Authority, User) {
                     $modal.open({
+                        /* Issue https://github.com/angular-ui/bootstrap/issues/3849 */
+                        animation: false,
                         templateUrl: 'scripts/app/account/management/user-dialog.html',
                         controller: 'UserDialogController',
                         size: 'lg',
                         resolve: {
                             entity: ['User', function(user) {
                                 return User.get({id : $stateParams.id});
-                            }]
+                            }],
+                            authorities: function() {
+                                return Authority.query(function(result) {
+                                    return result;
+                                });
+                            }
+                        }
+                    }).result.then(function(result) {
+                        $state.go('user', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
+            })
+            .state('user.password', {
+                parent: 'user',
+                url: '/{id}/password',
+                data: {
+                    roles: ['ROLE_ADMIN'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', 'Authority', 'User',
+                    function($stateParams, $state, $modal, Authority, User) {
+                    $modal.open({
+                        /* Issue https://github.com/angular-ui/bootstrap/issues/3849 */
+                        animation: false,
+                        templateUrl: 'scripts/app/account/management/password-dialog.html',
+                        controller: 'UserDialogController',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['User', function(user) {
+                                return User.get({id : $stateParams.id});
+                            }],
+                            authorities: function() {
+                                return Authority.query(function(result) {
+                                    return result;
+                                });
+                            }
                         }
                     }).result.then(function(result) {
                         $state.go('user', null, { reload: true });

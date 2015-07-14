@@ -6,7 +6,7 @@
 <form name="actionForm">
 <div class="well well-sm" id="leftdiv">
 	<div id="lefttop">
-        <select class="form-control input-sm" style="margin-bottom: 10px;width: 250px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables" ng-required="true">
+        <select class="form-control input-sm" style="margin-bottom: 10px;width: 244px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables" ng-required="true">
         </select>
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 12px" data-toggle="modal" ng-click="openHoldOrder()">
 			<span translate="order.showHoldOrder"></span>
@@ -206,6 +206,21 @@
 		        			<li ng-show="linkHoldOrders['prev']" ng-click="loadPageHoldOrder(linkHoldOrders['prev'])">
 		        				<a href="#">&lt;</a>
 		        			</li>
+			                <li ng-show="pageHoldOrder > 2" ng-click="loadPageHoldOrder(pageHoldOrder - 2)">
+			                	<a>{{pageHoldOrder - 2}}</a>
+			                </li>
+			                <li ng-show="pageHoldOrder > 1" ng-click="loadPageHoldOrder(pageHoldOrder - 1)">
+			                	<a>{{pageHoldOrder - 1}}</a>
+			                </li>
+			                <li class="active">
+			                	<a>{{pageHoldOrder}}</a>
+			                </li>
+			                <li ng-show="pageHoldOrder < linkHoldOrders['last']" ng-click="loadPageHoldOrder(pageHoldOrder + 1)">
+			                	<a>{{pageHoldOrder + 1}}</a>
+			                </li>
+			                <li ng-show="pageHoldOrder < linkHoldOrders['last'] - 1" ng-click="loadPageHoldOrder(pageHoldOrder + 2)">
+			                	<a>{{pageHoldOrder + 2}}</a>
+			                </li> 			
 		        			<li ng-show="linkHoldOrders['next']" ng-click="loadPageHoldOrder(linkHoldOrders['next'])">
 		        				<a href="#">&gt;</a>
 		        			</li>

@@ -44,9 +44,9 @@ public class UserResource {
     private UserService userService;
 
     /**
-     * GET  /users/:login -> get the "login" user.
+     * GET  /users/username/:login -> get the "login" user.
      */
-    @RequestMapping(value = "/users/{login}",
+    @RequestMapping(value = "/users/username/{login}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
@@ -57,21 +57,6 @@ public class UserResource {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
         return user;
-    }
-    
-    /**
-     * GET  /users -> get all the users.
-     */
-    @RequestMapping(value = "/users",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<List<User>> getAll(@RequestParam(value = "page" , required = false) Integer offset,
-                                  @RequestParam(value = "per_page", required = false) Integer limit)
-        throws URISyntaxException {
-        Page<User> page = userRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users", offset, limit);
-        return new ResponseEntity<List<User>>(page.getContent(), headers, HttpStatus.OK);
     }
     
     /**
@@ -92,6 +77,65 @@ public class UserResource {
             user = userService.createUserByAdmin(newUser);
             return ResponseEntity.created(new URI("/api/users/" + user.getLogin())).build();
         }
+    }
+    
+    /**
+     * PUT  /users -> Update an existing user.
+     */
+    @RequestMapping(value = "/users",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> update(@Valid @RequestBody User user) throws URISyntaxException {
+        log.debug("REST request to update Usser : {}", user);
+        if (user.getId() == null) {
+            return create(user);
+        }
+        userRepository.save(user);
+        return ResponseEntity.ok().build();
     }    
+    
+    /**
+     * GET  /users -> get all the users.
+     */
+    @RequestMapping(value = "/users",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<User>> getAll(@RequestParam(value = "page" , required = false) Integer offset,
+                                  @RequestParam(value = "per_page", required = false) Integer limit)
+        throws URISyntaxException {
+        Page<User> page = userRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users", offset, limit);
+        return new ResponseEntity<List<User>>(page.getContent(), headers, HttpStatus.OK);
+    }    
+    
+    /**
+     * GET  /users/:id -> get the "id" user.
+     */
+    @RequestMapping(value = "/users/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<User> get(@PathVariable Long id, HttpServletResponse response) {
+        log.debug("REST request to get User : {}", id);
+        User user = userRepository.findOne(id);
+        if (user == null) {
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }     
+    
+    /**
+     * DELETE  /users/:id -> delete the "id" user.
+     */
+    @RequestMapping(value = "/users/{id}",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public void delete(@PathVariable Long id) {
+        log.debug("REST request to delete User : {}", id);
+        userRepository.delete(id);
+    }
     
 }

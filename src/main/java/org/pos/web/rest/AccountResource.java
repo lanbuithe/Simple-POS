@@ -223,23 +223,21 @@ public class AccountResource {
     }
     
     /**
-     * POST  /user -> save the user.
+     * POST  /account/admin/change_password -> changes the user's password
      */
-    @RequestMapping(value = "/user",
+    @RequestMapping(value = "/account/admin/change_password",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> saveUser(@Valid @RequestBody User newUser) {
-        User user = userRepository.findOneByLogin(newUser.getLogin());
-        if (user != null) {
-            return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("login already in use");
-        } else {
-            if (userRepository.findOneByEmail(newUser.getEmail()) != null) {
-                return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("e-mail address already in use");
-            }           
-            user = userService.createUserByAdmin(newUser);
-            
-            return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<?> changePassword(@RequestBody UserDTO userDTO) {
+    	if (null == userDTO || StringUtils.isBlank(userDTO.getLogin())) {
+    		return new ResponseEntity<>("Incorrect username", HttpStatus.BAD_REQUEST);
+    	}
+        if (!checkPasswordLength(userDTO.getPassword())) {
+            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
         }
-    }
+        userService.changePassword(userDTO.getLogin(), userDTO.getPassword());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }    
+    
 }

@@ -21,7 +21,7 @@ Developement Ribbon
     top: 0;
     left: 0;
     border: 0;
-    z-index: 1001;
+    z-index: 1000;
     background-image: url("../images/development_ribbon.png");
     background-position: center center;
     background-repeat: no-repeat;
@@ -89,8 +89,6 @@ only screen and (                min-resolution: 2dppx) {
     }
 }
 
-/* Simple POS */
-
 .hand {
     cursor: pointer;
 }
@@ -111,7 +109,7 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 .alert .popover pre {
-  font-size: 10px;
+    font-size: 10px;
 }
 
 .voffset  { margin-top: 2px; }
@@ -126,31 +124,30 @@ only screen and (                min-resolution: 2dppx) {
 .voffset9 { margin-top: 150px; }
 
 /* start Password strength bar style */
-ul#strength {
-  display:inline;
-  list-style:none;
-  margin:0;
-  margin-left:15px;
-  padding:0;
-  vertical-align:2px;
+ul#strengthBar {
+    display:inline;
+    list-style:none;
+    margin:0;
+    margin-left:15px;
+    padding:0;
+    vertical-align:2px;
 }
 
 .point:last {
-  margin:0 !important;
+    margin:0 !important;
 }
-
 .point {
-  background:#DDD;
-  border-radius:2px;
-  display:inline-block;
-  height:5px;
-  margin-right:1px;
-  width:20px;
+    background:#DDD;
+    border-radius:2px;
+    display:inline-block;
+    height:5px;
+    margin-right:1px;
+    width:20px;
 }
 /* end Password strength bar style */
 
 /* bootstrap */
-.navbar-default .navbar-nav > li > a {
+/*.navbar-default .navbar-nav > li > a {
   color: #ffffff;
 }
 
@@ -704,4 +701,4 @@ fieldset[disabled] .btn-primary.active {
 .has-error {
   border: 1 !important;
   border-color: #a94442;
-}
+}*/

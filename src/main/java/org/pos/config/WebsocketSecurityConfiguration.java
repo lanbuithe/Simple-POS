@@ -1,14 +1,17 @@
 package org.pos.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
 @Configuration
+@Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
 public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
-    @Override
+	/* Issue https://github.com/jhipster/generator-jhipster/issues/1370 */
+    /*@Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
             // message types other than MESSAGE and SUBSCRIBE
@@ -21,7 +24,7 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
             .simpTypeMatchers(SimpMessageType.MESSAGE, SimpMessageType.SUBSCRIBE).denyAll()
             // catch all
             .anyMessage().denyAll();
-    }
+    }*/
 
     /**
      * Disables CSRF for Websockets.

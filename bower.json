@@ -29,7 +29,8 @@
     "angularjs-toaster": "0.4.13",
     "angular-moment": "0.10.1",
     "underscore": "1.8.3",
-    "checklist-model": "0.2.4"        
+    "checklist-model": "0.2.4",
+    "angular-validation-match": "1.5.1"
   },
   "devDependencies": {
     "angular-mocks": "1.4.0",

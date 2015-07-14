@@ -5,8 +5,24 @@
 			"createLabel": "Tạo người dùng",
             "createOrEditLabel": "Tạo hay chỉnh sửa người dùng"
 		},
-		"login": "Tên đăng nhập",
+		"username": "Tên đăng nhập",
+		"username.placeholder": "Tên đăng nhập của bạn",
 		"authority": "Phân quyền",
-		"password": "Mật khẩu" 
+		"fullname": "Họ tên",
+        "delete": {
+            "question": "Bạn có thực sự xóa người dùng có tên đăng nhập {{ username }}?"
+        },
+		"messages": {
+			"validate": {
+				"authority": {
+					"required": "Bắt buộc nhập"
+				},
+				"username": {
+                    "required": "Tên bắt buộc nhập.",
+                    "minlength": "Tên có ít nhất 1 ký tự.",
+                    "maxlength": "Tên không quá 50 ký tự."					
+				}
+			}
+		}
 	}
 }
