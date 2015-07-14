@@ -659,7 +659,7 @@ fieldset[disabled] .btn-primary.active {
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr.success:hover > th {
   background-color: #379f15;
-}
+}*/
 
 .btn-product { 
   background: #EEE; border:1px solid #EEE; border-bottom: 0; 
@@ -701,4 +701,4 @@ fieldset[disabled] .btn-primary.active {
 .has-error {
   border: 1 !important;
   border-color: #a94442;
-}*/
+}
