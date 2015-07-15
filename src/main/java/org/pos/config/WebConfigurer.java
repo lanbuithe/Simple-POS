@@ -58,7 +58,9 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
             initStaticResourcesProductionFilter(servletContext, disps);
             initGzipFilter(servletContext, disps);
         }
-        initStaticResourcesFilter(servletContext, disps);
+        if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
+        	initStaticResourcesFilter(servletContext, disps);
+        }
         log.info("Web application fully configured");
     }
 
@@ -109,6 +111,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.html");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
         staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+        staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/blank");
         staticResourcesProductionFilter.setAsyncSupported(true);
     }
 

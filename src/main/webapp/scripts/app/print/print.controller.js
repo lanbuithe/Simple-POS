@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('PrintController', function ($scope, $filter, $stateParams, toaster, 
-         Principal, Constants, Utils, OrderNo, OrderService) {
+    .controller('PrintController', function ($scope, $filter, $stateParams, $window, $timeout, 
+         toaster, Principal, Constants, Utils, OrderService) {
 
         $scope.order = {};
 
@@ -10,6 +10,9 @@ angular.module('posApp')
             OrderService.getById(id).then(function(response) {
                 if (!Utils.isUndefinedOrNull(response)) {
                     $scope.order = response.data;
+                    $timeout(function() {
+                        $window.print();
+                    }, 3000);
                 }
             });
         };
