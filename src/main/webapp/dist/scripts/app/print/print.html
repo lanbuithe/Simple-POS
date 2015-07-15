@@ -1,0 +1,107 @@
+<style type="text/css">
+    .cf-hidden { display: none; } 
+
+    .cf-invisible { visibility: hidden; }
+</style>
+
+<style type="text/css" media="all">
+    body { max-width: 300px; margin:0 auto; text-align:center; color:#000; font-family: Arial, Helvetica, sans-serif; font-size:12px; }
+    #wrapper { min-width: 250px; margin: 0 auto; }
+    #wrapper img { max-width: 300px; width: auto; }
+
+    h2, h3, p { margin: 5px 0; }
+    .left { width:60%; float:left; text-align:left; margin-bottom: 3px; }
+    .right { width:40%; float:right; text-align:right; margin-bottom: 3px; }
+    .table, .totals { width: 100%; margin:10px 0; }
+    .table th { border-bottom: 1px solid #000; }
+    .table td { padding:0; }
+    .totals td { width: 24%; padding:0; }
+    .table td:nth-child(2) { overflow:hidden; }
+
+    @media print {
+        body { text-transform: uppercase; }
+        #buttons { display: none; }
+        #wrapper { width: 100%; margin: 0; font-size:9px; }
+        #wrapper img { max-width:300px; width: 80%; }
+    }
+
+</style>
+
+<h2><strong>Simple POS</strong></h2>
+<p>
+       My Shop Lot, Shopping Mall,<br>
+       Post Code, City
+</p>        
+<span class="left">Tel: 0745175969</span> 
+<span class="right"><span translate="print.orderNo">Order no</span>: {{order.id}}</span>
+<span class="left"></span> 
+<span class="right"><span translate="order.createdDate">Created date</span>: {{order.createdDate | amDateFormat: constants.dateTimePattern}}</span>
+<div style="clear:both;"></div>
+
+<table class="table" cellspacing="0" border="0"> 
+    <thead> 
+        <tr> 
+            <th><em>#</em></th> 
+            <th translate="order.item">Item</th> 
+            <th translate="order.quantity">Qty</th>
+            <th translate="order.amount">Amount</th> 
+        </tr> 
+    </thead> 
+    <tbody> 
+        <tr ng-repeat="orderDetail in order.details">
+            <td style="text-align:center; width:30px;">{{$index + 1}}</td>
+            <td style="text-align:left; width:180px;">{{orderDetail.itemName}}</td>
+            <td style="text-align:center; width:50px;">{{orderDetail.quantity}}</td>
+            <td style="text-align:right; width:70px; "><span number-format="orderDetail.amount"></span></td>
+        </tr> 
+    </tbody> 
+</table> 
+
+<table class="totals" cellspacing="0" border="0" style="margin-bottom:5px;">
+    <tbody>
+        <tr>
+            <td style="text-align:left;"><span translate="order.totalQuantity">Total quantity</span></td>
+            <td style="text-align:right; padding-right:1.5%; border-right: 1px solid #000;font-weight:bold;">{{order.quantity}}</td>
+            <td style="text-align:left; padding-left:1.5%;"><span translate="order.totalAmount">Total amount</span></td><td style="text-align:right;font-weight:bold;"><span number-format="order.amount"></span></td>
+        </tr>
+        <tr>
+            <td style="text-align:left;"><span translate="order.tax">Tax</span></td>
+            <td style="text-align:right; padding-right:1.5%; border-right: 1px solid #000;font-weight:bold;"></td>
+            <td style="text-align:left; padding-left:1.5%;"></td><td style="text-align:right;font-weight:bold;"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:left; font-weight:bold; border-top:1px solid #000; padding-top:5px;"><span translate="print.grandTotal">Grand Total</span></td>
+            <td colspan="2" style="border-top:1px solid #000; padding-top:5px; text-align:right; font-weight:bold;"><span number-format="order.amount"></span></td>
+        </tr>
+        <tr>    
+            <td colspan="2" style="text-align:left; font-weight:bold; padding-top:5px;"><span translate="print.paid">Paid</span></td>
+            <td colspan="2" style="padding-top:5px; text-align:right; font-weight:bold;"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:left; font-weight:bold; padding-top:5px;"><span translate="print.change">Change</span></td>
+            <td colspan="2" style="padding-top:5px; text-align:right; font-weight:bold;"></td>
+        </tr>  
+    </tbody>
+</table>
+    
+<div style="border-top:1px solid #000; padding-top:10px;">
+    <p>
+        <span translate="print.messages.thankYou">Thank you! See you again.</span>
+    </p>    
+</div>
+
+<div id="buttons" style="padding-top:10px; text-transform:uppercase;">
+
+    <span class="left"><a ng-href="/#/order" style="width:90%; display:block; font-size:12px; text-decoration: none; text-align:center; color:#000; background-color:#4FA950; border:2px solid #4FA950; padding: 10px 1px; font-weight:bold;"><span translate="print.back">Back to POS</span></a></span>
+
+    <span class="right"><button type="button" onclick="window.print();return false;" style="width:100%; cursor:pointer; font-size:12px; background-color:#FFA93C; color:#000; text-align: center; border:1px solid #FFA93C; padding: 10px 1px; font-weight:bold;"><span translate="print.action">Print</span></button></span>
+
+    <div style="clear:both;"></div>
+    
+    <div style="background:#F5F5F5; padding:10px;">
+        <p style="font-weight:bold;"><span translate="print.messages.guide">Please don't forget to disble the header and footer in browser print settings.</span></p>
+        <p style="text-transform: capitalize;"><strong>Firefox:</strong> File &gt; Print Setup &gt; Margin &amp; Header/Footer Make all --blank--</p>
+        <p style="text-transform: capitalize;"><strong>Chrome:</strong> Menu &gt; Print &gt; Disable Header/Footer in Option &amp; Set Margins to None</p>  
+    </div>
+    <div style="clear:both;"></div>
+</div>
