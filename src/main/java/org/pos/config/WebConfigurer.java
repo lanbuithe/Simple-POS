@@ -1,9 +1,19 @@
 package org.pos.config;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.pos.web.filter.CachingHttpHeadersFilter;
+import org.pos.web.filter.StaticResourcesFilter;
 import org.pos.web.filter.StaticResourcesProductionFilter;
 import org.pos.web.filter.gzip.GZipServletFilter;
 import org.slf4j.Logger;
@@ -17,12 +27,9 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import javax.inject.Inject;
-import javax.servlet.*;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -51,6 +58,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
             initStaticResourcesProductionFilter(servletContext, disps);
             initGzipFilter(servletContext, disps);
         }
+        initStaticResourcesFilter(servletContext, disps);
         log.info("Web application fully configured");
     }
 
@@ -144,4 +152,18 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         metricsAdminServlet.setAsyncSupported(true);
         metricsAdminServlet.setLoadOnStartup(2);
     }
+    
+    /**
+     * Initializes the static resources Filter.
+     */
+    private void initStaticResourcesFilter(ServletContext servletContext,
+                                                     EnumSet<DispatcherType> disps) {
+
+        log.debug("Registering static resources Filter");
+        FilterRegistration.Dynamic staticResourcesFilter =
+                servletContext.addFilter("staticResourcesFilter",
+                        new StaticResourcesFilter());
+
+        staticResourcesFilter.addMappingForUrlPatterns(disps, true, "/blank");
+    }    
 }

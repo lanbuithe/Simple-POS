@@ -1,0 +1,15 @@
+{
+	"print": {
+		"title": "In phiếu",
+		"orderNo": "Đặt món",
+		"grandTotal": "Tổng cộng",
+		"paid": "Nhận",
+		"change": "Trả",
+		"action": "In",
+		"back": "Trở về",
+		"messages": {
+			"thankYou": "Cám ơn! Hẹn gặp lại.",
+			"guide": "Xin vui lòng không quên vô hiệu hóa các header và footer trong thiết lập in trình duyệt"
+		}
+	}
+}

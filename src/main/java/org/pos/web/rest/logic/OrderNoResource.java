@@ -169,5 +169,40 @@ public class OrderNoResource {
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
     	BigDecimal sumAmount = orderService.getSumAmountByStatusCreatedDate(status, from, to);
         return new ResponseEntity<BigDecimal>(sumAmount, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /orderNos/:id -> get the "id" orderNo.
+     */
+    @RequestMapping(value = "/orders/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<OrderNo> getById(@PathVariable Long id, HttpServletResponse response) {
+        log.debug("REST request to get OrderNo to print : {}", id);
+        OrderNo orderNo = orderNoRepository.findById(id);
+        if (orderNo == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(orderNo, HttpStatus.OK);
+    }
+    
+    /**
+     * POST  /orders -> Create a new orderNo.
+     */
+    @RequestMapping(value = "/orders",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<OrderNo> createOrder(@Valid @RequestBody OrderNo orderNo) throws URISyntaxException {
+        log.debug("REST request to save OrderNo : {}", orderNo);
+        if (orderNo.getId() != null) {
+        	HttpHeaders headers = new HttpHeaders();
+        	headers.add("Failure", "A new orderNo cannot already have an ID");
+            return new ResponseEntity<OrderNo>(orderNo, headers, HttpStatus.EXPECTATION_FAILED);
+        }
+        updateRelationship(orderNo);
+        orderNoRepository.save(orderNo);
+        return new ResponseEntity<OrderNo>(orderNo, HttpStatus.CREATED);
     }    
 }

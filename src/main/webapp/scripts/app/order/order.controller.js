@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('OrderController', function ($scope, $filter, Principal, toaster, TableNo, 
+    .controller('OrderController', function ($scope, $filter, $window, Principal, toaster, TableNo, 
         ItemCategory, Item, ItemService, OrderNo, Constants, Utils, OrderService, ParseLinks) {
     	
     	$scope.tables = TableNo.query();
@@ -9,6 +9,7 @@ angular.module('posApp')
         $scope.items = [];
         $scope.endCategoryIndex = 4;
         $scope.endItemIndex = 23;
+        $scope.order = {};
         $scope.holdOrders = [];
         $scope.pageHoldOrder = 1;
 
@@ -84,7 +85,7 @@ angular.module('posApp')
             handleOrder(message, Constants.orderStatus.payment);
         };
 
-        function handleOrder(message, status) {
+        /*function handleOrder(message, status) {
             $scope.order.status = status;
             if (Utils.isUndefinedOrNull($scope.order.id)) {
                 OrderNo.save($scope.order,
@@ -99,17 +100,40 @@ angular.module('posApp')
                         init();
                     });             
             }            
+        }*/
+
+        function handleOrder(message, status) {
+            $scope.order.status = status;
+            if (Utils.isUndefinedOrNull($scope.order.id)) {
+                OrderService.createOrder($scope.order).then(function(response) {
+                    var orderId = null;
+                    if (!Utils.isUndefinedOrNull(response) && !Utils.isUndefinedOrNull(response.data)) {
+                        orderId = response.data.id;
+                    }
+                    processOrder(message, status, orderId);
+                });
+            } else {
+                OrderNo.update($scope.order,
+                    processOrder(message, status, $scope.order.id));             
+            }            
+        }        
+
+        var processOrder = function printOrder(message, status, orderId) {
+            toaster.pop('success', message);                        
+            init();
+            if (Constants.orderStatus.payment === status) {
+                var url = $window.location.origin;
+                $window.open(url + '/blank#/print/' + orderId);            
+            }
         }      
         
         function sumOrderAmount() {
         	$scope.order.amount = 0;
             $scope.order.quantity = 0;
-        	$scope.total.count = 0;
             $scope.total.payable = 0;
         	angular.forEach($scope.order.details, function(orderDetail) {
         		$scope.order.amount += orderDetail.amount;
                 $scope.order.quantity += orderDetail.quantity;
-        		$scope.total.count += orderDetail.quantity;
                 // for function addOrderDetail
                 orderDetail.itemId = orderDetail.item.id;
         	});
@@ -160,12 +184,12 @@ angular.module('posApp')
         
         function init() {
             $scope.order = {
+                quantity: 0,
             	amount: 0,
             	details: []
             };
 
             $scope.total = {
-            	count: 0,
             	discount: 0,
             	tax: 0,
             	payable: 0

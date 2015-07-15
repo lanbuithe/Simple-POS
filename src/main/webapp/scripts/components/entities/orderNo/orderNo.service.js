@@ -8,10 +8,6 @@ angular.module('posApp')
                 method: 'GET',
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
-                    var createdDateFrom = data.createdDate.split("-");
-                    data.createdDate = new Date(new Date(createdDateFrom[0], createdDateFrom[1] - 1, createdDateFrom[2]));
-                    var lastModifiedDateFrom = data.lastModifiedDate.split("-");
-                    data.lastModifiedDate = new Date(new Date(lastModifiedDateFrom[0], lastModifiedDateFrom[1] - 1, lastModifiedDateFrom[2]));
                     return data;
                 }
             },
@@ -50,6 +46,13 @@ angular.module('posApp')
                         to: to
                     }
                 });
-            }           
+            },
+            getById: function(id) {
+                var url = 'api/orders/' + id;
+                return $http.get(url);
+            },
+            createOrder: function(order) {
+                return $http.post('/api/orders', order);
+            }            
         };
     });

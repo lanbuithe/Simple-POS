@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Simple POS</title>
+        <meta name="description" content="Simple POS base on jhipster">
+    </head>
+    <body ng-app="posApp">
+
+        <div id="wrapper">
+            <div ui-view="content"></div>
+        </div>
+        
+
+        <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>-->
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+        <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
+        <script src="bower_components/json3/lib/json3.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-translate/angular-translate.js"></script>
+        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+        <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+        <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+        <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+        <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
+        <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+        <script src="bower_components/angularjs-toaster/toaster.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-moment/angular-moment.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/checklist-model/checklist-model.js"></script>
+        <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,src/main/webapp}) scripts/appblank.js -->
+        <script src="scripts/app/app.js"></script>
+        <script src="scripts/app/app.constants.js"></script>
+        <script src="scripts/components/auth/auth.service.js"></script>
+        <script src="scripts/components/auth/principal.service.js"></script>
+        <script src="scripts/components/auth/authority.directive.js"></script>
+        <script src="scripts/components/auth/services/account.service.js"></script>
+        <script src="scripts/components/auth/services/activate.service.js"></script>
+        <script src="scripts/components/auth/services/password.service.js"></script>
+        <script src="scripts/components/auth/services/register.service.js"></script>
+        <script src="scripts/components/user/user.service.js"></script>
+        <script src="scripts/components/util/truncate.filter.js"></script>
+        <script src="scripts/components/util/base64.service.js"></script>
+        <script src="scripts/components/util/parse-links.service.js"></script>
+        <script src="scripts/components/util/dateutil.service.js"></script>
+        <script src="scripts/app/error/error.js"></script>
+        <script src="scripts/components/language/language.service.js"></script>
+        <script src="scripts/components/language/language.controller.js"></script>      
+        <script src="scripts/components/auth/provider/auth.oauth2.service.js"></script>
+        <script src="scripts/app/admin/tracker/tracker.js"></script>
+        <script src="scripts/app/admin/tracker/tracker.controller.js"></script>
+        <script src="scripts/components/tracker/tracker.service.js"></script>
+        <script src="scripts/app/app.utils.js"></script>
+        <script src="scripts/app/app.directives.js"></script>
+        <script src="scripts/app/entities/orderNo/orderNo.js"></script>
+        <script src="scripts/components/entities/orderNo/orderNo.service.js"></script>
+        <script src="scripts/app/print/print.js"></script>
+        <script src="scripts/app/print/print.controller.js"></script>
+        <!-- endbuild -->
+
+</body>
+</html>

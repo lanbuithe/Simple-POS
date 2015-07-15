@@ -18,8 +18,8 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -136,7 +136,7 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 		this.quantity = quantity;
 	}
 	
-	private void post() {
+	private void pre() {
 		if (null != this.tableNo) {
 			this.tableName = this.tableNo.getName();
 		}
@@ -152,14 +152,14 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 		}
 	}
 	
-	@PostPersist
-	public void postPersist() {
-		this.post();
+	@PrePersist
+	public void prePersist() {
+		this.pre();
 	}
 	
-	@PostUpdate
-	public void postUpdate() {
-		this.post();
+	@PreUpdate
+	public void preUpdate() {
+		this.pre();
 	}	
 
 	@Override

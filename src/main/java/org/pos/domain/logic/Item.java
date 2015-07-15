@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +20,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Item.
@@ -54,6 +57,7 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private ItemCategory category;
     
+    @JsonIgnore
     @Column(name = "category_name")
     private String categoryName;
 
@@ -97,28 +101,30 @@ public class Item extends AbstractAuditingEntity implements Serializable {
         this.category = itemCategory;
     }
 
+    @JsonProperty
     public String getCategoryName() {
 		return categoryName;
 	}
 
+    @JsonIgnore
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
 	
-	private void post() {
+	private void pre() {
 		if (null != this.category) {
 			this.categoryName = this.category.getName();
 		}
 	}
 	
-	@PostPersist
-	public void postPersist() {
-		this.post();
+	@PrePersist
+	public void prePersist() {
+		this.pre();
 	}
 	
-	@PostUpdate
-	public void postUpdate() {
-		this.post();
+	@PreUpdate
+	public void preUpdate() {
+		this.pre();
 	}
 
 	@Override

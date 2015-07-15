@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -117,21 +117,21 @@ public class OrderDetail extends AbstractAuditingEntity implements Serializable 
 		this.itemCategoryName = itemCategoryName;
 	}
 	
-	private void post() {
+	private void pre() {
 		if (null != this.item) {
 			this.itemName = this.item.getName();
 			this.itemCategoryName = this.item.getCategoryName();
 		}
 	}
 	
-	@PostPersist
-	public void postPersist() {
-		this.post();
+	@PrePersist
+	public void prePersist() {
+		this.pre();
 	}
 	
-	@PostUpdate
-	public void postUpdate() {
-		this.post();
+	@PreUpdate
+	public void preUpdate() {
+		this.pre();
 	}
 
 	@Override
