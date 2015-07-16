@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.pos.Application;
 import org.pos.service.logic.OrderService;
 import org.pos.util.OrderStatus;
+import org.pos.web.rest.dto.logic.LineChart;
 import org.pos.web.rest.dto.logic.PieChart;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -57,4 +58,12 @@ public class OrderServiceTest {
 		List<PieChart> saleItems = orderService.getSaleItemByStatusCreatedDateBetween(OrderStatus.PAYMENT.name(), from, to);
 		assertThat(saleItems).isNotEmpty();
 	}
+	
+	@Test
+	public void testGetSaleByStatusCreatedDateBetween() {
+		DateTime from = null;
+    	DateTime to = null;
+		List<LineChart> sales = orderService.getSaleByStatusCreatedDateBetween(OrderStatus.PAYMENT.name(), from, to);
+		assertThat(sales).isNotEmpty();
+	}	
 }

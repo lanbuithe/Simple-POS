@@ -11,6 +11,15 @@ angular.module('posApp')
                         to: to
                     }
                 });
+            },
+            getSaleByStatusCreatedDateBetween: function (status, from, to) {
+                return $http.get('/api/charts/sale', { 
+                    params: {
+                        status: status,
+                        from: from,
+                        to: to
+                    }
+                });
             }            
         };
     });

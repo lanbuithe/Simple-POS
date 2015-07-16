@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.pos.service.logic.OrderService;
 import org.pos.util.DateTimePattern;
+import org.pos.web.rest.dto.logic.LineChart;
 import org.pos.web.rest.dto.logic.PieChart;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,19 @@ public class ChartResource {
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime to) {
     	List<PieChart> saleItems = orderService.getSaleItemByStatusCreatedDateBetween(status, from, to);
         return new ResponseEntity<List<PieChart>>(saleItems, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /sale -> Get sale.
+     */
+    @RequestMapping(value = "/sale",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<LineChart>> getSaleByStatusCreatedDateBetween(@RequestParam(value = "status") String status,
+    		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime from, 
+    		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime to) {
+    	List<LineChart> sales = orderService.getSaleByStatusCreatedDateBetween(status, from, to);
+        return new ResponseEntity<List<LineChart>>(sales, HttpStatus.OK);
     }    
 }

@@ -1,24 +1,30 @@
 package org.pos.web.rest.dto.logic;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class LineChart {
 	
 	private String key;
 	
-	private BigDecimal x;
+	@JsonIgnore
+	private Object x;
 
-	private BigDecimal y;
+	@JsonIgnore
+	private Object y;
 	
-	private List<BigDecimal> values;
+	private List<List<Object>> values;
 	
 	public LineChart() {
 		
 	}
 	
-	public LineChart(String key, BigDecimal x, BigDecimal y) {
-		
+	public LineChart(String key, Object x, Object y) {
+		this.key = key;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public String getKey() {
@@ -29,27 +35,32 @@ public class LineChart {
 		this.key = key;
 	}
 	
-	public BigDecimal getX() {
+	public Object getX() {
 		return x;
 	}
 
-	public void setX(BigDecimal x) {
+	public void setX(Object x) {
 		this.x = x;
 	}
 
-	public BigDecimal getY() {
+	public Object getY() {
 		return y;
 	}
 
-	public void setY(BigDecimal y) {
+	public void setY(Object y) {
 		this.y = y;
 	}
 
-	public List<BigDecimal> getValues() {
+	public List<List<Object>> getValues() {
+		values = new ArrayList<List<Object>>();
+		List<Object> elements = new ArrayList<Object>();
+		elements.add(x);
+		elements.add(y);
+		values.add(elements);
 		return values;
 	}
 
-	public void setValues(List<BigDecimal> values) {
+	public void setValues(List<List<Object>> values) {
 		this.values = values;
 	}
 

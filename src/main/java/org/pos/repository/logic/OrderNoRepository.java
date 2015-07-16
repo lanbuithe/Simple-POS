@@ -5,18 +5,19 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.pos.domain.logic.OrderNo;
-import org.pos.web.rest.dto.logic.PieChart;
+import org.pos.web.rest.dto.logic.LineChart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 /**
  * Spring Data JPA repository for the OrderNo entity.
  */
-public interface OrderNoRepository extends JpaRepository<OrderNo,Long> {
+public interface OrderNoRepository extends JpaRepository<OrderNo,Long>, JpaSpecificationExecutor<OrderNo> {
 
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	public Page<OrderNo> findByStatusIs(String status, Pageable pageable);
@@ -38,8 +39,8 @@ public interface OrderNoRepository extends JpaRepository<OrderNo,Long> {
 	
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	public OrderNo findById(Long id);
-	
-	@Query(value = "select new org.pos.web.rest.dto.logic.PieChart(a.itemName, sum(a.amount)) from OrderDetail a where a.orderNo.status = ?1 and a.orderNo.createdDate between ?2 and ?3 group by a.itemName")
-    public List<PieChart> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
+
+	@Query(value = "select new org.pos.web.rest.dto.logic.LineChart(a.status, to_char(a.createdDate, 'yyyy-mm-dd'), sum(a.amount)) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3 group by to_char(a.createdDate, 'yyyy-mm-dd'), a.status")
+    public List<LineChart> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
 	
 }

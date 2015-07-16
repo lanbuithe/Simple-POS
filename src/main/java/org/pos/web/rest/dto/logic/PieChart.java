@@ -6,7 +6,7 @@ public class PieChart {
 
 	private String key;
 	
-	private BigDecimal y;
+	private Object y;
 	
 	public PieChart() {
 	}
@@ -24,11 +24,11 @@ public class PieChart {
 		this.key = key;
 	}
 
-	public BigDecimal getY() {
+	public Object getY() {
 		return y;
 	}
 
-	public void setY(BigDecimal y) {
+	public void setY(Object y) {
 		this.y = y;
 	}
 	
