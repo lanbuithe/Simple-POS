@@ -8,8 +8,10 @@ public class LineChart {
 	private String key;
 	
 	private BigDecimal x;
-	
+
 	private BigDecimal y;
+	
+	private List<BigDecimal> values;
 	
 	public LineChart() {
 		
@@ -26,6 +28,14 @@ public class LineChart {
 	public void setKey(String key) {
 		this.key = key;
 	}
+	
+	public BigDecimal getX() {
+		return x;
+	}
+
+	public void setX(BigDecimal x) {
+		this.x = x;
+	}
 
 	public BigDecimal getY() {
 		return y;
@@ -35,5 +45,12 @@ public class LineChart {
 		this.y = y;
 	}
 
-	private List<BigDecimal> values;
+	public List<BigDecimal> getValues() {
+		return values;
+	}
+
+	public void setValues(List<BigDecimal> values) {
+		this.values = values;
+	}
+
 }
