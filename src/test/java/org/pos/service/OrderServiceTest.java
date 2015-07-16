@@ -3,6 +3,7 @@ package org.pos.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.pos.Application;
 import org.pos.service.logic.OrderService;
 import org.pos.util.OrderStatus;
+import org.pos.web.rest.dto.logic.PieChart;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,5 +48,13 @@ public class OrderServiceTest {
     	expectSumAmount = new BigDecimal(24000);
     	sumAmount = orderService.getSumAmountByStatusCreatedDate(OrderStatus.CANCEL.name(), from, null);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
+	}
+	
+	@Test
+	public void testGetSaleItemByStatusCreatedDateBetween() {
+		DateTime from = null;
+    	DateTime to = null;
+		List<PieChart> saleItems = orderService.getSaleItemByStatusCreatedDateBetween(OrderStatus.PAYMENT.name(), from, to);
+		assertThat(saleItems).isNotEmpty();
 	}
 }

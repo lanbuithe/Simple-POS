@@ -2,7 +2,8 @@
 
 angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'ui.bootstrap', 
     'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'infinite-scroll',
-    'angularMoment', 'ngAnimate', 'toaster', 'angular-loading-bar', 'checklist-model', 'validation.match'])
+    'angularMoment', 'ngAnimate', 'toaster', 'angular-loading-bar', 'checklist-model', 'validation.match', 
+    'nvd3ChartDirectives'])
 
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;

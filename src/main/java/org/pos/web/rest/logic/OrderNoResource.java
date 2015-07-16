@@ -204,5 +204,19 @@ public class OrderNoResource {
         updateRelationship(orderNo);
         orderNoRepository.save(orderNo);
         return new ResponseEntity<OrderNo>(orderNo, HttpStatus.CREATED);
+    }
+    
+    /**
+     * POST  /orders/move -> Update items of order.
+     */
+    @RequestMapping(value = "/orders/move",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> moveItem(@RequestBody List<OrderNo> orderNos) throws URISyntaxException {
+        log.debug("REST request to move items of order");
+        orderNoRepository.save(orderNos);
+        return ResponseEntity.ok().build();
     }    
+    
 }

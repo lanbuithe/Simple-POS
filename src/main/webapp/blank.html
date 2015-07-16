@@ -8,7 +8,7 @@
     </head>
     <body ng-app="posApp">
 
-        <div id="wrapper">
+        <div id="wrapper" ng-cloak="">
             <div ui-view="content"></div>
         </div>
         
@@ -51,6 +51,11 @@
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/checklist-model/checklist-model.js"></script>
         <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+        <script src="bower_components/checklist-model/checklist-model.js"></script>
+        <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+        <script src="bower_components/d3/d3.js"></script>
+        <script src="bower_components/nvd3/nv.d3.js"></script>
+        <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>        
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -78,8 +83,7 @@
         <script src="scripts/components/tracker/tracker.service.js"></script>
         <script src="scripts/app/app.utils.js"></script>
         <script src="scripts/app/app.directives.js"></script>
-        <script src="scripts/app/entities/orderNo/orderNo.js"></script>
-        <script src="scripts/components/entities/orderNo/orderNo.service.js"></script>
+        <script src="scripts/components/entities/orderNo/order.service.js"></script>
         <script src="scripts/app/print/print.js"></script>
         <script src="scripts/app/print/print.controller.js"></script>
         <!-- endbuild -->

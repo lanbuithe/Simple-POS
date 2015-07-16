@@ -30,13 +30,13 @@
                     <ul class="dropdown-menu">
                         <li ui-sref-active="active">
                             <a ui-sref="revenue">
-                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span class="glyphicon glyphicon-usd"></span>
                                 &#xA0;<span translate="global.menu.report.revenue">Revenue</span>
                             </a>
                         </li>
                     </ul>
                 </li>                              
-                <li ui-sref-active="active" ng-switch-when="true" class="dropdown pointer">
+                <li ui-sref-active="active" ng-switch-when="true" class="dropdown pointer" has-role="ROLE_ADMIN">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
 	                    <span>
 	                        <span class="glyphicon glyphicon-th-list"></span>
@@ -49,42 +49,28 @@
                     <ul class="dropdown-menu">
                         <li ui-sref-active="active">
                             <a ui-sref="itemCategory">
-                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span class="glyphicon glyphicon-list-alt"></span>
                                 &#xA0;<span translate="global.menu.entities.itemCategory">Item category</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="item">
-                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span class="glyphicon glyphicon-cutlery"></span>
                                 &#xA0;<span translate="global.menu.entities.item">Item</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="tableNo">
-                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span class="glyphicon glyphicon-bed"></span>
                                 &#xA0;<span translate="global.menu.entities.tableNo">Table</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="user">
-                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span class="glyphicon glyphicon-user"></span>
                                 &#xA0;<span translate="global.menu.user">User</span>
                             </a>
-                        </li>                        
-                        <!--
-                        <li ui-sref-active="active">
-                            <a ui-sref="orderNo">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span translate="global.menu.entities.orderNo">Order</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref="orderDetail">
-                                <span class="glyphicon glyphicon-asterisk"></span>
-                                &#xA0;<span translate="global.menu.entities.orderDetail">Order detail</span>
-                            </a>
-                        </li>
-                         -->                    
+                        </li>                                          
                         <!-- JHipster will add entities to the menu here -->
                     </ul>
                 </li>
@@ -123,15 +109,9 @@
                                 &#xA0;<span translate="global.menu.account.login">Authenticate</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="false">
-                            <a ui-sref="register">
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                                &#xA0;<span translate="global.menu.account.register">Register</span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
-                <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-role="ROLE_ADMIN" class="dropdown pointer">
+                <li ng-class="{active: $state.includes('admin')}" ng-switch-when="true" has-role="ROLE_ADMIN" class="dropdown pointer">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
 	                    <span>
 	                        <span class="glyphicon glyphicon-tower"></span>

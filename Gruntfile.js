@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         },
         wiredep: {
             app: {
-                src: ['src/main/webapp/index.html'],
+                src: ['src/main/webapp/index.html', 'src/main/webapp/blank.html'],
                 exclude: [
                     /angular-i18n/  // localizations are loaded dynamically
                 ]

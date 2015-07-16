@@ -1,13 +1,17 @@
 package org.pos.service.logic;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.pos.domain.logic.OrderNo;
+import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
 import org.pos.util.JodaTimeUtil;
+import org.pos.web.rest.dto.logic.PieChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,9 @@ public class OrderService {
     
     @Inject
     private OrderNoRepository orderNoRepository;
+    
+    @Inject
+    private OrderDetailRepository orderDetailRepository;
     
     public Page<OrderNo> getByStatusCreatedDate(String status, DateTime from, DateTime to, Pageable pageable) {
     	Page<OrderNo> page = null;
@@ -77,6 +84,35 @@ public class OrderService {
     		log.error("Exception", e);
     	}
     	return sumAmount;
+    }
+    
+    public List<PieChart> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
+    	List<PieChart> saleItems = new ArrayList<PieChart>();
+    	try {
+    		if (null != from && null != to) {
+    			from = from.withTimeAtStartOfDay();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == from && null == to) {
+    			DateTime now = new DateTime();
+    			from = now.dayOfMonth().withMinimumValue();
+    			from = from.withTimeAtStartOfDay();
+    			to = now.dayOfMonth().withMaximumValue();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == from) {
+    			from = to.dayOfMonth().withMinimumValue();
+    			from = from.withTimeAtStartOfDay();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == to) {
+    			from = from.withTimeAtStartOfDay();
+    			DateTime now = new DateTime();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(now);
+    		}
+			log.debug(String.format("case between from=%s, to=%s", from, to));
+			saleItems = orderDetailRepository.getSaleItemByStatusCreatedDateBetween(status, from, to);
+    	} catch (Exception e) {
+    		log.error("Exception", e);
+    	}    	
+    	return saleItems;
     }
 
 }

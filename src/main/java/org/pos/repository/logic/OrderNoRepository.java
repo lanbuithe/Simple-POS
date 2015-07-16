@@ -1,9 +1,11 @@
 package org.pos.repository.logic;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.pos.domain.logic.OrderNo;
+import org.pos.web.rest.dto.logic.PieChart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -35,5 +37,9 @@ public interface OrderNoRepository extends JpaRepository<OrderNo,Long> {
     public BigDecimal getSumAmountByStatusCreatedDateBeforeEqual(String status, DateTime createdDate);
 	
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
-	public OrderNo findById(Long id);	
+	public OrderNo findById(Long id);
+	
+	@Query(value = "select new org.pos.web.rest.dto.logic.PieChart(a.itemName, sum(a.amount)) from OrderDetail a where a.orderNo.status = ?1 and a.orderNo.createdDate between ?2 and ?3 group by a.itemName")
+    public List<PieChart> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
+	
 }

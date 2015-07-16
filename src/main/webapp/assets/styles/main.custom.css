@@ -662,7 +662,9 @@ fieldset[disabled] .btn-primary.active {
 }*/
 
 .btn-product { 
-  background: #EEE; border:1px solid #EEE; border-bottom: 0; 
+  background: #EEE; 
+  border:1px solid #EEE; 
+  border-bottom: 0; 
 }
 
 .btn-con .btn-default { 
@@ -670,7 +672,8 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .ui-keyboard { 
-  height: 0 !important; display: none !important; 
+  height: 0 !important; 
+  display: none !important; 
 }
 
 .ob {
@@ -701,4 +704,18 @@ fieldset[disabled] .btn-primary.active {
 .has-error {
   border: 1 !important;
   border-color: #a94442;
+}
+
+.progress {
+  height: 20px !important;
+}
+
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 900px;
+  }
+}
+
+.glyphicon-bed:before {
+  content: "\e219";
 }

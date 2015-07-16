@@ -10,11 +10,14 @@
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
         <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.css" />
+        <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css assets/styles/main.css -->
         <link rel="stylesheet" href="assets/styles/bootstrap.css" />
 	    <link rel="stylesheet" href="assets/styles/posajax.css" />
+        <link rel="stylesheet" href="assets/styles/datatables.css" />
+        <link rel="stylesheet" href="assets/styles/dash.css" />
 	    <link rel="stylesheet" href="assets/styles/non-responsive.css" />   
         <link rel="stylesheet" href="assets/styles/main.custom.css" />
         <!-- endbuild -->
@@ -45,7 +48,7 @@
 	        
 	        <div ui-view="navbar" ng-cloak=""></div>
 	        
-	        <div class="container">
+	        <div class="container" ng-cloak="">
 
 	        	<div id="pos" ui-view="content"></div>
 
@@ -97,6 +100,9 @@
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/checklist-model/checklist-model.js"></script>
         <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+        <script src="bower_components/d3/d3.js"></script>
+        <script src="bower_components/nvd3/nv.d3.js"></script>
+        <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>        
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -186,6 +192,7 @@
         <script src="scripts/app/entities/orderNo/orderNo.controller.js"></script>
         <script src="scripts/app/entities/orderNo/orderNo-detail.controller.js"></script>
         <script src="scripts/components/entities/orderNo/orderNo.service.js"></script>
+        <script src="scripts/components/entities/orderNo/order.service.js"></script>
         <script src="scripts/app/entities/orderDetail/orderDetail.js"></script>
         <script src="scripts/app/entities/orderDetail/orderDetail.controller.js"></script>
         <script src="scripts/app/entities/orderDetail/orderDetail-detail.controller.js"></script>
@@ -197,6 +204,7 @@
         <script src="scripts/app/account/management/user.controller.js"></script>
         <script src="scripts/app/account/management/user-dialog.controller.js"></script>
         <script src="scripts/components/user/authority.service.js"></script>
+        <script src="scripts/components/logic/chart.service.js"></script>
         <!-- endbuild -->
 
 </body>

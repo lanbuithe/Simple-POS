@@ -1,9 +1,9 @@
 {
-    "name": "pos",
-    "version": "0.0.0",
-    "appPath": "src/main/webapp",
-    "testPath": "src/test/javascript/spec",
-    "dependencies": {
+  "name": "pos",
+  "version": "0.0.0",
+  "appPath": "src/main/webapp",
+  "testPath": "src/test/javascript/spec",
+  "dependencies": {
     "stomp-websocket": "2.3.4",
     "sockjs-client": "0.3.4",
     "modernizr": "2.8.3",
@@ -29,7 +29,10 @@
     "angular-moment": "0.10.1",
     "underscore": "1.8.3",
     "checklist-model": "0.2.4",
-    "angular-validation-match": "1.5.1"
+    "angular-validation-match": "1.5.1",
+    "d3": "~3.4.1",
+    "nvd3": "~v1.1.15-beta",
+    "angularjs-nvd3-directives": "~0.0.7"
   },
   "devDependencies": {
     "angular-mocks": "1.4.0",
