@@ -3,6 +3,10 @@ package org.pos.web.rest.dto.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.pos.util.DateTimePattern;
+import org.pos.util.JodaTimeUtil;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class LineChart {
@@ -15,7 +19,7 @@ public class LineChart {
 	@JsonIgnore
 	private Object y;
 	
-	private List<List<Object>> values;
+	private List<Object> values;
 	
 	public LineChart() {
 		
@@ -51,16 +55,19 @@ public class LineChart {
 		this.y = y;
 	}
 
-	public List<List<Object>> getValues() {
-		values = new ArrayList<List<Object>>();
-		List<Object> elements = new ArrayList<Object>();
-		elements.add(x);
-		elements.add(y);
-		values.add(elements);
+	public List<Object> getValues() {
+		values = new ArrayList<Object>();
+		try {
+			DateTime dateTime = JodaTimeUtil.parse(x.toString(), DateTimePattern.ISO_DATE);
+			values.add(dateTime.getMillis());
+		} catch(Exception e) {
+			values.add(x);	
+		}
+		values.add(y);
 		return values;
 	}
 
-	public void setValues(List<List<Object>> values) {
+	public void setValues(List<Object> values) {
 		this.values = values;
 	}
 

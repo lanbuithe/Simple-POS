@@ -17,6 +17,8 @@
         "systemSetting": "Hệ thống",
         "addUser": "Tạo người dùng",
         "changeLogo": "Đổi logo",
-        "backupDB": "Sao lưu"
+        "backupDB": "Sao lưu",
+        "saleChart": "Doanh thu ngày",
+        "saleItemChart": "Doanh thu món"
     }
 }

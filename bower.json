@@ -30,8 +30,6 @@
     "underscore": "1.8.3",
     "checklist-model": "0.2.4",
     "angular-validation-match": "1.5.1",
-    "d3": "~3.4.1",
-    "nvd3": "~v1.1.15-beta",
     "angularjs-nvd3-directives": "~0.0.7"
   },
   "devDependencies": {

@@ -74,32 +74,34 @@
 
     <div class="col-md-8">
         <div class="panel panel-default">
-            <div class="panel-heading">Sales Chart</div>
+            <div class="panel-heading" translate="main.saleChart">Sales Chart</div>
             <div class="panel-body">
-                <!--nvd3-line-chart
+                <nvd3-line-chart
                     data="sales"
                     id="saleLineChart"
                     xAxisTickFormat="xAxisTickFormatFunction()"
                     yAxisTickFormat="yAxisTickFormatFunction()"
-                    width="550"
-                    height="350"
+                    width="600"
+                    height="300"
                     showXAxis="true"
-                    showYAxis="true">
+                    showYAxis="true"
+                    x="xLineChartFunction()"
+                    y="yLineChartFunction()"
+                    interactive="true">
                         <svg></svg>
-                </nvd3-line-chart-->
+                </nvd3-line-chart>
             </div>
         </div>
     </div>
 
     <div class="col-md-4"> 
         <div class="panel panel-default">
-            <div class="panel-heading">Sale Item</div>
+            <div class="panel-heading" translate="main.saleItemChart">Sale Item</div>
             <div class="panel-body">
                 <nvd3-pie-chart
                     data="saleItems"
                     id="saleItemPieChart"
                     height="300"
-                    margin="margin()"
                     x="xFunction()"
                     y="yFunction()"
                     tooltips="true"

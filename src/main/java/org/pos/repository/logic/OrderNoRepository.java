@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.Query;
 /**
  * Spring Data JPA repository for the OrderNo entity.
  */
-public interface OrderNoRepository extends JpaRepository<OrderNo,Long>, JpaSpecificationExecutor<OrderNo> {
+public interface OrderNoRepository extends JpaRepository<OrderNo, Long>, JpaSpecificationExecutor<OrderNo> {
 
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	public Page<OrderNo> findByStatusIs(String status, Pageable pageable);

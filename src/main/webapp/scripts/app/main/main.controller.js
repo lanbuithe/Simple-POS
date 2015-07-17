@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('MainController', function ($scope, Principal, Constants, Utils, ChartService) {
+    .controller('MainController', function ($scope, Principal, moment, Constants, Utils, ChartService) {
 
     	$scope.sales = [];
     	$scope.saleItems = [];
@@ -9,11 +9,45 @@ angular.module('posApp')
         $scope.getSaleLineChart = function(orderStatus, fromDate, toDate) {
 	        ChartService.getSaleByStatusCreatedDateBetween(orderStatus, fromDate, toDate)
 	        	.then(function(response) {
-	        		if (!Utils.isUndefinedOrNull(response) && !Utils.isUndefinedOrNull(response.data)) {
-	        			$scope.sales = response.data;
+	        		if (!Utils.isUndefinedOrNull(response) && 
+	        				!Utils.isUndefinedOrNull(response.data && 
+	        					response.data.length > 0)) {
+	        			$scope.sales = [];
+	        			var result = response.data;
+	        			var el = {
+				 			'key': orderStatus,
+							'values': []
+						};
+	        			angular.forEach(result, function(sale) {
+	        				el.values.push(angular.copy(sale.values));
+	        			});
+	        			$scope.sales.push(el);
 	        		}
 	        	});
         };
+
+        $scope.xAxisTickFormatFunction = function() {
+            return function(d) {
+                //return d3.time.format('%d/%m/%Y')(moment.unix(d).toDate());
+                return d3.time.format('%d/%m/%Y')(moment(d).toDate());
+            }
+        };
+
+        $scope.yAxisTickFormatFunction = function() {
+
+        };
+
+		$scope.xLineChartFunction = function() {
+			return function(d) {
+				return d[0];
+			};
+		};
+
+		$scope.yLineChartFunction = function() {
+			return function(d) {
+				return d[1];
+			};
+		};   		        
 
         $scope.getSaleItemPieChart = function(orderStatus, fromDate, toDate) {
 	        ChartService.getSaleItemByStatusCreatedDateBetween(orderStatus, fromDate, toDate)
@@ -31,13 +65,13 @@ angular.module('posApp')
 		};
 
 		$scope.yFunction = function() {
-			return function(d){
+			return function(d) {
 				return d.y;
 			};
 		};
 
 		 $scope.margin = function() {
-		    return {left:0,top:0,bottom:0,right:0};
+		    return { left:0, top:0, bottom:0, right:0 };
 		 };				        
 
         $scope.loadAll = function() {
@@ -45,12 +79,9 @@ angular.module('posApp')
 	            $scope.account = account;
 	            $scope.isAuthenticated = Principal.isAuthenticated;
 	        });
-	        //$scope.getSaleLineChart(Constants.orderStatus.payment, null, null);
+	        $scope.getSaleLineChart(Constants.orderStatus.payment, null, null);
 	        $scope.getSaleItemPieChart(Constants.orderStatus.payment, null, null);
-	        /*$scope.sales = [{
-	 "key" : "Series 1",
-	"values" : [[1025409600000, 0], [1028088000000, -6.3382185140371], [1030766400000, -5.9507873460847], [1033358400000, -11.569146943813]]
-}];*/
+	        //$scope.sales = [{"key":"PAYMENT","values":[[1437066000000,213000],[1436893200000,142000]]}];
         };
 
         $scope.loadAll();
