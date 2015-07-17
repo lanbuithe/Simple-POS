@@ -124,14 +124,14 @@
 		<div class="bx-wrapper" style="max-width: 3000px;">
 			<div class="bx-viewport" style="width: 100%; position: relative; height: 50px;">
 		    	<div class="btn-category">
-					<button type="button" class="btn btn-default" style="float: left; list-style: none; position: relative; width: 113.6px;" ng-repeat="itemCategory in itemCategories" ng-click="getItemByCategoryId(itemCategory.id)" ng-show="$index >= (endCategoryIndex - 4) && $index <= endCategoryIndex">
+					<button type="button" class="btn btn-default" style="float: left; list-style: none; position: relative; width: 113.6px;" ng-repeat="itemCategory in itemCategories" ng-click="getItemByCategoryId(itemCategory.id)" ng-show="$index >= (endCategoryIndex - (constants.perCategory - 1)) && $index <= endCategoryIndex">
 						{{itemCategory.name}}
 					</button>     	 	
 		     	</div>
 		    </div>
 		    <div class="bx-controls bx-has-pager bx-has-controls-direction">
 				<div class="bx-controls-direction">
-					<a class="bx-prev" ng-href="" ng-show="endCategoryIndex > 4" ng-click="prevCategory()">Prev</a>
+					<a class="bx-prev" ng-href="" ng-show="endCategoryIndex > (constants.perCategory - 1)" ng-click="prevCategory()">Prev</a>
 					<a class="bx-next" ng-href="" ng-show="endCategoryIndex < itemCategories.length" ng-click="nextCategory()">Next</a>
 				</div>
 		    </div>
@@ -155,8 +155,8 @@
      			<div style="clear:both;"></div>
      		</div>
      		
-			<div class="btn-con">
-				<button id="previous" type="button" class="btn btn-default" style="z-index:10002;" ng-disabled="endItemIndex <= 23" ng-click="prevItem()">
+			<div class="btn-con" ng-if="items.length > perItem">
+				<button id="previous" type="button" class="btn btn-default" style="z-index:10002;" ng-disabled="endItemIndex <= (constants.perItem)" ng-click="prevItem()">
 					<i class="glyphicon glyphicon-chevron-left"></i>
 				</button>
 				

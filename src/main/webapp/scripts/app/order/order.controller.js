@@ -7,8 +7,8 @@ angular.module('posApp')
     	$scope.tables = TableNo.query();
         $scope.itemCategories = [];
         $scope.items = [];
-        $scope.endCategoryIndex = 4;
-        $scope.endItemIndex = 23;
+        $scope.endCategoryIndex = Constants.perCategory - 1;
+        $scope.endItemIndex = Constants.perItem - 1;
         $scope.order = {};
         $scope.holdOrders = [];
         $scope.pageHoldOrder = 1;
@@ -45,19 +45,19 @@ angular.module('posApp')
         };
 
         $scope.nextItem = function() {
-            $scope.endItemIndex += 24;
+            $scope.endItemIndex += Constants.perItem;
         };
 
         $scope.prevItem = function() {
-            $scope.endItemIndex -= 24;
+            $scope.endItemIndex -= Constants.perItem;
         };        
 
         $scope.nextCategory = function() {
-            $scope.endCategoryIndex += 5;
+            $scope.endCategoryIndex += Constants.perCategory;
         };
 
         $scope.prevCategory = function() {
-            $scope.endCategoryIndex -= 5;
+            $scope.endCategoryIndex -= Constants.perCategory;
         };
 
         $scope.cancelOrder = function() {

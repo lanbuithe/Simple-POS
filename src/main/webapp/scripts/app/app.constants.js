@@ -6,4 +6,6 @@ angular.module('posApp')
 
 .constant('VERSION', '0.0.1-SNAPSHOT')
 
+.constant('CLOUD', 'none')
+
 ;

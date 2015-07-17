@@ -27,7 +27,10 @@ angular.module('posApp')
         dateTimePattern: 'DD/MM/YYYY HH:mm:ss',
         fractionSize: 2,
         perPage: 6,
-        all: 'ALL'
+        all: 'ALL',
+        perCategory: 5,
+        perItem: 24,
+        openshift: 'openshift'
     });
 
 angular.module('posApp')

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp')
-    .factory('Tracker', function ($rootScope, $cookies, $http, $q) {
+    .factory('Tracker', function ($rootScope, $cookies, $http, $q, CLOUD, Constants) {
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -19,7 +19,12 @@ angular.module('posApp')
             connect: function () {
                 //building absolute path so that websocket doesnt fail when deploying with a context path
                 var loc = window.location;
-                var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
+                var url = '//' + loc.host;
+                var uri = loc.pathname + 'websocket/tracker';
+                if (CLOUD === Constants.openshift) {
+                    url += ':8000';
+                }
+                url += uri;
                 var socket = new SockJS(url);
                 stompClient = Stomp.over(socket);
                 var headers = {};

@@ -327,6 +327,16 @@ module.exports = function (grunt) {
                     ENV: 'prod',
                     VERSION: parseVersionFromPomXml()
                 }
+            },
+            openshift: {
+                options: {
+                    dest: '.tmp/scripts/app/app.constants.js'
+                },
+                constants: {
+                    ENV: 'prod',
+                    VERSION: parseVersionFromPomXml(),
+                    CLOUD: 'openshift'
+                }
             }
         }
     });
@@ -370,6 +380,26 @@ module.exports = function (grunt) {
         'usemin',
         'htmlmin'
     ]);
+
+    grunt.registerTask('openshift', [
+        'clean:dist',
+        'wiredep:app',
+        'ngconstant:openshift',
+        'useminPrepare',
+        'ngtemplates',
+        'imagemin',
+        'svgmin',
+        'concat',
+        'copy:fonts',
+        'copy:dist',
+        'ngAnnotate',
+        'cssmin',
+        'autoprefixer',
+        'uglify',
+        'rev',
+        'usemin',
+        'htmlmin'
+    ]);    
 
 	grunt.registerTask('appendSkipBower', 'Force skip of bower for Gradle', function () {
 
