@@ -35,7 +35,7 @@ angular.module('posApp')
                 if (CLOUD === Constants.openShift) {
                     url += ':8000';
                 }
-                url += loc.pathname + '/websocket/chart';
+                url += loc.pathname + 'websocket/chart';
                 var token = localStorageService.get('token');
                 if (token && token.expires_at && token.expires_at > new Date().getTime()) {
                     url += '?access_token=' + token.access_token;
