@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp')
-    .factory('Tracker', function ($rootScope, $cookies, $http, $q) {
+    .factory('Tracker', function ($rootScope, $cookies, $http, $q, localStorageService) {
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -19,9 +19,16 @@ angular.module('posApp')
             connect: function () {
                 //building absolute path so that websocket doesnt fail when deploying with a context path
                 var loc = window.location;
+                //var url = 'ws://' + loc.host + loc.pathname + 'websocket/tracker';
                 var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
+                var token = localStorageService.get('token');
+                if (token && token.expires_at && token.expires_at > new Date().getTime()) {
+                    url += '?access_token=' + token.access_token;
+                }
+                /*var url = '//' + loc.host + loc.pathname + 'websocket/tracker';*/
                 var socket = new SockJS(url);
                 stompClient = Stomp.over(socket);
+                //stompClient = Stomp.client(url);
                 var headers = {};
                 headers['X-CSRF-TOKEN'] = $cookies[$http.defaults.xsrfCookieName];
                 stompClient.connect(headers, function(frame) {

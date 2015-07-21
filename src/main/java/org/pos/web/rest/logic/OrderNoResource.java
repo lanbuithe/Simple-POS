@@ -16,6 +16,7 @@ import org.pos.domain.logic.OrderNo;
 import org.pos.repository.logic.OrderNoRepository;
 import org.pos.service.logic.OrderService;
 import org.pos.util.DateTimePattern;
+import org.pos.util.OrderStatus;
 import org.pos.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,6 +141,48 @@ public class OrderNoResource {
     }
     
     /**
+     * POST  /orders -> Create a new order.
+     */
+    @RequestMapping(value = "/orders",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<OrderNo> createOrder(@Valid @RequestBody OrderNo orderNo) throws URISyntaxException {
+        log.debug("REST request to save OrderNo : {}", orderNo);
+        if (orderNo.getId() != null) {
+        	HttpHeaders headers = new HttpHeaders();
+        	headers.add("Failure", "A new orderNo cannot already have an ID");
+            return new ResponseEntity<OrderNo>(orderNo, headers, HttpStatus.EXPECTATION_FAILED);
+        }
+        updateRelationship(orderNo);
+        orderNoRepository.save(orderNo);
+        if (OrderStatus.PAYMENT.name().equalsIgnoreCase(orderNo.getStatus())) {
+        	orderService.getSaleChart(OrderStatus.PAYMENT.name(), null, null);
+        }
+        return new ResponseEntity<OrderNo>(orderNo, HttpStatus.CREATED);
+    }
+    
+    /**
+     * PUT  /orders -> Updates an existing order.
+     */
+    @RequestMapping(value = "/orders",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> updateOrder(@Valid @RequestBody OrderNo orderNo) throws URISyntaxException {
+        log.debug("REST request to update OrderNo : {}", orderNo);
+        if (orderNo.getId() == null) {
+            return create(orderNo);
+        }
+        updateRelationship(orderNo);
+        orderNoRepository.save(orderNo);
+        if (OrderStatus.PAYMENT.name().equalsIgnoreCase(orderNo.getStatus())) {
+        	orderService.getSaleChart(OrderStatus.PAYMENT.name(), null, null);
+        }
+        return ResponseEntity.ok().build();
+    }
+    
+    /**
      * GET  /orders -> get all the orders by status, created date.
      */
     @RequestMapping(value = "/orders",
@@ -155,24 +198,10 @@ public class OrderNoResource {
         Page<OrderNo> page = orderService.getByStatusCreatedDate(status, from, to, PaginationUtil.generatePageRequest(offset, limit));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/orders", offset, limit);
         return new ResponseEntity<List<OrderNo>>(page.getContent(), headers, HttpStatus.OK);
-    }
+    }   
     
     /**
-     * GET  /orders/amount -> get amount orders by status, created date.
-     */
-    @RequestMapping(value = "/orders/amount",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<BigDecimal> getSumAmountByStatusCreatedDate(@RequestParam(value = "status") String status, 
-    		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
-    		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
-    	BigDecimal sumAmount = orderService.getSumAmountByStatusCreatedDate(status, from, to);
-        return new ResponseEntity<BigDecimal>(sumAmount, HttpStatus.OK);
-    }
-    
-    /**
-     * GET  /orderNos/:id -> get the "id" orderNo.
+     * GET  /orders/:id -> get the "id" orderNo.
      */
     @RequestMapping(value = "/orders/{id}",
             method = RequestMethod.GET,
@@ -188,23 +217,18 @@ public class OrderNoResource {
     }
     
     /**
-     * POST  /orders -> Create a new orderNo.
+     * GET  /orders/amount -> get amount orders by status, created date.
      */
-    @RequestMapping(value = "/orders",
-            method = RequestMethod.POST,
+    @RequestMapping(value = "/orders/amount",
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<OrderNo> createOrder(@Valid @RequestBody OrderNo orderNo) throws URISyntaxException {
-        log.debug("REST request to save OrderNo : {}", orderNo);
-        if (orderNo.getId() != null) {
-        	HttpHeaders headers = new HttpHeaders();
-        	headers.add("Failure", "A new orderNo cannot already have an ID");
-            return new ResponseEntity<OrderNo>(orderNo, headers, HttpStatus.EXPECTATION_FAILED);
-        }
-        updateRelationship(orderNo);
-        orderNoRepository.save(orderNo);
-        return new ResponseEntity<OrderNo>(orderNo, HttpStatus.CREATED);
-    }
+    public ResponseEntity<BigDecimal> getSumAmountByStatusCreatedDate(@RequestParam(value = "status") String status, 
+    		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
+    		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
+    	BigDecimal sumAmount = orderService.getSumAmountByStatusCreatedDate(status, from, to);
+        return new ResponseEntity<BigDecimal>(sumAmount, HttpStatus.OK);
+    }     
     
     /**
      * POST  /orders/move -> Update items of order.

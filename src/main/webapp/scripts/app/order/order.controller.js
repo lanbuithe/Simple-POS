@@ -22,7 +22,7 @@ angular.module('posApp')
         $scope.loadPageHoldOrder = function(page) {
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = page;
-            OrderService.getByStatus($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
+            OrderService.getByStatusCreatedDate($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data)) {
                         $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
@@ -34,7 +34,7 @@ angular.module('posApp')
         $scope.openHoldOrder = function() {
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = 1;
-            OrderService.getByStatus($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
+            OrderService.getByStatusCreatedDate($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data)) {
                         $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
@@ -85,23 +85,6 @@ angular.module('posApp')
             handleOrder(message, Constants.orderStatus.payment);
         };
 
-        /*function handleOrder(message, status) {
-            $scope.order.status = status;
-            if (Utils.isUndefinedOrNull($scope.order.id)) {
-                OrderNo.save($scope.order,
-                    function () {
-                        toaster.pop('success', message);                        
-                        init();
-                    });
-            } else {
-                OrderNo.update($scope.order,
-                    function () {
-                        toaster.pop('success', message);                        
-                        init();
-                    });             
-            }            
-        }*/
-
         function handleOrder(message, status) {
             $scope.order.status = status;
             if (Utils.isUndefinedOrNull($scope.order.id)) {
@@ -113,12 +96,14 @@ angular.module('posApp')
                     processOrder(message, status, orderId);
                 });
             } else {
-                OrderNo.update($scope.order,
-                    processOrder(message, status, $scope.order.id));             
+                OrderNo.update($scope.order, function() {
+                    processOrder(message, status, $scope.order.id);
+                });             
+                
             }            
         }        
 
-        var processOrder = function printOrder(message, status, orderId) {
+        function processOrder(message, status, orderId) {
             toaster.pop('success', message);                        
             init();
             if (Constants.orderStatus.payment === status) {

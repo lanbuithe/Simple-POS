@@ -6,6 +6,24 @@ angular.module('posApp')
     	$scope.sales = [];
     	$scope.saleItems = [];
 
+        ChartService.receive().then(null, null, function(chart) {
+            showChart(chart);
+        });
+
+        function showChart(chart) {
+        	$scope.saleItems = chart.pies;
+			$scope.sales = [];
+			var result = chart.lines;
+			var el = {
+	 			'key': Constants.orderStatus.payment,
+				'values': []
+			};
+			angular.forEach(result, function(sale) {
+				el.values.push(angular.copy(sale.values));
+			});
+			$scope.sales.push(el);        	
+        };    	
+
         $scope.getSaleLineChart = function(orderStatus, fromDate, toDate) {
 	        ChartService.getSaleByStatusCreatedDateBetween(orderStatus, fromDate, toDate)
 	        	.then(function(response) {
@@ -81,7 +99,7 @@ angular.module('posApp')
 	        });
 	        $scope.getSaleLineChart(Constants.orderStatus.payment, null, null);
 	        $scope.getSaleItemPieChart(Constants.orderStatus.payment, null, null);
-	        //$scope.sales = [{"key":"PAYMENT","values":[[1437066000000,213000],[1436893200000,142000]]}];
+	        ChartService.connect();
         };
 
         $scope.loadAll();

@@ -7,7 +7,7 @@ angular.module('posApp')
                 parent: 'report',
                 url: '/revenue',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    roles: ['ROLE_USER'],
                     pageTitle: 'revenue.title'
                 },
                 views: {

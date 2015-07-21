@@ -38,12 +38,13 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/websocket/tracker", "/blankwebsocket/tracker")
+        registry.addEndpoint("/websocket/tracker", "/blankwebsocket/tracker", "/websocket/chart")
             .setHandshakeHandler(new DefaultHandshakeHandler() {
                 @Override
                 protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
                     Principal principal = request.getPrincipal();
                     if (principal == null) {
+                    	log.debug("Anonymous access");
                         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                         authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
                         principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
@@ -53,6 +54,19 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
             })
             .withSockJS()
             .setInterceptors(httpSessionHandshakeInterceptor());
+    	/*registry.addEndpoint("/websocket/tracker", "/blankwebsocket/tracker")
+        .setHandshakeHandler(new DefaultHandshakeHandler() {
+            @Override
+            protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                Principal principal = request.getPrincipal();
+                if (principal == null) {
+                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                    authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+                    principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
+                }
+                return principal;
+            }
+        }).addInterceptors(httpSessionHandshakeInterceptor());*/    	
     }
 
     @Bean
@@ -74,4 +88,5 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
             }
         };
     }
+    
 }

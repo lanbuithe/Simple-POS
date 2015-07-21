@@ -13,7 +13,7 @@
     "useCompass": false,
     "buildTool": "maven",
     "frontendBuilder": "grunt",
-    "javaVersion": "7",
+    "javaVersion": "8",
     "rememberMeKey": "036aa93418eedfb27f32ab1d2343460a85d1d4b9",
     "searchEngine": "no",
     "enableTranslation": true
