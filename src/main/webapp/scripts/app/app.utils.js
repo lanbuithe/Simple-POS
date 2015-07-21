@@ -30,7 +30,7 @@ angular.module('posApp')
         all: 'ALL',
         perCategory: 5,
         perItem: 24,
-        openshift: 'openshift'
+        openShift: 'openshift'
     });
 
 angular.module('posApp')

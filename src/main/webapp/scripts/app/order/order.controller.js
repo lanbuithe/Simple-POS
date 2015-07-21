@@ -2,7 +2,7 @@
 
 angular.module('posApp')
     .controller('OrderController', function ($scope, $filter, $window, Principal, toaster, TableNo, 
-        ItemCategory, Item, ItemService, OrderNo, Constants, Utils, OrderService, ParseLinks) {
+        ItemCategory, Item, ItemService, Constants, Utils, OrderService, ParseLinks) {
     	
     	$scope.tables = TableNo.query();
         $scope.itemCategories = [];
@@ -67,11 +67,10 @@ angular.module('posApp')
         		init();
         	} else {
         		$scope.order.status = Constants.orderStatus.cancel;
-        		OrderNo.update($scope.order,
-	                function () {
-                        toaster.pop('success', message);                        
-        				init();
-	                });        		
+        		OrderService.updateOrder($scope.order).then(function(response) {
+                    toaster.pop('success', message);                        
+    				init();
+                });        		
         	} 
         };
         
@@ -96,7 +95,7 @@ angular.module('posApp')
                     processOrder(message, status, orderId);
                 });
             } else {
-                OrderNo.update($scope.order, function() {
+                OrderService.updateOrder($scope.order).then(function(response) {
                     processOrder(message, status, $scope.order.id);
                 });             
                 

@@ -12,7 +12,7 @@ angular.module('posApp')
                     $scope.order = response.data;
                     $timeout(function() {
                         $window.print();
-                    }, 3000);
+                    }, 1000);
                 }
             });
         };

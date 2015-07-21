@@ -40,7 +40,7 @@ public interface OrderNoRepository extends JpaRepository<OrderNo, Long>, JpaSpec
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	public OrderNo findById(Long id);
 
-	@Query(value = "select new org.pos.web.rest.dto.logic.LineChart(a.status, to_char(a.createdDate, 'yyyy-mm-dd'), sum(a.amount)) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3 group by to_char(a.createdDate, 'yyyy-mm-dd'), a.status")
+	@Query(value = "select new org.pos.web.rest.dto.logic.LineChart(a.status, to_char(a.createdDate, 'yyyy-mm-dd'), sum(a.amount)) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3 group by to_char(a.createdDate, 'yyyy-mm-dd'), a.status order by to_char(a.createdDate, 'yyyy-mm-dd') asc")
     public List<LineChart> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
 	
 }

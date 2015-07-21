@@ -46,7 +46,6 @@ angular.module('posApp')
 
         $scope.xAxisTickFormatFunction = function() {
             return function(d) {
-                //return d3.time.format('%d/%m/%Y')(moment.unix(d).toDate());
                 return d3.time.format('%d/%m/%Y')(moment(d).toDate());
             }
         };
