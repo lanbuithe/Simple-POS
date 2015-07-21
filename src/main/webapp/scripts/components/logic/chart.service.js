@@ -30,12 +30,12 @@ angular.module('posApp')
             connect: function () {
                 //building absolute path so that websocket doesnt fail when deploying with a context path
                 var loc = $window.location;
-                //var url = '//' + loc.host + loc.pathname + 'websocket/chart';
-                var url = '//' + loc.host;
+                var url = '//' + loc.host + loc.pathname + 'websocket/chart';
+                /*var url = '//' + loc.host;
                 if (CLOUD === Constants.openShift) {
                     url += ':8000';
                 }
-                url += loc.pathname + 'websocket/chart';
+                url += loc.pathname + 'websocket/chart';*/
                 var token = localStorageService.get('token');
                 if (token && token.expires_at && token.expires_at > new Date().getTime()) {
                     url += '?access_token=' + token.access_token;
