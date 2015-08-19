@@ -31,7 +31,8 @@ angular.module('posApp')
         };
 
         function getPaymentOrder() {
-            OrderService.getByStatus($scope.page, 6, Constants.orderStatus.payment, $scope.from, $scope.to).then(
+            var tableId = null;
+            OrderService.getByTableIdStatusCreatedDate($scope.page, 6, tableId, Constants.orderStatus.payment, $scope.from, $scope.to).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data) && 
                         response.data.length !== 0) {

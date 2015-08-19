@@ -37,32 +37,48 @@ public class OrderService {
     
     @Inject
     private SimpMessageSendingOperations messagingTemplate;
-    
-    public Page<OrderNo> getByStatusCreatedDate(String status, DateTime from, DateTime to, Pageable pageable) {
+
+    public Page<OrderNo> getByTableIdStatusCreatedDate(Long tableId, String status, DateTime from, DateTime to, Pageable pageable) {
     	Page<OrderNo> page = null;
     	try {
     		if (null != from && null != to) {
     			from = from.withTimeAtStartOfDay();
     			to = JodaTimeUtil.withTimeAtEndOfDay(to);
     			log.debug(String.format("case between from=%s, to=%s", from, to));
-    			page = orderNoRepository.findByStatusIsAndCreatedDateBetween(status, from, to, pageable);
+    			if (null != tableId) {
+    				page = orderNoRepository.findByTableNoIdIsAndStatusIsAndCreatedDateBetween(tableId, status, from, to, pageable);
+    			} else {
+    				page = orderNoRepository.findByStatusIsAndCreatedDateBetween(status, from, to, pageable);	
+    			}
     		} else if (null == from && null == to) {
     			log.debug("case without date");
-    			page = orderNoRepository.findByStatusIs(status, pageable);
+    			if (null != tableId) {
+    				page = orderNoRepository.findByTableNoIdIsAndStatusIs(tableId, status, pageable);
+    			} else {
+    				page = orderNoRepository.findByStatusIs(status, pageable);	
+    			}    			
     		} else if (null == from) {
     			to = JodaTimeUtil.withTimeAtEndOfDay(to);
     			log.debug(String.format("case less then equal=%s", to));
-    			page = orderNoRepository.findByStatusIsAndCreatedDateLessThanEqual(status, to, pageable);
+    			if (null != tableId) {
+    				page = orderNoRepository.findByTableNoIdIsAndStatusIsAndCreatedDateLessThanEqual(tableId, status, to, pageable);
+    			} else {
+    				page = orderNoRepository.findByStatusIsAndCreatedDateLessThanEqual(status, to, pageable);	
+    			}     			
     		} else if (null == to) {
     			from = from.withTimeAtStartOfDay();
     			log.debug(String.format("case greater than equal=%s", from));
-    			page = orderNoRepository.findByStatusIsAndCreatedDateGreaterThanEqual(status, from, pageable);
+    			if (null != tableId) {
+    				page = orderNoRepository.findByTableNoIdIsAndStatusIsAndCreatedDateGreaterThanEqual(tableId, status, from, pageable);
+    			} else {
+    				page = orderNoRepository.findByStatusIsAndCreatedDateGreaterThanEqual(status, from, pageable);	
+    			}     			
     		} 
     	} catch (Exception e) {
     		log.error("Exception", e);
     	}
     	return page;
-    }    
+    }
     
     public BigDecimal getSumAmountByStatusCreatedDate(String status, DateTime from, DateTime to) {
     	BigDecimal sumAmount = null;
@@ -91,7 +107,7 @@ public class OrderService {
     		log.error("Exception", e);
     	}
     	return sumAmount;
-    }
+    }    
     
     public List<PieChart> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
     	List<PieChart> saleItems = new ArrayList<PieChart>();
@@ -120,6 +136,35 @@ public class OrderService {
     		log.error("Exception", e);
     	}    	
     	return saleItems;
+    }    
+    
+    public List<LineChart> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
+    	List<LineChart> sales = new ArrayList<LineChart>();
+    	try {
+    		if (null != from && null != to) {
+    			from = from.withTimeAtStartOfDay();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == from && null == to) {
+    			DateTime now = new DateTime();
+    			from = now.dayOfMonth().withMinimumValue();
+    			from = from.withTimeAtStartOfDay();
+    			to = now.dayOfMonth().withMaximumValue();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == from) {
+    			from = to.dayOfMonth().withMinimumValue();
+    			from = from.withTimeAtStartOfDay();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
+    		} else if (null == to) {
+    			from = from.withTimeAtStartOfDay();
+    			DateTime now = new DateTime();
+    			to = JodaTimeUtil.withTimeAtEndOfDay(now);
+    		}
+			log.debug(String.format("case between from=%s, to=%s", from, to));
+			sales = orderNoRepository.getSaleByStatusCreatedDateBetween(status, from, to);
+    	} catch (Exception e) {
+    		log.error("Exception", e);
+    	}    	
+    	return sales;
     }
     
     @Async
@@ -153,35 +198,6 @@ public class OrderService {
     	} catch (Exception e) {
     		log.error("Exception", e);
     	}
-    }    
-    
-    public List<LineChart> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
-    	List<LineChart> sales = new ArrayList<LineChart>();
-    	try {
-    		if (null != from && null != to) {
-    			from = from.withTimeAtStartOfDay();
-    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
-    		} else if (null == from && null == to) {
-    			DateTime now = new DateTime();
-    			from = now.dayOfMonth().withMinimumValue();
-    			from = from.withTimeAtStartOfDay();
-    			to = now.dayOfMonth().withMaximumValue();
-    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
-    		} else if (null == from) {
-    			from = to.dayOfMonth().withMinimumValue();
-    			from = from.withTimeAtStartOfDay();
-    			to = JodaTimeUtil.withTimeAtEndOfDay(to);
-    		} else if (null == to) {
-    			from = from.withTimeAtStartOfDay();
-    			DateTime now = new DateTime();
-    			to = JodaTimeUtil.withTimeAtEndOfDay(now);
-    		}
-			log.debug(String.format("case between from=%s, to=%s", from, to));
-			sales = orderNoRepository.getSaleByStatusCreatedDateBetween(status, from, to);
-    	} catch (Exception e) {
-    		log.error("Exception", e);
-    	}    	
-    	return sales;
     }    
 
 }

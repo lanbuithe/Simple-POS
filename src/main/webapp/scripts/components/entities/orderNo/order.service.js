@@ -13,11 +13,12 @@ angular.module('posApp')
                 var url = 'api/orders/' + id;
                 return $http.get(url);
             },            
-            getByStatusCreatedDate: function (page, perPage, status, from, to) {
+            getByTableIdStatusCreatedDate: function (page, perPage, tableId, status, from, to) {
                 return $http.get('api/orders', { 
                     params: {
                         page: page, 
                         per_page: perPage,
+                        tableId: tableId,
                         status: status,
                         from: from,
                         to: to

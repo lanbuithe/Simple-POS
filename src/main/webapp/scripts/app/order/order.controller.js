@@ -10,8 +10,152 @@ angular.module('posApp')
         $scope.endCategoryIndex = Constants.perCategory - 1;
         $scope.endItemIndex = Constants.perItem - 1;
         $scope.order = {};
+        // for hold order
         $scope.holdOrders = [];
         $scope.pageHoldOrder = 1;
+        $scope.linkHoldOrders = [];
+        // for move item from order
+        $scope.moveItemFromTable = {};
+        $scope.moveItemFromOrders = [];
+        $scope.pageMoveItemFromOrder = 1;
+        $scope.linkMoveItemFromOrders = [];
+        $scope.moveItemFromOrder = {};
+        // for move item to order
+        $scope.moveItemToTable = {};
+        $scope.moveItemToOrders = [];
+        $scope.pageMoveItemToOrder = 1;
+        $scope.linkMoveItemToOrders = [];
+        $scope.moveItemToOrder = {};
+
+        $scope.moveItemQuantityBlur = function(index) {
+
+        };
+
+        $scope.changeMoveItemToTable = function() {
+            $scope.pageMoveItemToOrder = 1;
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
+                !Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
+                tableId = $scope.moveItemToTable.id;
+            }
+            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+                function(response) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+                        $scope.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
+                        $scope.moveItemToOrders = response.data;
+                        if ($scope.moveItemToOrders.length > 1) {
+                            $('#moveItemToOrderModal').modal('show');    
+                        } else {
+                            $scope.moveItemToOrder = $scope.moveItemToOrders[0];
+                        }                        
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+                    }
+            });
+        };
+
+        $scope.selectMoveItemToOrder = function(moveItemToOrder) {
+            $scope.moveItemToOrder = moveItemToOrder;
+            $('#moveItemToOrderModal').modal('hide');
+        };
+
+        $scope.loadPageMoveItemToOrder = function(page) {
+            $scope.moveItemToOrders.length = 0;
+            $scope.pageMoveItemToOrder = page;
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
+                !Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
+                tableId = $scope.moveItemToTable.id;
+            }           
+            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+                function(response) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+                        $scope.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
+                        $scope.moveItemToOrders = response.data;
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+                    }
+            });
+        };
+
+        function copyQuantityOrderDetail(order) {
+            if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
+                order.details.length > 0) {
+                angular.forEach(order.details, function(orderDetail) {
+                    orderDetail.tmpQuantity = angular.copy(orderDetail.quantity);
+                });
+            }
+        }; 
+
+        $scope.changeMoveItemFromTable = function() {
+            $scope.pageMoveItemFromOrder = 1;
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
+                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
+                tableId = $scope.moveItemFromTable.id;
+            }
+            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+                function(response) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+                        $scope.moveItemFromOrders = response.data;
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+                    }
+            });
+        };
+
+        $scope.selectMoveItemFromOrder = function(moveItemFromOrder) {
+            $scope.moveItemFromOrder = moveItemFromOrder;
+            copyQuantityOrderDetail($scope.moveItemFromOrder);
+            $('#moveItemFromOrderModal').modal('hide');
+            $('#moveItemModal').modal('show');
+        };
+
+        $scope.loadPageMoveItemFromOrder = function(page) {
+            $scope.moveItemFromOrders.length = 0;
+            $scope.pageMoveItemFromOrder = page;
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
+                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
+                tableId = $scope.moveItemFromTable.id;
+            }           
+            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+                function(response) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+                        $scope.moveItemFromOrders = response.data;
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+                    }
+            });
+        };
+
+        $scope.openMoveItem = function() {
+            $scope.pageMoveItemOrder = 1;
+            $scope.moveItemFromTable = $scope.order.tableNo;
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
+                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
+                tableId = $scope.moveItemFromTable.id;
+            }
+            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+                function(response) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+                        $scope.moveItemFromOrders = response.data;
+                        if ($scope.moveItemFromOrders.length > 1) {
+                            $('#moveItemFromOrderModal').modal('show');    
+                        } else {
+                            $scope.moveItemFromOrder = $scope.moveItemFromOrders[0];
+                            copyQuantityOrderDetail($scope.moveItemFromOrder);
+                            $('#moveItemModal').modal('show');
+                        }
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+                    }
+            });
+        };        
 
         $scope.selectHoldOrder = function(holdOrder) {
             $scope.order = holdOrder;
@@ -22,24 +166,33 @@ angular.module('posApp')
         $scope.loadPageHoldOrder = function(page) {
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = page;
-            OrderService.getByStatusCreatedDate($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
+            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, $scope.order.tableNo.id, Constants.orderStatus.hold, null, null).then(
                 function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data)) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
                         $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
                         $scope.holdOrders = response.data;
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
                     }
             });
         };        
 
         $scope.openHoldOrder = function() {
+            var tableId = null;
+            if (!Utils.isUndefinedOrNull($scope.order) 
+                && !Utils.isUndefinedOrNull($scope.order.tableNo)) {
+                tableId = $scope.order.tableNo.id;
+            }
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = 1;
-            OrderService.getByStatusCreatedDate($scope.pageHoldOrder, 6, Constants.orderStatus.hold).then(
+            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
                 function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data)) {
+                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
                         $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
                         $scope.holdOrders = response.data;
                         $('#holdOrderModal').modal('show');
+                    } else {
+                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
                     }
             });
         };

@@ -89,4 +89,14 @@ public class OrderNoRepositoryTest {
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);    	
     }
     
+	@Test
+	public void testFindByTableNoIdIsAndStatusIsAndCreatedDateBetween() {
+		Long tableId = 2L;
+    	DateTime from = new DateTime("2015-06-01T00:00:00.000+07:00");
+    	DateTime to = new DateTime("2015-07-31T00:00:00.000+07:00");
+		Page<OrderNo> page = orderNoRepository.findByTableNoIdIsAndStatusIsAndCreatedDateBetween(tableId, OrderStatus.HOLD.name(), from, to, PaginationUtil.generatePageRequest(1, 2));
+		assertThat(page).isNotNull();
+		assertThat(page.getContent()).isNotNull().isNotEmpty();		
+	}    
+    
 }

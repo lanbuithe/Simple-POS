@@ -9,9 +9,13 @@ README for Simple POS
 
 * Go to repo directory cd app-root/repo
 
-* Initialize git git init
+* git clone <git url>
+
+* Go to <git directory>
+
+* git remote add upstream <git url> 
  
-* Get source git pull -s recursive -X theirs upstream master
+* git pull -s recursive -X theirs upstream master
 
 * git update-index --chmod=+x .openshift/action_hooks/*
 
@@ -20,3 +24,5 @@ curl -v -H 'Content-Type: application/x-www-form-urlencoded' -u posapp:mySecretO
 
 ### Get hold order
 curl -v -H 'Content-Type: application/json' -X GET 'http://localhost:8080/api/orders?status=HOLD' -H 'Authorization: Bearer 9f79de77-bbad-47a5-838a-664a0cbefce6'
+
+

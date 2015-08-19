@@ -53,7 +53,7 @@ angular.module('posApp')
                     }).result.then(function(result) {
                         $state.go('user', null, { reload: true });
                     }, function() {
-                        $state.go('user');
+                        $state.go('^');
                     })
                 }]
             })

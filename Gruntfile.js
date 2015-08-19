@@ -316,7 +316,8 @@ module.exports = function (grunt) {
                 },
                 constants: {
                     ENV: 'dev',
-                    VERSION: parseVersionFromPomXml()
+                    VERSION: parseVersionFromPomXml(),
+                    CLOUD: 'none'
                 }
             },
             prod: {
@@ -325,7 +326,8 @@ module.exports = function (grunt) {
                 },
                 constants: {
                     ENV: 'prod',
-                    VERSION: parseVersionFromPomXml()
+                    VERSION: parseVersionFromPomXml(),
+                    CLOUD: 'none'
                 }
             },
             openshift: {

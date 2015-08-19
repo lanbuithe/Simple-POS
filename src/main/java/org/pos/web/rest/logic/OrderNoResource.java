@@ -183,19 +183,20 @@ public class OrderNoResource {
     }
     
     /**
-     * GET  /orders -> get all the orders by status, created date.
+     * GET  /orders -> get all the orders by table id, status, created date.
      */
     @RequestMapping(value = "/orders",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<OrderNo>> getByStatusCreatedDate(@RequestParam(value = "page" , required = false) Integer offset,
+    public ResponseEntity<List<OrderNo>> getByTableIdStatusCreatedDate(@RequestParam(value = "page" , required = false) Integer offset,
     		@RequestParam(value = "per_page", required = false) Integer limit, 
+    		@RequestParam(value = "tableId", required = false) Long tableId,
     		@RequestParam(value = "status", required = false) String status,
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to)
         throws URISyntaxException {
-        Page<OrderNo> page = orderService.getByStatusCreatedDate(status, from, to, PaginationUtil.generatePageRequest(offset, limit));
+        Page<OrderNo> page = orderService.getByTableIdStatusCreatedDate(tableId, status, from, to, PaginationUtil.generatePageRequest(offset, limit));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/orders", offset, limit);
         return new ResponseEntity<List<OrderNo>>(page.getContent(), headers, HttpStatus.OK);
     }   

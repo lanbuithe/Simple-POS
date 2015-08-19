@@ -1,5 +1,12 @@
 {
 	"common": {
-		"all": "Tất cả"
+		"all": "Tất cả",
+		"messages": {
+			"info": {
+				"data": {
+					"notFound": "Dữ liệu không tìm thấy!"
+				}
+			}
+		}
 	}
 }

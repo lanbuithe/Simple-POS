@@ -22,11 +22,20 @@ public interface OrderNoRepository extends JpaRepository<OrderNo, Long>, JpaSpec
 	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
 	public Page<OrderNo> findByStatusIs(String status, Pageable pageable);
 	
+	@EntityGraph(value = "orderWithDetails", type = EntityGraphType.FETCH)
+	public Page<OrderNo> findByTableNoIdIsAndStatusIs(Long tableId, String status, Pageable pageable);	
+	
 	public Page<OrderNo> findByStatusIsAndCreatedDateBetween(String status, DateTime from, DateTime to, Pageable pageable);
 	
 	public Page<OrderNo> findByStatusIsAndCreatedDateLessThanEqual(String status, DateTime createdDate, Pageable pageable);
 	
 	public Page<OrderNo> findByStatusIsAndCreatedDateGreaterThanEqual(String status, DateTime createdDate, Pageable pageable);
+	
+	public Page<OrderNo> findByTableNoIdIsAndStatusIsAndCreatedDateBetween(Long tableId, String status, DateTime from, DateTime to, Pageable pageable);
+	
+	public Page<OrderNo> findByTableNoIdIsAndStatusIsAndCreatedDateLessThanEqual(Long tableId, String status, DateTime createdDate, Pageable pageable);
+	
+	public Page<OrderNo> findByTableNoIdIsAndStatusIsAndCreatedDateGreaterThanEqual(Long tableId, String status, DateTime createdDate, Pageable pageable);
 	
 	@Query(value = "select sum(a.amount) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3")
     public BigDecimal getSumAmountByStatusCreatedDateBetween(String status, DateTime from, DateTime to);

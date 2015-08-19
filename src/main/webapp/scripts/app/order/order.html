@@ -7,11 +7,16 @@
 <div class="well well-sm" id="leftdiv">
 
 	<div id="lefttop">
-        <select class="form-control input-sm" style="margin-bottom: 10px;width: 244px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables track by table.id" ng-required="true">
+        <select class="form-control input-sm" style="margin-bottom: 10px;width: 120px;float: left" name="table" ng-model="order.tableNo" ng-options="table as table.name for table in tables track by table.id" ng-required="true">
         </select>
+
         <button type="button" class="btn btn-primary btn-sm" style="margin-left: 12px" data-toggle="modal" ng-click="openHoldOrder()">
-			<span translate="order.showHoldOrder"></span>
+			<span translate="order.showHoldOrder">Show Hold Order</span>
 		</button>
+
+        <button type="button" class="btn btn-warning btn-sm" style="margin-left: 12px" data-toggle="modal" ng-click="openMoveItem()">
+			<span translate="order.moveItem">Move Item</span>
+		</button>		
 	</div>
 	
 	<div id="print">
@@ -30,7 +35,7 @@
 		<div id="prodiv">
 			<div id="protbldiv" class="nano">
 				<div class="content">
-                	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-striped table-condensed table-hover protable"  id="saletbl" style="margin:0;">
+                	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-striped table-condensed table-hover protable" id="saletbl" style="margin:0;">
                     	<tbody>
 			                <tr ng-repeat="orderDetail in order.details track by $index">
 			                	<!-- Issue https://github.com/angular/angular.js/issues/12161 -->
@@ -69,33 +74,37 @@
 	        <table id="totaltbl" class="table table-striped table-condensed totals" style="margin-bottom:10px;">
 	        	<tbody>
 	            	<tr class="success">
-	                  <td width="25%" translate="order.totalQuantity">Total Items</td>
-	                  <td><span id="count" ng-bind="order.quantity"></span></td>
-	                  <td width="25%" translate="order.totalAmount">Total</td>
-	                  <td class="text_right" colspan="2"><span id="total" number-format="order.amount"></span></td>
+						<td width="25%" translate="order.totalQuantity">Total Items</td>
+						<td><span id="count" ng-bind="order.quantity"></span></td>
+						<td width="25%" translate="order.totalAmount">Total</td>
+						<td class="text_right" colspan="2"><span id="total" number-format="order.amount"></span></td>
 	                </tr>
 	            	<tr class="success">
-	                  <td width="25%">
-	                  	<span translate="order.discount">Discount</span>
-	                  	<!-- 
-	                  	<a href="#" id="add_discount" style="color:#FFF; font-size:0.80em">
-	                  		<i class="glyphicon glyphicon-pencil"></i>
-	                  	</a>
-	                  	 -->
-	                  </td>
-	                  <td><span id="ds_con" ng-bind="total.discount"></span></td>
-	                  <td width="25%">
-	                  	<span translate="order.tax">Tax</span>
-	                  	<!--                            
-	                  	<a href="#" id="add_tax" style="color:#FFF; font-size:0.80em">
-	                  		<i class="glyphicon glyphicon-pencil"></i>
-	                  	</a>
-	                  	 -->
-	                  </td>
-	                  <td class="text_right"><span id="ts_con" ng-bind="total.tax"></span></td>
+		                <td width="25%">
+		                  	<span translate="order.discount">Discount</span>
+		                  	<!-- 
+		                  	<a href="#" id="add_discount" style="color:#FFF; font-size:0.80em">
+		                  		<i class="glyphicon glyphicon-pencil"></i>
+		                  	</a>
+		                  	 -->
+		                </td>
+
+		                <td><span id="ds_con" ng-bind="total.discount"></span></td>
+
+		                <td width="25%">
+		                  	<span translate="order.tax">Tax</span>
+		                  	<!--                            
+		                  	<a href="#" id="add_tax" style="color:#FFF; font-size:0.80em">
+		                  		<i class="glyphicon glyphicon-pencil"></i>
+		                  	</a>
+		                  	 -->
+		                </td>
+
+		                <td class="text_right"><span id="ts_con" ng-bind="total.tax"></span></td>
 	                </tr>
 	            	<tr class="success">
 	                  <td colspan="2" translate="order.totalPayable">Total Payable</td>
+
 	                  <td class="text_right" colspan="2"><span id="total-payable" number-format="total.payable"></span></td>
 	                </tr>
 	          	</tbody>
@@ -180,7 +189,7 @@
             <div class="modal-body" style="padding-bottom:10px;">
             	<div class="html_con">
             		<ul class="ob">
-						<li ng-repeat="holdOrder in holdOrders">
+						<li ng-repeat="holdOrder in holdOrders track by holdOrder.id">
 							<button type="button" class="btn btn-info sus_sale" ng-click="selectHoldOrder(holdOrder)">
 								<strong>
 									<span ng-bind="holdOrder.tableNo.name"></span>
@@ -227,6 +236,262 @@
 		        				<a href="">&gt;&gt;</a>
 		        			</li>		        			
 		        		</ul>
+		        	</div>
+		      	</center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="moveItemFromOrderModal" tabindex="-1" role="dialog" aria-labelledby="moveItemFromOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+		    <div class="modal-header modal-primary">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+		      		<i class="glyphicon glyphicon-remove"></i>
+		      	</button>
+		      	<h4 class="modal-title" id="holdOrderLabel" translate="order.hold">Hold Order</h4>
+		    </div>        
+            <div class="modal-body" style="padding-bottom:10px;">
+            	<div class="html_con">
+            		<div class="form-inline">
+            			<label translate="order.selectTable" for="table"></label>
+            			<div class="form-group">
+							<select class="form-control input-sm" name="table" ng-model="moveItemFromTable" ng-options="table as table.name for table in tables track by table.id" ng-change="changeMoveItemFromTable()">
+	        			</select>
+	        			</div>	
+            		</div>            	
+            		<ul class="ob">
+						<li ng-repeat="moveItemFromOrder in moveItemFromOrders track by moveItemFromOrder.id">
+							<button type="button" class="btn btn-info sus_sale" ng-click="selectMoveItemFromOrder(moveItemFromOrder)">
+								<strong>
+									<span ng-bind="moveItemFromOrder.tableNo.name"></span>
+								</strong>
+								<br><span translate="order.createdDate">Created date</span> {{moveItemFromOrder.createdDate | amDateFormat: constants.dateTimePattern}}
+								<br><span translate="order.totalQuantity">Total quantity</span> {{moveItemFromOrder.quantity}}
+								<br><span translate="order.totalAmount">Total amount</span> <span number-format="moveItemFromOrder.amount"></span>
+							</button>
+						</li>
+            		</ul>
+            	</div>
+            	<div class="clearfix"></div>
+            </div>
+            
+            <div class="modal-footer">
+		    	<center>
+		        	<div class="page_con">
+		        		<ul class="pagination pagination-sm">
+		        			<li ng-show="linkMoveItemFromOrders['first']" ng-click="loadPageMoveItemFromOrder(linkMoveItemFromOrders['first'])">
+		        				<a href="">&lt;&lt;</a>
+		        			</li>
+		        			<li ng-show="linkMoveItemFromOrders['prev']" ng-click="loadPageMoveItemFromOrder(linkMoveItemFromOrders['prev'])">
+		        				<a href="">&lt;</a>
+		        			</li>
+			                <li ng-show="pageMoveItemFromOrder > 2" ng-click="loadPageMoveItemFromOrder(pageMoveItemFromOrder - 2)">
+			                	<a>{{pageMoveItemFromOrder - 2}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemFromOrder > 1" ng-click="loadPageMoveItemFromOrder(pageMoveItemFromOrder - 1)">
+			                	<a>{{pageMoveItemFromOrder - 1}}</a>
+			                </li>
+			                <li class="active">
+			                	<a>{{pageMoveItemFromOrder}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemFromOrder < linkMoveItemFromOrders['last']" ng-click="loadPageMoveItemFromOrder(pageMoveItemFromOrder + 1)">
+			                	<a>{{pageMoveItemFromOrder + 1}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemFromOrder < linkMoveItemFromOrders['last'] - 1" ng-click="loadPageMoveItemFromOrder(pageMoveItemFromOrder + 2)">
+			                	<a>{{pageMoveItemOrder + 2}}</a>
+			                </li> 			
+		        			<li ng-show="linkMoveItemFromOrders['next']" ng-click="loadPageMoveItemFromOrder(linkMoveItemFromOrders['next'])">
+		        				<a href="">&gt;</a>
+		        			</li>
+		        			<li ng-show="linkHMoveItemFromOrders['last']" ng-click="loadPageMoveItemOFromrder(linkMoveItemFromOrders['last'])">
+		        				<a href="">&gt;&gt;</a>
+		        			</li>		        			
+		        		</ul>
+		        	</div>
+		      	</center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="moveItemToOrderModal" tabindex="-1" role="dialog" aria-labelledby="moveItemToOrderLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+		    <div class="modal-header modal-primary">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+		      		<i class="glyphicon glyphicon-remove"></i>
+		      	</button>
+		      	<h4 class="modal-title" id="holdOrderLabel" translate="order.hold">Hold Order</h4>
+		    </div>        
+            <div class="modal-body" style="padding-bottom:10px;">
+            	<div class="html_con">          	
+            		<ul class="ob">
+						<li ng-repeat="moveItemToOrder in moveItemToOrders track by moveItemToOrder.id">
+							<button type="button" class="btn btn-info sus_sale" ng-click="selectMoveItemToOrder(moveItemToOrder)">
+								<strong>
+									<span ng-bind="moveItemToOrder.tableNo.name"></span>
+								</strong>
+								<br><span translate="order.createdDate">Created date</span> {{moveItemToOrder.createdDate | amDateFormat: constants.dateTimePattern}}
+								<br><span translate="order.totalQuantity">Total quantity</span> {{moveItemToOrder.quantity}}
+								<br><span translate="order.totalAmount">Total amount</span> <span number-format="moveItemToOrder.amount"></span>
+							</button>
+						</li>
+            		</ul>
+            	</div>
+            	<div class="clearfix"></div>
+            </div>
+            
+            <div class="modal-footer">
+		    	<center>
+		        	<div class="page_con">
+		        		<ul class="pagination pagination-sm">
+		        			<li ng-show="linkMoveItemToOrders['first']" ng-click="loadPageMoveItemToOrder(linkMoveItemToOrders['first'])">
+		        				<a href="">&lt;&lt;</a>
+		        			</li>
+		        			<li ng-show="linkMoveItemToOrders['prev']" ng-click="loadPageMoveItemToOrder(linkMoveItemToOrders['prev'])">
+		        				<a href="">&lt;</a>
+		        			</li>
+			                <li ng-show="pageMoveItemToOrder > 2" ng-click="loadPageMoveItemToOrder(pageMoveItemToOrder - 2)">
+			                	<a>{{pageMoveItemToOrder - 2}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemToOrder > 1" ng-click="loadPageMoveItemToOrder(pageMoveItemToOrder - 1)">
+			                	<a>{{pageMoveItemToOrder - 1}}</a>
+			                </li>
+			                <li class="active">
+			                	<a>{{pageMoveItemToOrder}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemToOrder < linkMoveItemToOrders['last']" ng-click="loadPageMoveItemToOrder(pageMoveItemToOrder + 1)">
+			                	<a>{{pageMoveItemToOrder + 1}}</a>
+			                </li>
+			                <li ng-show="pageMoveItemToOrder < linkMoveItemToOrders['last'] - 1" ng-click="loadPageMoveItemToOrder(pageMoveItemToOrder + 2)">
+			                	<a>{{pageMoveItemOrder + 2}}</a>
+			                </li> 			
+		        			<li ng-show="linkMoveItemToOrders['next']" ng-click="loadPageMoveItemToOrder(linkMoveItemToOrders['next'])">
+		        				<a href="">&gt;</a>
+		        			</li>
+		        			<li ng-show="linkHMoveItemToOrders['last']" ng-click="loadPageMoveItemOTorder(linkMoveItemToOrders['last'])">
+		        				<a href="">&gt;&gt;</a>
+		        			</li>		        			
+		        		</ul>
+		        	</div>
+		      	</center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="moveItemModal" tabindex="-1" role="dialog" aria-labelledby="moveItemLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+		    <div class="modal-header modal-primary">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+		      		<i class="glyphicon glyphicon-remove"></i>
+		      	</button>
+		      	<h4 class="modal-title" id="moveItemLabel" translate="order.moveItem">Move Item</h4>
+		    </div>        
+            <div class="modal-body" style="padding-bottom:10px;">
+            	<div class="html_con">
+            		<div class="form-inline col-md-offset-6">
+            			<label translate="order.selectTable" for="table"></label>
+            			<div class="form-group">
+							<select class="form-control input-sm" name="table" ng-model="moveItemToTable" ng-options="table as table.name for table in tables track by table.id" ng-change="changeMoveItemToTable()"></select>
+	        			</div>         			
+            		</div>
+            		<div class="row">
+            			<div class="col-md-6">
+							<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-striped table-condensed table-hover miantable" style="margin:5px 0 0 0;">
+								<thead>
+									<tr class="success">
+								    	<th style="width: 9%" class="satu">X</th>
+										<th translate="order.item">Item</th>
+										<th style="width: 12%" translate="order.quantity">Qty</th>
+										<th style="width: 24%" translate="order.amount">Amount</th>
+										<th style="width:19px; padding:0;">&nbsp;</th>
+									</tr>
+								</thead>			
+							</table>            			
+							<div id="prodiv">
+								<div id="protbldiv" class="nano">
+									<div class="content">
+					                	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-striped table-condensed table-hover protable" id="saletbl" style="margin:0;">
+					                    	<tbody>
+								                <tr ng-repeat="orderDetail in moveItemFromOrder.details track by $index">
+								                	<!-- Issue https://github.com/angular/angular.js/issues/12161 -->
+								                	<td class="satu" style="width: 9%;">
+								                		<button type="button" class="del_row" ng-click="removeOrderDetail($index)">
+								                			<i class="glyphicon glyphicon-remove-circle"></i>
+								                		</button>
+								                	</td>
+
+								                    <td style="width: 43%;">
+														<button type="button" class="btn btn-warning btn-block btn-xs prod_name tip text-left">
+															{{orderDetail.item.name}}
+														</button>             
+								                    </td>
+								                    
+								                    <td style="width: 22%; text-align:center;" ng-form="orderDetailForm">
+								                   		<input type="number" class="keyboard nkb-input" name="quantity"
+								                        	ng-model="orderDetail.tmpQuantity" ng-required="true" min="1" ng-blur="moveItemQuantityBlur($index)" ng-class="{'has-error': orderDetailForm.quantity.$invalid}" />
+								                    </td>
+
+								                    <td style="width: 26%;" class="text-right">
+								                    	<span ng-bind="orderDetail.amount"></span>
+								                    </td>
+								                </tr>                    		
+					                   		</tbody>
+					                	</table>					
+									</div>
+									
+									<div style="clear:both;"></div>
+								</div>
+							</div>            				
+            			</div>
+            			<div class="col-md-6">
+                                <div id="protbldiv" class="nano">
+                                    <div class="content">
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-striped table-condensed table-hover protable" id="saletbl" style="margin:0;">
+                                            <tbody>
+                                                <tr ng-repeat="orderDetail in moveItemToOrder.details track by $index">
+                                                    <!-- Issue https://github.com/angular/angular.js/issues/12161 -->
+                                                    <td class="satu" style="width: 9%;">
+                                                        <button type="button" class="del_row" ng-click="removeOrderDetail($index)">
+                                                            <i class="glyphicon glyphicon-remove-circle"></i>
+                                                        </button>
+                                                    </td>
+
+                                                    <td style="width: 53%;">
+                                                        <button type="button" class="btn btn-warning btn-block btn-xs prod_name tip text-left">
+                                                            {{orderDetail.item.name}}
+                                                        </button>             
+                                                    </td>
+                                                    
+                                                    <td style="width: 12%; text-align:center;">
+                                                        <span ng-bind="orderDetail.quantity"></span>
+                                                    </td>
+
+                                                    <td style="width: 26%;" class="text-right">
+                                                        <span ng-bind="orderDetail.amount"></span>
+                                                    </td>
+                                                </tr>                           
+                                            </tbody>
+                                        </table>                    
+                                    </div>
+                                    
+                                    <div style="clear:both;"></div>
+                                </div>
+                            </div>            				
+            			</div>
+            		</div>
+            	</div>
+            	<div class="clearfix"></div>
+            </div>
+            
+            <div class="modal-footer">
+		    	<center>
+		        	<div class="page_con">
+
 		        	</div>
 		      	</center>
             </div>

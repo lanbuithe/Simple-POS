@@ -17,6 +17,7 @@ angular.module('posApp')
                 },
                 resolve: {
                     mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                        $translatePartialLoader.addPart('common');
                         $translatePartialLoader.addPart('global');
                         $translatePartialLoader.addPart('order');
                         $translatePartialLoader.addPart('revenue');
