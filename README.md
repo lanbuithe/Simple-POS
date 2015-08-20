@@ -5,7 +5,7 @@ README for Simple POS
 
 * Installing the OpenShift Client Tools https://developers.openshift.com/en/managing-client-tools.html
 
-* Login to OpenShift rhc ssh '<app name>'
+* Login to OpenShift rhc ssh '<'app name'>'
 
 * Go to repo directory cd app-root/repo
 
