@@ -27,7 +27,7 @@ angular.module('posApp')
         $scope.linkMoveItemToOrders = [];
         $scope.moveItemToOrder = {};
 
-        $scope.moveItemQuantityBlur = function(index) {
+        $scope.moveItem = function() {
 
         };
 
@@ -144,6 +144,7 @@ angular.module('posApp')
                     if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
                         $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
                         $scope.moveItemFromOrders = response.data;
+                        $scope.moveItemToTable = {};
                         if ($scope.moveItemFromOrders.length > 1) {
                             $('#moveItemFromOrderModal').modal('show');    
                         } else {

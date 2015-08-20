@@ -7,6 +7,9 @@
 					"notFound": "Dữ liệu không tìm thấy!"
 				}
 			}
+		},
+		"action": {
+			"accept": "Đồng ý"
 		}
 	}
 }
