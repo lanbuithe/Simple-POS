@@ -27,8 +27,65 @@ angular.module('posApp')
         $scope.linkMoveItemToOrders = [];
         $scope.moveItemToOrder = {};
 
-        $scope.moveItem = function() {
+        $scope.acceptMoveItem = function() {
+            var moveItemOrders = [$scope.moveItemFromOrder, $scope.moveItemToOrder];
+            OrderService.moveItem(moveItemOrders).then(function(response) {
+                if (response.data) {
+                    if ($scope.order.id === $scope.moveItemFromOrder.id) {
+                        if (Utils.isUndefinedOrNull($scope.moveItemFromOrder.details) || 
+                            $scope.moveItemFromOrder.details.length === 0) {
+                            init();
+                        } else {
+                            $scope.order = angular.copy($scope.moveItemFromOrder);
+                        }
+                    }
+                    toaster.pop('success', $filter('translate')('order.messages.info.order.move.item.successfully'));
+                    $('#moveItemModal').modal('hide');
+                } else {
+                    toaster.pop('warning', $filter('translate')('order.messages.info.order.move.item.failed'));
+                }
+            });            
+        };
 
+        function sumOrder(order) {
+            angular.forEach($scope.order.details, function(orderDetail) {
+                order.amount += orderDetail.amount;
+                order.quantity += orderDetail.quantity;
+                // for function addOrderDetail
+                orderDetail.itemId = orderDetail.item.id;
+            });
+            order.discountAmount = order.discount * order.amount;
+            order.taxAmount = order.tax * order.amount;
+        };
+
+        $scope.moveItem = function() {
+            if (Utils.isUndefinedOrNull($scope.moveItemToOrder.details)) {
+                toaster.pop('warning', $filter('translate')('order.messages.info.order.select'));
+                return;
+            }
+            var fromOrderDetails = _.where($scope.moveItemFromOrder.details, {selected: true});
+            var toOrderDetail = null;
+            if (!Utils.isUndefinedOrNull(fromOrderDetails) && fromOrderDetails.length > 0) {
+                angular.forEach(fromOrderDetails, function(fromOrderDetail) {
+                    toOrderDetail = _.findWhere($scope.toMoveItemOrder, {itemId: fromOrderDetail.itemId});
+                    if (Utils.isUndefinedOrNull(toOrderDetail)) {
+                        toOrderDetail = angular.copy(fromOrderDetail);
+                        toOrderDetail.quantity = angular.copy(toOrderDetail.tmpQuantity);
+                        $scope.moveItemToOrder.details.push(toOrderDetail);
+                    } else {
+                        toOrderDetail.quantity = toOrderDetail.quantity + toOrderDetail.tmpQuantity;
+                    }
+                    toOrderDetail.amount = toOrderDetail.quantity * toOrderDetail.item.price;
+                    fromOrderDetail.quantity = fromOrderDetail.quantity - fromOrderDetail.tmpQuantity;
+                    fromOrderDetail.tmpQuantity = angular.copy(fromOrderDetail.quantity);
+                    fromOrderDetail.amount = fromOrderDetail.quantity * fromOrderDetail.item.price;
+                    if (fromOrderDetail.quantity <= 0) {
+                        $scope.moveItemFromOrder.details = _.without($scope.moveItemFromOrder.details, _.findWhere($scope.moveItemFromOrder.details, {quantity: fromOrderDetail.quantity})); 
+                    }
+                });
+            } else {
+                toaster.pop('warning', $filter('translate')('order.messages.info.order.item.select'));
+            }
         };
 
         $scope.changeMoveItemToTable = function() {
@@ -47,6 +104,7 @@ angular.module('posApp')
                             $('#moveItemToOrderModal').modal('show');    
                         } else {
                             $scope.moveItemToOrder = $scope.moveItemToOrders[0];
+                            copyItemIdOrderDetail($scope.moveItemToOrder);
                         }                        
                     } else {
                         toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
@@ -56,7 +114,17 @@ angular.module('posApp')
 
         $scope.selectMoveItemToOrder = function(moveItemToOrder) {
             $scope.moveItemToOrder = moveItemToOrder;
+            copyItemIdOrderDetail($scope.moveItemToOrder);
             $('#moveItemToOrderModal').modal('hide');
+        };
+
+        function copyItemIdOrderDetail(order) {
+            if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
+                order.details.length > 0) {
+                angular.forEach(order.details, function(orderDetail) {
+                    orderDetail.itemId = angular.copy(orderDetail.item.id);
+                });
+            }            
         };
 
         $scope.loadPageMoveItemToOrder = function(page) {
@@ -83,6 +151,7 @@ angular.module('posApp')
                 order.details.length > 0) {
                 angular.forEach(order.details, function(orderDetail) {
                     orderDetail.tmpQuantity = angular.copy(orderDetail.quantity);
+                    orderDetail.itemId = angular.copy(orderDetail.item.id);
                 });
             }
         }; 
@@ -145,11 +214,14 @@ angular.module('posApp')
                         $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
                         $scope.moveItemFromOrders = response.data;
                         $scope.moveItemToTable = {};
+                        $scope.moveItemToOrder = {};
                         if ($scope.moveItemFromOrders.length > 1) {
                             $('#moveItemFromOrderModal').modal('show');    
                         } else {
                             $scope.moveItemFromOrder = $scope.moveItemFromOrders[0];
                             copyQuantityOrderDetail($scope.moveItemFromOrder);
+                            $scope.moveItemToTable = {};
+                            $scope.moveItemToOrder = {};
                             $('#moveItemModal').modal('show');
                         }
                     } else {
@@ -275,6 +347,8 @@ angular.module('posApp')
                 // for function addOrderDetail
                 orderDetail.itemId = orderDetail.item.id;
         	});
+            $scope.order.discountAmount = $scope.order.discount * $scope.order.amount;
+            $scope.order.taxAmount = $scope.order.tax * $scope.order.amount;
         	$scope.total.payable = $scope.order.amount - $scope.total.discount + $scope.total.tax;
         };
         
@@ -324,12 +398,12 @@ angular.module('posApp')
             $scope.order = {
                 quantity: 0,
             	amount: 0,
+                discount: 0,
+                tax: 0,
             	details: []
             };
 
             $scope.total = {
-            	discount: 0,
-            	tax: 0,
             	payable: 0
             };        	
         };

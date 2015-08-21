@@ -22,14 +22,18 @@
                 "order": {
                     "cancel": "Hủy đặt món thành công",
                     "hold": "Tạm tính đặt món thành công",
-                    "pay": "Thanh toán đặt món thành công"
+                    "pay": "Thanh toán đặt món thành công",
+                    "select": "Vui lòng chọn đặt món",
+                    "item.select": "Vui lòng chọn món",
+                    "move.item.successfully": "Chuyển món thành công"
                 }
             },
             "error": {
                 "order": {
                     "cancel": "Hủy đặt món không thành công",
                     "hold": "Tạm tính đặt món không thành công",
-                    "pay": "Thanh toán đặt món không thành công"
+                    "pay": "Thanh toán đặt món không thành công",
+                    "move.item.failed": "Chuyển món không thành công"
                 }                
             }
         }

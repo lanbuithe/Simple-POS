@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.pos.domain.Authority;
 import org.pos.domain.User;
 import org.pos.repository.AuthorityRepository;

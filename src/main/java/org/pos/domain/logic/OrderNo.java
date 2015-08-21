@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
@@ -79,6 +80,18 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     
     @Column(name = "quantity")
     private Integer quantity = 1;
+    
+    @Column(name = "discount")
+    private Integer discount = 0;
+    
+    @Column(name = "discount_amount")
+    private BigDecimal discountAmount = new BigDecimal(0);
+    
+    @Column(name = "tax")
+    private Integer tax = 0;
+    
+    @Column(name = "tax_amount")
+    private BigDecimal taxAmount = new BigDecimal(0);
 
     public Long getId() {
         return id;
@@ -136,6 +149,38 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 		this.quantity = quantity;
 	}
 	
+	public Integer getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Integer discount) {
+		this.discount = discount;
+	}
+
+	public BigDecimal getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(BigDecimal discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+
+	public Integer getTax() {
+		return tax;
+	}
+
+	public void setTax(Integer tax) {
+		this.tax = tax;
+	}
+
+	public BigDecimal getTaxAmount() {
+		return taxAmount;
+	}
+
+	public void setTaxAmount(BigDecimal taxAmount) {
+		this.taxAmount = taxAmount;
+	}
+
 	private void pre() {
 		if (null != this.tableNo) {
 			this.tableName = this.tableNo.getName();
@@ -185,13 +230,14 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderNo{" +
+        /*return "OrderNo{" +
                 "id=" + id +
                 ", amount='" + amount + "'" +
                 ", status='" + status + "'" +
                 ", table name='" + tableName + "'" +
                 ", quantity='" + quantity + "'" +
-                '}';
+                '}';*/
+    	return ToStringBuilder.reflectionToString(this);
     }
 
 }

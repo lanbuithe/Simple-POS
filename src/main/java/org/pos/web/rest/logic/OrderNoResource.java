@@ -238,10 +238,10 @@ public class OrderNoResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> moveItem(@RequestBody List<OrderNo> orderNos) throws URISyntaxException {
+    public ResponseEntity<Boolean> moveItem(@RequestBody List<OrderNo> orderNos) {
         log.debug("REST request to move items of order");
-        orderNoRepository.save(orderNos);
-        return ResponseEntity.ok().build();
+        boolean result = orderService.moveItem(orderNos);
+        return new ResponseEntity<Boolean>(result, HttpStatus.OK);
     }    
     
 }

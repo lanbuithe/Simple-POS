@@ -6,11 +6,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
 import org.pos.domain.logic.OrderNo;
 import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
 import org.pos.util.JodaTimeUtil;
+import org.pos.util.OrderStatus;
 import org.pos.web.rest.dto.logic.LineChart;
 import org.pos.web.rest.dto.logic.PieChart;
 import org.pos.web.websocket.dto.logic.ChartDTO;
@@ -165,6 +167,27 @@ public class OrderService {
     		log.error("Exception", e);
     	}    	
     	return sales;
+    }
+    
+    public boolean moveItem(List<OrderNo> orderNos) {
+    	boolean result = true;
+    	try {
+    		if (CollectionUtils.isNotEmpty(orderNos)) {
+    			for (OrderNo orderNo : orderNos) {
+    				log.debug(String.format("order no=%s", orderNo.toString()));
+					if (CollectionUtils.isEmpty(orderNo.getDetails())) {
+						orderNo.setStatus(OrderStatus.CANCEL.toString());
+					}
+				}
+    			orderNoRepository.save(orderNos);
+    		} else {
+    			result = false;
+    		}
+    	} catch (Exception e) {
+    		result = false;
+    		log.error("Exception", e);
+    	}
+    	return result;
     }
     
     @Async
