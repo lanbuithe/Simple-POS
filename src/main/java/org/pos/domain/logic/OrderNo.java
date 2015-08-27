@@ -59,7 +59,7 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
+	@NotNull
     @Column(name = "amount", precision=10, scale=2, nullable = false)
     private BigDecimal amount = new BigDecimal(0);
 
@@ -79,19 +79,23 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     private String tableName;
     
     @Column(name = "quantity")
-    private Integer quantity = 1;
+    private Integer quantity = 0;
     
     @Column(name = "discount")
     private Integer discount = 0;
     
-    @Column(name = "discount_amount")
+    @Column(name = "discount_amount", precision=10, scale=2)
     private BigDecimal discountAmount = new BigDecimal(0);
     
     @Column(name = "tax")
     private Integer tax = 0;
     
-    @Column(name = "tax_amount")
+    @Column(name = "tax_amount", precision=10, scale=2)
     private BigDecimal taxAmount = new BigDecimal(0);
+    
+    @NotNull
+    @Column(name = "receivable_amount")
+    private BigDecimal receivableAmount = new BigDecimal(0);
 
     public Long getId() {
         return id;
@@ -181,20 +185,37 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 		this.taxAmount = taxAmount;
 	}
 
+	public BigDecimal getReceivableAmount() {
+		return receivableAmount;
+	}
+
+	public void setReceivableAmount(BigDecimal receivableAmount) {
+		this.receivableAmount = receivableAmount;
+	}
+
 	private void pre() {
 		if (null != this.tableNo) {
 			this.tableName = this.tableNo.getName();
 		}
-		if (CollectionUtils.isNotEmpty(details)) {
-			for (OrderDetail orderDetail : details) {
+		if (CollectionUtils.isNotEmpty(this.details)) {
+			this.amount = new BigDecimal(0);
+			this.quantity = 0;			
+			for (OrderDetail orderDetail : this.details) {
 				if (null != orderDetail.getAmount()) {
-					this.amount.add(orderDetail.getAmount());
+					this.amount = this.amount.add(orderDetail.getAmount());
 				}
 				if (null != orderDetail.getQuantity()) {
 					this.quantity += orderDetail.getQuantity();
 				}
 			}
 		}
+		if (null != this.discount && this.discount > 0) {
+			this.discountAmount =  this.amount.multiply(new BigDecimal(this.discount));
+		}
+		if (null != this.tax && this.tax > 0) {
+			this.taxAmount =  this.amount.multiply(new BigDecimal(this.tax));
+		}
+		this.receivableAmount = this.amount.subtract(this.discountAmount).add(this.taxAmount);
 	}
 	
 	@PrePersist

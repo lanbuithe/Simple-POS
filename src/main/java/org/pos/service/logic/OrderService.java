@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
+import org.pos.domain.logic.OrderDetail;
 import org.pos.domain.logic.OrderNo;
 import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
@@ -82,28 +83,28 @@ public class OrderService {
     	return page;
     }
     
-    public BigDecimal getSumAmountByStatusCreatedDate(String status, DateTime from, DateTime to) {
+    public BigDecimal getSumReceivableAmountByStatusCreatedDate(String status, DateTime from, DateTime to) {
     	BigDecimal sumAmount = null;
     	try {
     		if (null != from && null != to) {
     			from = from.withTimeAtStartOfDay();
     			to = JodaTimeUtil.withTimeAtEndOfDay(to);
     			log.debug(String.format("case between from=%s, to=%s", from, to));
-    			sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateBetween(status, from, to);
+    			sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateBetween(status, from, to);
     		} else if (null == from && null == to) {
     			DateTime now = new DateTime();
     			from = now.withTimeAtStartOfDay();
     			to = JodaTimeUtil.withTimeAtEndOfDay(now);
     			log.debug(String.format("case without date from=%s, to=%s", from, to));
-    			sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateBetween(status, from, to);
+    			sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateBetween(status, from, to);
     		} else if (null == from) {
     			to = JodaTimeUtil.withTimeAtEndOfDay(to);
     			log.debug(String.format("case before equal=%s", to));
-    			sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateBeforeEqual(status, to);
+    			sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateBeforeEqual(status, to);
     		} else if (null == to) {
     			from = from.withTimeAtStartOfDay();
     			log.debug(String.format("case after equal=%s", from));
-    			sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateAfterEqual(status, from);
+    			sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateAfterEqual(status, from);
     		}
     	} catch (Exception e) {
     		log.error("Exception", e);
@@ -174,9 +175,12 @@ public class OrderService {
     	try {
     		if (CollectionUtils.isNotEmpty(orderNos)) {
     			for (OrderNo orderNo : orderNos) {
-    				log.debug(String.format("order no=%s", orderNo.toString()));
 					if (CollectionUtils.isEmpty(orderNo.getDetails())) {
 						orderNo.setStatus(OrderStatus.CANCEL.toString());
+					}
+					// for bidirectional association
+					for (OrderDetail orderDetail : orderNo.getDetails()) {
+						orderDetail.setOrderNo(orderNo);
 					}
 				}
     			orderNoRepository.save(orderNos);

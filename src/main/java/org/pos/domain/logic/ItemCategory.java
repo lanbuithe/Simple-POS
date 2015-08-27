@@ -1,5 +1,6 @@
 package org.pos.domain.logic;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
@@ -83,10 +84,11 @@ public class ItemCategory extends AbstractAuditingEntity implements Serializable
 
     @Override
     public String toString() {
-        return "ItemCategory{" +
+        /*return "ItemCategory{" +
                 "id=" + id +
                 ", name='" + name + "'" +
                 ", description='" + description + "'" +
-                '}';
+                '}';*/
+    	return ToStringBuilder.reflectionToString(this);
     }
 }

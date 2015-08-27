@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
@@ -89,10 +90,11 @@ public class TableNo extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "TableNo{" +
+        /*return "TableNo{" +
                 "id=" + id +
                 ", name='" + name + "'" +
                 ", description='" + description + "'" +
-                '}';
+                '}';*/
+    	return ToStringBuilder.reflectionToString(this);
     }
 }

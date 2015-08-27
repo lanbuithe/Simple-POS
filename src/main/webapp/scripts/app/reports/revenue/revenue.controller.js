@@ -11,7 +11,7 @@ angular.module('posApp')
 
         $scope.loadAll = function() {
             getPaymentOrder();
-            OrderService.getSumAmountByStatusCreatedDate(Constants.orderStatus.payment, $scope.from, $scope.to).then(
+            OrderService.getSumReceivableAmountByStatusCreatedDate(Constants.orderStatus.payment, $scope.from, $scope.to).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data)) {
                         $scope.totalAmount = response.data;

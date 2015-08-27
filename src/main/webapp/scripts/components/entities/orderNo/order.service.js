@@ -25,8 +25,8 @@ angular.module('posApp')
                     }
                 });
             },
-            getSumAmountByStatusCreatedDate: function (status, from, to) {
-                return $http.get('api/orders/amount', { 
+            getSumReceivableAmountByStatusCreatedDate: function (status, from, to) {
+                return $http.get('api/orders/receivable-amount', { 
                     params: {
                         status: status,
                         from: from,

@@ -218,16 +218,16 @@ public class OrderNoResource {
     }
     
     /**
-     * GET  /orders/amount -> get amount orders by status, created date.
+     * GET  /orders/receivable-amount -> get receivable amount orders by status, created date.
      */
-    @RequestMapping(value = "/orders/amount",
+    @RequestMapping(value = "/orders/receivable-amount",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<BigDecimal> getSumAmountByStatusCreatedDate(@RequestParam(value = "status") String status, 
+    public ResponseEntity<BigDecimal> getSumReceivableAmountByStatusCreatedDate(@RequestParam(value = "status") String status, 
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
-    	BigDecimal sumAmount = orderService.getSumAmountByStatusCreatedDate(status, from, to);
+    	BigDecimal sumAmount = orderService.getSumReceivableAmountByStatusCreatedDate(status, from, to);
         return new ResponseEntity<BigDecimal>(sumAmount, HttpStatus.OK);
     }     
     

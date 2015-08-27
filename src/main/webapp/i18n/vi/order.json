@@ -25,7 +25,8 @@
                     "pay": "Thanh toán đặt món thành công",
                     "select": "Vui lòng chọn đặt món",
                     "item.select": "Vui lòng chọn món",
-                    "move.item.successfully": "Chuyển món thành công"
+                    "move.item.successfully": "Chuyển món thành công",
+                    "table.select": "Vui lòng chọn bàn"
                 }
             },
             "error": {

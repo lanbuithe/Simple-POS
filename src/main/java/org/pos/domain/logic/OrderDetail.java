@@ -16,6 +16,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
@@ -157,12 +158,13 @@ public class OrderDetail extends AbstractAuditingEntity implements Serializable 
 
     @Override
     public String toString() {
-        return "OrderDetail{" +
+        /*return "OrderDetail{" +
                 "id=" + id +
                 ", quantity='" + quantity + "'" +
                 ", amount='" + amount + "'" +
                 ", item name='" + itemName + "'" +
                 ", item category name='" + itemCategoryName + "'" +
-                '}';
+                '}';*/
+    	return ToStringBuilder.reflectionToString(this);
     }
 }

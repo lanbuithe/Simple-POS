@@ -32,22 +32,22 @@ public class OrderServiceTest {
 	private OrderService orderService;
 
 	@Test
-	public void testGetSumAmountByStatusCreatedDate() {
+	public void testGetSumReceivableAmountByStatusCreatedDate() {
 		// case between
     	DateTime from = new DateTime("2015-06-20T15:00:00.000+07:00");
     	DateTime to = new DateTime("2015-06-26T14:00:00.000+07:00");
     	BigDecimal expectSumAmount = new BigDecimal(83000);
-    	BigDecimal sumAmount = orderService.getSumAmountByStatusCreatedDate(OrderStatus.HOLD.name(), from, to);
+    	BigDecimal sumAmount = orderService.getSumReceivableAmountByStatusCreatedDate(OrderStatus.HOLD.name(), from, to);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
     	// case before equal
     	to = new DateTime("2015-06-27T14:00:00.000+07:00");
     	expectSumAmount = new BigDecimal(24000);
-    	sumAmount = orderService.getSumAmountByStatusCreatedDate(OrderStatus.PAYMENT.name(), null, to);
+    	sumAmount = orderService.getSumReceivableAmountByStatusCreatedDate(OrderStatus.PAYMENT.name(), null, to);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
     	// case after equal
     	from = new DateTime("2015-06-22T14:00:00.000+07:00");
     	expectSumAmount = new BigDecimal(24000);
-    	sumAmount = orderService.getSumAmountByStatusCreatedDate(OrderStatus.CANCEL.name(), from, null);
+    	sumAmount = orderService.getSumReceivableAmountByStatusCreatedDate(OrderStatus.CANCEL.name(), from, null);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
 	}
 	

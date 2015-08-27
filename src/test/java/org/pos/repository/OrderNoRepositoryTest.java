@@ -65,27 +65,27 @@ public class OrderNoRepositoryTest {
 	}	
     
     @Test
-    public void testGetSumAmountByStatusCreatedDateBetween() {
+    public void testGetSumReceivableAmountByStatusCreatedDateBetween() {
     	DateTime from = new DateTime("2015-06-01T00:00:00.000+07:00");
     	DateTime to = new DateTime("2015-06-30T00:00:00.000+07:00");
     	BigDecimal expectSumAmount = new BigDecimal(83000);
-    	BigDecimal sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateBetween(OrderStatus.HOLD.name(), from, to);
+    	BigDecimal sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateBetween(OrderStatus.HOLD.name(), from, to);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
     }
     
     @Test
-    public void testGetSumAmountByStatusCreatedDateAfterEqual() {
+    public void testGetSumReceivableAmountByStatusCreatedDateAfterEqual() {
     	DateTime createdDate = new DateTime("2015-06-01T00:00:00.000+07:00");
     	BigDecimal expectSumAmount = new BigDecimal(24000);
-    	BigDecimal sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateAfterEqual(OrderStatus.PAYMENT.name(), createdDate);
+    	BigDecimal sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateAfterEqual(OrderStatus.PAYMENT.name(), createdDate);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);
     }
     
     @Test
-    public void testGetSumAmountByStatusCreatedDateBeforeEqual() {
+    public void testGetSumReceivableAmountByStatusCreatedDateBeforeEqual() {
     	DateTime createdDate = new DateTime("2015-06-30T00:00:00.000+07:00");
     	BigDecimal expectSumAmount = new BigDecimal(24000);
-    	BigDecimal sumAmount = orderNoRepository.getSumAmountByStatusCreatedDateBeforeEqual(OrderStatus.CANCEL.name(), createdDate);
+    	BigDecimal sumAmount = orderNoRepository.getSumReceivableAmountByStatusCreatedDateBeforeEqual(OrderStatus.CANCEL.name(), createdDate);
     	assertThat(sumAmount).isEqualByComparingTo(expectSumAmount);    	
     }
     

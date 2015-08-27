@@ -17,12 +17,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A Item.
@@ -57,7 +55,6 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private ItemCategory category;
     
-    @JsonIgnore
     @Column(name = "category_name")
     private String categoryName;
 
@@ -101,12 +98,10 @@ public class Item extends AbstractAuditingEntity implements Serializable {
         this.category = itemCategory;
     }
 
-    @JsonProperty
     public String getCategoryName() {
 		return categoryName;
 	}
 
-    @JsonIgnore
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
@@ -150,11 +145,12 @@ public class Item extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" +
+        /*return "Item{" +
                 "id=" + id +
                 ", name='" + name + "'" +
                 ", description='" + description + "'" +
                 ", category name='" + categoryName + "'" +
-                '}';
+                '}';*/
+    	return ToStringBuilder.reflectionToString(this);
     }
 }
