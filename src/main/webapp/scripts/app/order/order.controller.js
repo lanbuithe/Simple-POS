@@ -93,7 +93,9 @@ angular.module('posApp')
         };
 
         $scope.changeMoveItemToTable = function() {
+            $scope.moveItemToOrders.length = 0;
             $scope.pageMoveItemToOrder = 1;
+            $scope.linkMoveItemToOrders = {};
             $scope.moveItemToOrder.details = [];
             var tableId = null;
             if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
@@ -133,6 +135,7 @@ angular.module('posApp')
         $scope.loadPageMoveItemToOrder = function(page) {
             $scope.moveItemToOrders.length = 0;
             $scope.pageMoveItemToOrder = page;
+            $scope.linkMoveItemToOrders = {};
             var tableId = null;
             if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
                 !Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
@@ -160,7 +163,9 @@ angular.module('posApp')
         }; 
 
         $scope.changeMoveItemFromTable = function() {
+            $scope.moveItemFromOrders.length = 0;
             $scope.pageMoveItemFromOrder = 1;
+            $scope.linkMoveItemFromOrders = {};
             var tableId = null;
             if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
                 !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
@@ -188,6 +193,7 @@ angular.module('posApp')
         $scope.loadPageMoveItemFromOrder = function(page) {
             $scope.moveItemFromOrders.length = 0;
             $scope.pageMoveItemFromOrder = page;
+            $scope.linkMoveItemFromOrders = {};
             var tableId = null;
             if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
                 !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
@@ -207,6 +213,8 @@ angular.module('posApp')
         $scope.openMoveItem = function() {
             $scope.pageMoveItemOrder = 1;
             $scope.moveItemFromTable = angular.copy($scope.order.tableNo);
+            $scope.linkMoveItemFromOrders = {};
+            $scope.moveItemFromOrders.length = 0;
             $scope.moveItemToTable = {};
             $scope.moveItemToOrder = {};            
             var tableId = null;
@@ -242,6 +250,7 @@ angular.module('posApp')
         $scope.loadPageHoldOrder = function(page) {
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = page;
+            $scope.linkHoldOrders = {};
             OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, $scope.order.tableNo.id, Constants.orderStatus.hold, null, null).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
@@ -261,6 +270,7 @@ angular.module('posApp')
             }
             $scope.holdOrders.length = 0;
             $scope.pageHoldOrder = 1;
+            $scope.linkHoldOrders = {};
             OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
