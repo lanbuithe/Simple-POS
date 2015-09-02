@@ -29,7 +29,7 @@
         <gatling.version>2.1.6</gatling.version>
         <gatling-maven-plugin.version>2.1.6</gatling-maven-plugin.version>
         <hibernate.version>4.3.10.Final</hibernate.version>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <javax.inject.version>1</javax.inject.version>
