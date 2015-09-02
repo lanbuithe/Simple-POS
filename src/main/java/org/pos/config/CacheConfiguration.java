@@ -45,7 +45,9 @@ public class CacheConfiguration {
     public void destroy() {
         log.info("Remove Cache Manager metrics");
         SortedSet<String> names = metricRegistry.getNames();
-        names.forEach(metricRegistry::remove);
+        for (String name : names) {
+            metricRegistry.remove(name);
+        }
         log.info("Closing Cache Manager");
         cacheManager.shutdown();
     }

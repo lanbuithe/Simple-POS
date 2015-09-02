@@ -31,22 +31,30 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor,
     }
 
     private <T> Callable<T> createCallable(final Callable<T> task) {
-        return () -> {
-            try {
-                return task.call();
-            } catch (Exception e) {
-                handle(e);
-                throw e;
+        return new Callable<T>() {
+
+            @Override
+            public T call() throws Exception {
+                try {
+                    return task.call();
+                } catch (Exception e) {
+                    handle(e);
+                    throw e;
+                }
             }
         };
     }
 
     private Runnable createWrappedRunnable(final Runnable task) {
-        return () -> {
-            try {
-                task.run();
-            } catch (Exception e) {
-                handle(e);
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    task.run();
+                } catch (Exception e) {
+                    handle(e);
+                }
             }
         };
     }
