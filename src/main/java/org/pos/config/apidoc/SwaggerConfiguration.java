@@ -1,6 +1,27 @@
 package org.pos.config.apidoc;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
+import java.util.Date;
+
 import org.pos.config.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
+
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import org.abcgo.config.Constants;
 import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +79,6 @@ public class SwaggerConfiguration implements EnvironmentAware {
             .directModelSubstitute(org.joda.time.LocalDate.class, String.class)
             .directModelSubstitute(org.joda.time.LocalDateTime.class, Date.class)
             .directModelSubstitute(org.joda.time.DateTime.class, Date.class)
-            .directModelSubstitute(java.time.LocalDate.class, String.class)
-            .directModelSubstitute(java.time.ZonedDateTime.class, Date.class)
-            .directModelSubstitute(java.time.LocalDateTime.class, Date.class)
             .select()
             .paths(regex(DEFAULT_INCLUDE_PATTERN))
             .build();
