@@ -1,5 +1,10 @@
 package org.pos.security;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.inject.Inject;
+
 import org.pos.domain.Authority;
 import org.pos.domain.User;
 import org.pos.repository.UserRepository;
@@ -11,10 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Authenticate a user from the database.

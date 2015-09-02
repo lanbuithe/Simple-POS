@@ -1,4 +1,4 @@
-// Generated on 2015-07-10 using generator-jhipster 2.18.0
+// Generated on 2015-09-01 using generator-jhipster 2.20.0
 'use strict';
 var fs = require('fs');
 
@@ -193,17 +193,7 @@ module.exports = function (grunt) {
                 options: {
                     module: 'posApp',
                     usemin: 'scripts/app.js',
-                    htmlmin:  {
-                        removeCommentsFromCDATA: true,
-                        // https://github.com/yeoman/grunt-usemin/issues/44
-                        collapseWhitespace: true,
-                        collapseBooleanAttributes: true,
-                        conservativeCollapse: true,
-                        removeAttributeQuotes: true,
-                        removeRedundantAttributes: true,
-                        useShortDoctype: true,
-                        removeEmptyAttributes: true
-                    }
+                    htmlmin: '<%= htmlmin.dist.options %>'
                 }
             }
         },
@@ -317,8 +307,8 @@ module.exports = function (grunt) {
                 constants: {
                     ENV: 'dev',
                     VERSION: parseVersionFromPomXml(),
-                    CLOUD: 'none'
-                }
+                    CLOUD: 'none'                
+				}
             },
             prod: {
                 options: {
@@ -327,8 +317,8 @@ module.exports = function (grunt) {
                 constants: {
                     ENV: 'prod',
                     VERSION: parseVersionFromPomXml(),
-                    CLOUD: 'none'
-                }
+                    CLOUD: 'none'                
+				}
             },
             openshift: {
                 options: {
@@ -401,8 +391,8 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'htmlmin'
-    ]);    
-
+    ]);
+  	
 	grunt.registerTask('appendSkipBower', 'Force skip of bower for Gradle', function () {
 
 		if (!grunt.file.exists(filepath)) {

@@ -3,6 +3,8 @@ package org.pos.web.rest;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.pos.repository.UserRepository;
 import org.pos.security.SecurityUtils;
 import org.pos.service.MailService;
 import org.pos.service.UserService;
+import org.pos.web.rest.dto.KeyAndPasswordDTO;
 import org.pos.web.rest.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -193,11 +196,11 @@ public class AccountResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<String> finishPasswordReset(@RequestParam(value = "key") String key, @RequestParam(value = "newPassword") String newPassword) {
-        if (!checkPasswordLength(newPassword)) {
+    public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordDTO keyAndPassword) {
+        if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
         }
-        User user = userService.completePasswordReset(newPassword, key);
+        User user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
         if (user != null) {
           return new ResponseEntity<String>(HttpStatus.OK);
         } else {

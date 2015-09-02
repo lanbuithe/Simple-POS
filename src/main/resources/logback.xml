@@ -4,7 +4,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>utf-8</charset>
-            <Pattern>[%p] [%thread] %c - %m%n</Pattern>
+            <Pattern>[%p] %c - %m%n</Pattern>
         </encoder>
     </appender>
 
@@ -51,12 +51,9 @@
     <logger name="org.springframework.cache" level="WARN"/>
     <logger name="org.thymeleaf" level="WARN"/>
     <logger name="org.xnio" level="WARN"/>
-    <logger name="com.mangofactory.swagger" level="WARN"/>
-    <logger name="com.wordnik.swagger" level="WARN"/>
+    <logger name="springfox" level="WARN"/>
     <logger name="liquibase" level="WARN"/>
     <logger name="sun.rmi.transport" level="WARN"/>
-    
-    <logger name="org.hibernate.SQL" level="DEBUG" />
 
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>

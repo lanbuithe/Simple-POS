@@ -1,6 +1,6 @@
 {
     "main": {
-        "title": "Welcome, Java Hipster!",
+        "title": "Trang chủ",
         "subtitle": "This is your homepage",
         "logged": {
             "message": "Bạn đã đăng nhập như người dùng \"{{username}}\"."

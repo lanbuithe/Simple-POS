@@ -10,7 +10,7 @@ import java.util.List;
 public class UserDTO {
 
     public static final int PASSWORD_MIN_LENGTH = 5;
-    public static final int PASSWORD_MAX_LENGTH = 60;
+    public static final int PASSWORD_MAX_LENGTH = 100;
 
     @Pattern(regexp = "^[a-z0-9]*$")
     @NotNull

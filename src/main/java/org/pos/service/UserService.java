@@ -1,24 +1,26 @@
 package org.pos.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.joda.time.DateTime;
 import org.pos.domain.Authority;
 import org.pos.domain.User;
 import org.pos.repository.AuthorityRepository;
 import org.pos.repository.UserRepository;
 import org.pos.security.SecurityUtils;
 import org.pos.service.util.RandomUtil;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service class for managing users.

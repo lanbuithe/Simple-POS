@@ -215,7 +215,13 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 		if (null != this.tax && this.tax > 0) {
 			this.taxAmount =  this.amount.multiply(new BigDecimal(this.tax));
 		}
-		this.receivableAmount = this.amount.subtract(this.discountAmount).add(this.taxAmount);
+		this.receivableAmount = this.amount;
+		if (null != this.discountAmount) {
+			this.receivableAmount = this.receivableAmount.subtract(this.discountAmount);
+		}
+		if (null != this.taxAmount) {
+			this.receivableAmount = this.receivableAmount.add(this.taxAmount);
+		}
 	}
 	
 	@PrePersist

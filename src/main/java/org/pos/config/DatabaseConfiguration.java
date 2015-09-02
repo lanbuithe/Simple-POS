@@ -1,11 +1,10 @@
 package org.pos.config;
 
-import java.util.Arrays;
-
-import javax.sql.DataSource;
-
+import com.codahale.metrics.MetricRegistry;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import liquibase.integration.spring.SpringLiquibase;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,15 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
-import com.codahale.metrics.MetricRegistry;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableJpaRepositories("org.pos.repository")
@@ -50,7 +48,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
         this.liquiBasePropertyResolver = new RelaxedPropertyResolver(env, "liquiBase.");
     }
 
-    @Bean(destroyMethod = "shutdown")
+    @Bean(destroyMethod = "close")
     @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku') && !environment.acceptsProfiles('openshift')}")
     public DataSource dataSource() {
         log.info("Configuring Datasource");
@@ -108,5 +106,4 @@ public class DatabaseConfiguration implements EnvironmentAware {
     public Hibernate4Module hibernate4Module() {
         return new Hibernate4Module();
     }
-    
 }

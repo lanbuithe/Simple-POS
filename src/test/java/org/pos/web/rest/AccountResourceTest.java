@@ -1,5 +1,10 @@
 package org.pos.web.rest;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.pos.Application;
 import org.pos.domain.Authority;
 import org.pos.domain.User;
@@ -8,12 +13,8 @@ import org.pos.repository.UserRepository;
 import org.pos.security.AuthoritiesConstants;
 import org.pos.service.MailService;
 import org.pos.service.UserService;
+import org.pos.web.rest.AccountResource;
 import org.pos.web.rest.dto.UserDTO;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

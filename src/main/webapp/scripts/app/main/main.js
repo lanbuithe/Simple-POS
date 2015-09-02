@@ -7,7 +7,8 @@ angular.module('posApp')
                 parent: 'site',
                 url: '/',
                 data: {
-                    roles: []
+                    roles: ['ROLE_USER'],
+                    pageTitle: 'main.title'
                 },
                 views: {
                     'content@': {

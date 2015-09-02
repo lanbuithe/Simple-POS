@@ -1,16 +1,8 @@
 package org.pos.config;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
 
 import org.pos.web.filter.CachingHttpHeadersFilter;
 import org.pos.web.filter.StaticResourcesFilter;
@@ -27,9 +19,13 @@ import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
+import javax.inject.Inject;
+import javax.servlet.*;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -161,7 +157,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
      */
     private void initStaticResourcesFilter(ServletContext servletContext,
                                                      EnumSet<DispatcherType> disps) {
-
         log.debug("Registering static resources Filter");
         FilterRegistration.Dynamic staticResourcesFilter =
                 servletContext.addFilter("staticResourcesFilter",

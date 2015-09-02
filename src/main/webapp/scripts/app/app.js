@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'ui.bootstrap', 
-    'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'infinite-scroll',
+    'ngResource', 'ui.router', 'ngCookies', 'pascalprecht.translate', 'ngCacheBuster', 'infinite-scroll', 'ngFileUpload', 
     'angularMoment', 'ngAnimate', 'toaster', 'angular-loading-bar', 'checklist-model', 'validation.match', 
     'nvd3ChartDirectives'])
 
@@ -50,37 +50,6 @@ angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'ui.bootstr
             }
         };
     })
-    .factory('authInterceptor', function ($rootScope, $q, $location, localStorageService) {
-        return {
-            // Add authorization token to headers
-            request: function (config) {
-                config.headers = config.headers || {};
-                var token = localStorageService.get('token');
-                
-                if (token && token.expires_at && token.expires_at > new Date().getTime()) {
-                    config.headers.Authorization = 'Bearer ' + token.access_token;
-                }
-                
-                return config;
-            }
-        };
-    })
-    .factory('authExpiredInterceptor', function ($rootScope, $q, $injector, localStorageService) {
-        return {
-            responseError: function (response) {
-                // token has expired
-                if (response.status === 401 && (response.data.error == 'invalid_token' || response.data.error == 'Unauthorized')) {
-                    localStorageService.remove('token');
-                    var Principal = $injector.get('Principal');
-                    if (Principal.isAuthenticated()) {
-                        var Auth = $injector.get('Auth');
-                        Auth.authorize(true);
-                    }
-                }
-                return $q.reject(response);
-            }
-        };
-    })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
         //Cache everything except rest api requests
@@ -107,9 +76,10 @@ angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'ui.bootstr
             }
         });
 
+        $httpProvider.interceptors.push('errorHandlerInterceptor');
         $httpProvider.interceptors.push('authExpiredInterceptor');
-
         $httpProvider.interceptors.push('authInterceptor');
+        $httpProvider.interceptors.push('notificationInterceptor');
         
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
@@ -119,6 +89,7 @@ angular.module('posApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'ui.bootstr
         $translateProvider.preferredLanguage('vi');
         $translateProvider.useCookieStorage();
         $translateProvider.useSanitizeValueStrategy('escaped');
+        $translateProvider.addInterpolation('$translateMessageFormatInterpolation');
 
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage();
