@@ -374,11 +374,6 @@
             <version>${spring-security.version}</version>
         </dependency>
         <!-- reporting -->
-        <dependency>
-            <groupId>fr.ippon.spark.metrics</groupId>
-            <artifactId>metrics-spark-reporter</artifactId>
-            <version>${metrics-spark-reporter.version}</version>
-        </dependency>
         <!-- thelanbui -->
         <dependency>
             <groupId>org.apache.commons</groupId>
