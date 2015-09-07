@@ -33,7 +33,7 @@ public class ThymeleafConfiguration {
     @Bean
     @Description("Spring mail message resolver")
     public MessageSource emailMessageSource() {
-        log.info("loading non-reloadable mail messages resources");
+        log.info("Loading non-reloadable mail messages resources");
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/mails/messages/messages");
         messageSource.setDefaultEncoding(CharEncoding.UTF_8);
@@ -41,7 +41,9 @@ public class ThymeleafConfiguration {
     }
     
     @Bean
+    @Description("JodaTime dialect")
     public JodaTimeDialect jodaTimeDialect() {
+    	log.info("Initializing jodaTime dialect");
         return new JodaTimeDialect();
     }
 }

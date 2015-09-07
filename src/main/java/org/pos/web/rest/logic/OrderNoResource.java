@@ -228,7 +228,6 @@ public class OrderNoResource {
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
     	BigDecimal revenueAmount = orderService.getSumReceivableAmountByStatusCreatedDate(status, from, to);
-    	orderService.sendRevenueReportMail();
         return new ResponseEntity<BigDecimal>(revenueAmount, HttpStatus.OK);
     }     
     
