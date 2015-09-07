@@ -32,14 +32,18 @@
                 <tr>
                     <th translate="revenue.createdDate">Created date</th>
                     <th translate="revenue.amount">Amount</th>
+                    <th translate="revenue.discountAmount">Discount Amount</th>
+                    <th translate="revenue.receivableAmount">Receivable Amount</th>
                     <th translate="revenue.table">Table</th>
                     <th translate="revenue.createdBy">Created by</th>
                 </tr>
             </thead>
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
                 <tr ng-repeat="order in orders">
-                    <td>{{order.createdDate | amDateFormat: constants.dateTimePattern}}</a></td>
+                    <td>{{order.createdDate | amDateFormat: constants.dateTimePattern}}</td>
                     <td><span number-format="order.amount"></span></td>
+                    <td><span number-format="order.discountAmount"></span></td>
+                    <td><span number-format="order.receivableAmount"></span></td>
                     <td>{{order.tableNo.name}}</td>
                     <td>{{order.createdBy}}</td>
                 </tr>

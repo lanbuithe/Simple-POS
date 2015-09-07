@@ -29,6 +29,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pos.domain.AbstractAuditingEntity;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -59,6 +61,7 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+	@NumberFormat(style = Style.NUMBER, pattern = "#0.00")
 	@NotNull
     @Column(name = "amount", precision=10, scale=2, nullable = false)
     private BigDecimal amount = new BigDecimal(0);
@@ -84,15 +87,18 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     @Column(name = "discount")
     private Integer discount = 0;
     
+    @NumberFormat(style = Style.NUMBER, pattern = "#0.00")
     @Column(name = "discount_amount", precision=10, scale=2)
     private BigDecimal discountAmount = new BigDecimal(0);
     
     @Column(name = "tax")
     private Integer tax = 0;
     
+    @NumberFormat(style = Style.NUMBER, pattern = "#0.00")
     @Column(name = "tax_amount", precision=10, scale=2)
     private BigDecimal taxAmount = new BigDecimal(0);
     
+    @NumberFormat(style = Style.NUMBER, pattern = "#0.00")
     @NotNull
     @Column(name = "receivable_amount")
     private BigDecimal receivableAmount = new BigDecimal(0);
@@ -257,14 +263,14 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public String toString() {
-        /*return "OrderNo{" +
+        return "OrderNo{" +
                 "id=" + id +
                 ", amount='" + amount + "'" +
                 ", status='" + status + "'" +
                 ", table name='" + tableName + "'" +
                 ", quantity='" + quantity + "'" +
-                '}';*/
-    	return ToStringBuilder.reflectionToString(this);
+                '}';
+    	//return ToStringBuilder.reflectionToString(this);
     }
 
 }

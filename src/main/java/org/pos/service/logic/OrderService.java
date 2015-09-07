@@ -3,6 +3,7 @@ package org.pos.service.logic;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import org.pos.domain.logic.OrderDetail;
 import org.pos.domain.logic.OrderNo;
 import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
+import org.pos.service.MailService;
 import org.pos.util.JodaTimeUtil;
 import org.pos.util.OrderStatus;
 import org.pos.web.rest.dto.logic.LineChart;
@@ -19,12 +21,16 @@ import org.pos.web.rest.dto.logic.PieChart;
 import org.pos.web.websocket.dto.logic.ChartDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Service
 @Transactional
@@ -40,6 +46,15 @@ public class OrderService {
     
     @Inject
     private SimpMessageSendingOperations messagingTemplate;
+    
+    @Inject
+    private MailService mailService;
+
+    @Inject
+    private MessageSource messageSource;
+
+    @Inject
+    private SpringTemplateEngine templateEngine;    
 
     public Page<OrderNo> getByTableIdStatusCreatedDate(Long tableId, String status, DateTime from, DateTime to, Pageable pageable) {
     	Page<OrderNo> page = null;
@@ -225,6 +240,31 @@ public class OrderService {
     	} catch (Exception e) {
     		log.error("Exception", e);
     	}
-    }    
+    }
+    
+    /**
+     * Revenue report should be automatically send email everyday.
+     * <p/>
+     * <p>
+     * This is scheduled to get fired everyday, at 23:00
+     * </p>
+     */
+    @Scheduled(cron = "0 0 23 * * ?")
+    public void sendRevenueReportMail() {
+        log.debug("Sending revenue report e-mail");
+        DateTime now = new DateTime();
+        List<OrderNo> orders = orderNoRepository.findByStatusIsAndCreatedDateBetween(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
+        if (CollectionUtils.isNotEmpty(orders)) {
+        	BigDecimal revenueAmount = getSumReceivableAmountByStatusCreatedDate(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
+	        Locale locale = Locale.forLanguageTag("vi");
+	        Context context = new Context(locale);
+	        context.setVariable("now", now);
+	        context.setVariable("revenueAmount", revenueAmount);
+	        context.setVariable("orders", orders);
+	        String content = templateEngine.process("revenueReportEmail", context);
+	        String subject = messageSource.getMessage("revenue.report.email.title", null, locale);
+	        mailService.sendEmail("simplepossystem@gmail.com", subject, content, false, true);
+        }
+    }
 
 }

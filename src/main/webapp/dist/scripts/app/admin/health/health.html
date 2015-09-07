@@ -28,6 +28,9 @@
                     <a class="hand" ng-click="showHealth(health)" ng-show="health.details || health.error">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
+                    <a class="hand" ng-click="sendMail()" ng-show="baseName(health.name) == 'mail'">
+                        <i class="glyphicon glyphicon glyphicon-send"></i>
+                    </a>
                 </td>
             </tr>
         </tbody>

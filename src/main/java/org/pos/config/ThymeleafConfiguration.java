@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Description;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import uk.co.gcwilliams.jodatime.thymeleaf.JodaTimeDialect;
+
 @Configuration
 public class ThymeleafConfiguration {
 
@@ -36,5 +38,10 @@ public class ThymeleafConfiguration {
         messageSource.setBasename("classpath:/mails/messages/messages");
         messageSource.setDefaultEncoding(CharEncoding.UTF_8);
         return messageSource;
+    }
+    
+    @Bean
+    public JodaTimeDialect jodaTimeDialect() {
+        return new JodaTimeDialect();
     }
 }

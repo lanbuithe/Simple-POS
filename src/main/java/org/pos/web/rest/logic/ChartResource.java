@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
+import org.pos.service.MailService;
 import org.pos.service.logic.OrderService;
 import org.pos.util.DateTimePattern;
 import org.pos.web.rest.dto.logic.LineChart;
@@ -26,9 +27,14 @@ import com.codahale.metrics.annotation.Timed;
 @RestController
 @RequestMapping("/api/charts")
 public class ChartResource {
+	
+	private final String SUBJECT = "Test Send Mail";
 
     @Inject
     private OrderService orderService;
+    
+    @Inject
+    private MailService mailService;
     
     /**
      * GET  /item -> Get sale item.
@@ -56,5 +62,14 @@ public class ChartResource {
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime to) {
     	List<LineChart> sales = orderService.getSaleByStatusCreatedDateBetween(status, from, to);
         return new ResponseEntity<List<LineChart>>(sales, HttpStatus.OK);
-    }    
+    }
+    
+    @RequestMapping(value = "/mail",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<String> sendMail() {
+    	mailService.sendEmail("simplepossystem@gmail.com", SUBJECT, "Simple POS", false, false);
+        return new ResponseEntity<String>(SUBJECT, HttpStatus.OK);
+    }
 }

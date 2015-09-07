@@ -39,7 +39,7 @@ public class MailConfiguration implements EnvironmentAware {
 
     @Bean
     public JavaMailSenderImpl javaMailSender() {
-        log.debug("Configuring mail server");
+        log.info("Configuring mail server");
         String host = propertyResolver.getProperty(PROP_HOST, DEFAULT_PROP_HOST);
         int port = propertyResolver.getProperty(PROP_PORT, Integer.class, 0);
         String user = propertyResolver.getProperty(PROP_USER);

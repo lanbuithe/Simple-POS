@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('HealthController', function ($scope, MonitoringService, $modal) {
+    .controller('HealthController', function ($scope, MonitoringService, $modal, ChartService) {
         $scope.updatingHealth = true;
         $scope.separator = '.';
 
@@ -147,4 +147,9 @@ angular.module('posApp')
               return remainder ? ' - ' + remainder : '';
             }
         };
+
+        $scope.sendMail = function() {
+            ChartService.sendMail();
+        };
+
     });

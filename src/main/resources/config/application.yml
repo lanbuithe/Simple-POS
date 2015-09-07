@@ -14,14 +14,14 @@ async:
     queueCapacity: 10000
 
 mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: simplepossystem@gmail.com
+    password: whoareyou?
     protocol: smtp
-    tls: false
-    auth: false
-    from: pos@localhost
+    tls: true
+    auth: true
+    from: simplepossystem@gmail.com
 
 authentication:
     oauth:

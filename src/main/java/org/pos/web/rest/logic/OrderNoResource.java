@@ -192,7 +192,7 @@ public class OrderNoResource {
     public ResponseEntity<List<OrderNo>> getByTableIdStatusCreatedDate(@RequestParam(value = "page" , required = false) Integer offset,
     		@RequestParam(value = "per_page", required = false) Integer limit, 
     		@RequestParam(value = "tableId", required = false) Long tableId,
-    		@RequestParam(value = "status", required = false) String status,
+    		@RequestParam(value = "status") String status,
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to)
         throws URISyntaxException {
@@ -227,8 +227,9 @@ public class OrderNoResource {
     public ResponseEntity<BigDecimal> getSumReceivableAmountByStatusCreatedDate(@RequestParam(value = "status") String status, 
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE_TIME) DateTime to) {
-    	BigDecimal sumAmount = orderService.getSumReceivableAmountByStatusCreatedDate(status, from, to);
-        return new ResponseEntity<BigDecimal>(sumAmount, HttpStatus.OK);
+    	BigDecimal revenueAmount = orderService.getSumReceivableAmountByStatusCreatedDate(status, from, to);
+    	orderService.sendRevenueReportMail();
+        return new ResponseEntity<BigDecimal>(revenueAmount, HttpStatus.OK);
     }     
     
     /**

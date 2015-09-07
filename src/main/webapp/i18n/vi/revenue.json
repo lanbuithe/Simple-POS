@@ -6,7 +6,9 @@
         "totalAmount": "Tổng thu",
         "createdDate": "Ngày tạo",
         "table": "Bàn",
-        "amount": "Thành tiền",
-        "createdBy": "Người tạo"
+        "amount": "Tổng Thu",
+        "createdBy": "Người tạo",
+        "discountAmount": "Giảm giá",
+        "receivableAmount": "Thành tiền"
     }
 }

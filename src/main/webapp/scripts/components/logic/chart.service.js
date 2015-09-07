@@ -64,6 +64,9 @@ angular.module('posApp')
                     stompClient.disconnect();
                     stompClient = null;
                 }
+            },
+            sendMail: function () {
+                return $http.get('/api/charts/mail');
             }                        
         };
     }]);
