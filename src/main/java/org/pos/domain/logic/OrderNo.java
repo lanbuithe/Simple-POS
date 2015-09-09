@@ -62,8 +62,7 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
 	@NumberFormat(style = Style.NUMBER, pattern = "#0.00")
-	@NotNull
-    @Column(name = "amount", precision=10, scale=2, nullable = false)
+    @Column(name = "amount", precision=10, scale=2)
     private BigDecimal amount = new BigDecimal(0);
 
     @NotNull
@@ -71,6 +70,7 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
     @Column(name = "status", length = 100, nullable = false)
     private String status;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private TableNo tableNo;
     
@@ -207,10 +207,8 @@ public class OrderNo extends AbstractAuditingEntity implements Serializable {
 			this.amount = new BigDecimal(0);
 			this.quantity = 0;			
 			for (OrderDetail orderDetail : this.details) {
-				if (null != orderDetail.getAmount()) {
-					this.amount = this.amount.add(orderDetail.getAmount());
-				}
-				if (null != orderDetail.getQuantity()) {
+				if (null != orderDetail) {
+					this.amount = this.amount.add(orderDetail.getItem().getPrice().multiply(new BigDecimal(orderDetail.getQuantity())));
 					this.quantity += orderDetail.getQuantity();
 				}
 			}

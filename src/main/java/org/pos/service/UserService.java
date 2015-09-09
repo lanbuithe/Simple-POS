@@ -11,6 +11,7 @@ import org.pos.domain.Authority;
 import org.pos.domain.User;
 import org.pos.repository.AuthorityRepository;
 import org.pos.repository.UserRepository;
+import org.pos.security.AuthoritiesConstants;
 import org.pos.security.SecurityUtils;
 import org.pos.service.util.RandomUtil;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class UserService {
                                       String langKey) {
 
         User newUser = new User();
-        Authority authority = authorityRepository.findOne("ROLE_USER");
+        Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);

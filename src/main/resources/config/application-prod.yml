@@ -60,3 +60,8 @@ cache:
     timeToLiveSeconds: 3600
     ehcache:
         maxBytesLocalHeap: 256M
+        
+cron:
+    email:
+        revenue.report: 0 0 23 * * ?
+        

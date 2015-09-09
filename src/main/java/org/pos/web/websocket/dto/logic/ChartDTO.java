@@ -2,32 +2,32 @@ package org.pos.web.websocket.dto.logic;
 
 import java.util.List;
 
-import org.pos.web.rest.dto.logic.LineChart;
-import org.pos.web.rest.dto.logic.PieChart;
+import org.pos.web.rest.dto.logic.LineChartDTO;
+import org.pos.web.rest.dto.logic.PieChartDTO;
 
 public class ChartDTO {
-	private List<LineChart> lines;
+	private List<LineChartDTO> lines;
 
-	private List<PieChart> pies;
+	private List<PieChartDTO> pies;
 	
-	public ChartDTO(List<LineChart> lines, List<PieChart> pies) {
+	public ChartDTO(List<LineChartDTO> lines, List<PieChartDTO> pies) {
 		this.lines = lines;
 		this.pies = pies;
 	}
 	
-	public List<LineChart> getLines() {
+	public List<LineChartDTO> getLines() {
 		return lines;
 	}
 
-	public void setLine(List<LineChart> lines) {
+	public void setLine(List<LineChartDTO> lines) {
 		this.lines = lines;
 	}
 
-	public List<PieChart> getPies() {
+	public List<PieChartDTO> getPies() {
 		return pies;
 	}
 
-	public void setPies(List<PieChart> pies) {
+	public void setPies(List<PieChartDTO> pies) {
 		this.pies = pies;
 	}
 }

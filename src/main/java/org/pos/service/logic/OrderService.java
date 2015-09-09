@@ -9,15 +9,18 @@ import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
+import org.pos.domain.User;
 import org.pos.domain.logic.OrderDetail;
 import org.pos.domain.logic.OrderNo;
+import org.pos.repository.UserRepository;
 import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
+import org.pos.security.AuthoritiesConstants;
 import org.pos.service.MailService;
 import org.pos.util.JodaTimeUtil;
 import org.pos.util.OrderStatus;
-import org.pos.web.rest.dto.logic.LineChart;
-import org.pos.web.rest.dto.logic.PieChart;
+import org.pos.web.rest.dto.logic.LineChartDTO;
+import org.pos.web.rest.dto.logic.PieChartDTO;
 import org.pos.web.websocket.dto.logic.ChartDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +57,10 @@ public class OrderService {
     private MessageSource messageSource;
 
     @Inject
-    private SpringTemplateEngine templateEngine;    
+    private SpringTemplateEngine templateEngine;
+    
+	@Inject
+	private UserRepository userRepository;    
 
     public Page<OrderNo> getByTableIdStatusCreatedDate(Long tableId, String status, DateTime from, DateTime to, Pageable pageable) {
     	Page<OrderNo> page = null;
@@ -127,8 +133,8 @@ public class OrderService {
     	return sumAmount;
     }    
     
-    public List<PieChart> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
-    	List<PieChart> saleItems = new ArrayList<PieChart>();
+    public List<PieChartDTO> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
+    	List<PieChartDTO> saleItems = new ArrayList<PieChartDTO>();
     	try {
     		if (null != from && null != to) {
     			from = from.withTimeAtStartOfDay();
@@ -156,8 +162,8 @@ public class OrderService {
     	return saleItems;
     }    
     
-    public List<LineChart> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
-    	List<LineChart> sales = new ArrayList<LineChart>();
+    public List<LineChartDTO> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to) {
+    	List<LineChartDTO> sales = new ArrayList<LineChartDTO>();
     	try {
     		if (null != from && null != to) {
     			from = from.withTimeAtStartOfDay();
@@ -211,8 +217,8 @@ public class OrderService {
     
     @Async
     public void getSaleChart(String status, DateTime from, DateTime to) {
-    	List<LineChart> sales = new ArrayList<LineChart>();
-    	List<PieChart> saleItems = new ArrayList<PieChart>();
+    	List<LineChartDTO> sales = new ArrayList<LineChartDTO>();
+    	List<PieChartDTO> saleItems = new ArrayList<PieChartDTO>();
     	try {
     		if (null != from && null != to) {
     			from = from.withTimeAtStartOfDay();
@@ -249,21 +255,26 @@ public class OrderService {
      * This is scheduled to get fired everyday, at 23:00
      * </p>
      */
-    @Scheduled(cron = "0 0 23 * * ?")
+    @Scheduled(cron = "${cron.email.revenue.report}")
     public void sendRevenueReportMail() {
         log.debug("Sending revenue report e-mail");
         DateTime now = new DateTime();
         List<OrderNo> orders = orderNoRepository.findByStatusIsAndCreatedDateBetween(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
-        if (CollectionUtils.isNotEmpty(orders)) {
+        List<User> users = userRepository.findAllByActivatedIsAndAuthorityNameIs(true, AuthoritiesConstants.ADMIN);
+        if (CollectionUtils.isNotEmpty(orders) && CollectionUtils.isNotEmpty(users)) {
         	BigDecimal revenueAmount = getSumReceivableAmountByStatusCreatedDate(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
 	        Locale locale = Locale.forLanguageTag("vi");
 	        Context context = new Context(locale);
 	        context.setVariable("now", now);
 	        context.setVariable("revenueAmount", revenueAmount);
 	        context.setVariable("orders", orders);
-	        String content = templateEngine.process("revenueReportEmail", context);
+	        String to = "";
+	        for (User user : users) {
+				to += user.getEmail() + ";";
+			}
 	        String subject = messageSource.getMessage("revenue.report.email.title", null, locale);
-	        mailService.sendEmail("simplepossystem@gmail.com", subject, content, false, true);
+	        String content = templateEngine.process("revenueReportEmail", context);
+	        mailService.sendEmail(to, subject, content, false, true);
         }
     }
 

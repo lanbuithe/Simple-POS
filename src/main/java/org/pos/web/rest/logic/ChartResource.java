@@ -8,8 +8,8 @@ import org.joda.time.DateTime;
 import org.pos.service.MailService;
 import org.pos.service.logic.OrderService;
 import org.pos.util.DateTimePattern;
-import org.pos.web.rest.dto.logic.LineChart;
-import org.pos.web.rest.dto.logic.PieChart;
+import org.pos.web.rest.dto.logic.LineChartDTO;
+import org.pos.web.rest.dto.logic.PieChartDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,11 +43,11 @@ public class ChartResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<PieChart>> getSaleItemByStatusCreatedDateBetween(@RequestParam(value = "status") String status,
+    public ResponseEntity<List<PieChartDTO>> getSaleItemByStatusCreatedDateBetween(@RequestParam(value = "status") String status,
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime to) {
-    	List<PieChart> saleItems = orderService.getSaleItemByStatusCreatedDateBetween(status, from, to);
-        return new ResponseEntity<List<PieChart>>(saleItems, HttpStatus.OK);
+    	List<PieChartDTO> saleItems = orderService.getSaleItemByStatusCreatedDateBetween(status, from, to);
+        return new ResponseEntity<List<PieChartDTO>>(saleItems, HttpStatus.OK);
     }
     
     /**
@@ -57,11 +57,11 @@ public class ChartResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<LineChart>> getSaleByStatusCreatedDateBetween(@RequestParam(value = "status") String status,
+    public ResponseEntity<List<LineChartDTO>> getSaleByStatusCreatedDateBetween(@RequestParam(value = "status") String status,
     		@RequestParam(value = "from" , required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime from, 
     		@RequestParam(value = "to", required = false) @DateTimeFormat(pattern = DateTimePattern.ISO_DATE) DateTime to) {
-    	List<LineChart> sales = orderService.getSaleByStatusCreatedDateBetween(status, from, to);
-        return new ResponseEntity<List<LineChart>>(sales, HttpStatus.OK);
+    	List<LineChartDTO> sales = orderService.getSaleByStatusCreatedDateBetween(status, from, to);
+        return new ResponseEntity<List<LineChartDTO>>(sales, HttpStatus.OK);
     }
     
     @RequestMapping(value = "/mail",

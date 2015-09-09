@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,6 +45,7 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
     
+    @Min(1)
     @NotNull
     @Column(name = "price", precision=10, scale=2, nullable = false)
     private BigDecimal price;    
@@ -52,6 +54,7 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @Column(name = "description", length = 255)
     private String description;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private ItemCategory category;
     

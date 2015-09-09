@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -42,17 +43,18 @@ public class OrderDetail extends AbstractAuditingEntity implements Serializable 
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+	@Min(1)
     @NotNull
     @Column(name = "quantity", nullable = false)
     private Integer quantity = 1;
 
-    @NotNull
-    @Column(name = "amount", precision=10, scale=2, nullable = false)
+    @Column(name = "amount", precision=10, scale=2)
     private BigDecimal amount = new BigDecimal(0);
 
     @ManyToOne(fetch = FetchType.EAGER)
     private OrderNo orderNo;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private Item item;
     
@@ -122,6 +124,7 @@ public class OrderDetail extends AbstractAuditingEntity implements Serializable 
 		if (null != this.item) {
 			this.itemName = this.item.getName();
 			this.itemCategoryName = this.item.getCategoryName();
+			this.amount = this.item.getPrice().multiply(new BigDecimal(this.quantity));
 		}
 	}
 	

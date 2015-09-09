@@ -9,7 +9,7 @@ import org.pos.util.JodaTimeUtil;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class LineChart {
+public class LineChartDTO {
 	
 	private String key;
 	
@@ -21,11 +21,11 @@ public class LineChart {
 	
 	private List<Object> values;
 	
-	public LineChart() {
+	public LineChartDTO() {
 		
 	}
 	
-	public LineChart(String key, Object x, Object y) {
+	public LineChartDTO(String key, Object x, Object y) {
 		this.key = key;
 		this.x = x;
 		this.y = y;

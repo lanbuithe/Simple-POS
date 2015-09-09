@@ -23,7 +23,7 @@ spring:
         #username:
         #password:
         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://localhost:5432/pos
+        url: jdbc:postgresql://localhost:5432/pos_test
         databaseName: pos
         serverName: localhost
         username: postgres
@@ -31,8 +31,8 @@ spring:
 
     jpa:
         #database-platform: org.hibernate.dialect.H2Dialect
-        database-platform: org.hibernate.dialect.PostgreSQL82Dialect
         #database: H2
+        database-platform: org.hibernate.dialect.PostgreSQL82Dialect
         database: POSTGRESQL
         openInView: false
         show_sql: true
@@ -47,13 +47,14 @@ spring:
             hibernate.hbm2ddl.auto: validate
 
 mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: simplepossystem@gmail.com
+    password: whoareyou?
     protocol: smtp
-    tls: false
-    auth: false
+    tls: true
+    auth: true
+    from: simplepossystem@gmail.com
 
 metrics:
     jmx.enabled: false
@@ -66,3 +67,7 @@ swagger:
     contact:
     license: Apache 2.0
     licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
+    
+cron:
+    email:
+        revenue.report: 0 0/1 * * * ?

@@ -2,16 +2,16 @@ package org.pos.web.rest.dto.logic;
 
 import java.math.BigDecimal;
 
-public class PieChart {
+public class PieChartDTO {
 
 	private String key;
 	
 	private Object y;
 	
-	public PieChart() {
+	public PieChartDTO() {
 	}
 	
-	public PieChart(String key, BigDecimal y) {
+	public PieChartDTO(String key, BigDecimal y) {
 		this.key = key;
 		this.y = y;
 	}
