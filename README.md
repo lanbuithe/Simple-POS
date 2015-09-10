@@ -23,4 +23,7 @@ curl -v -H 'Content-Type: application/x-www-form-urlencoded' -u posapp:mySecretO
 ### Get Hold Order
 curl -v -H 'Content-Type: application/json' -X GET 'http://localhost:8080/api/orders?status=HOLD' -H 'Authorization: Bearer 9f79de77-bbad-47a5-838a-664a0cbefce6'
 
+### Create order
+curl -v -H 'Content-Type: application/json' -X POST 'http://localhost:8080/api/orders' -d '{"quantity":1,"amount":12000,"discount":0,"tax":0,"discountAmount":0,"taxAmount":0,"receivableAmount":12000,"details":[{"item":{"createdBy":"admin","createdDate":"2015-09-02T17:38:57Z","id":1,"name":"Cafe Đá","price":12000,"description":null,"category":{"createdBy":"admin","createdDate":"2015-09-02T17:38:46Z","id":1,"name":"Cafe","description":null},"categoryName":"Cafe"},"quantity":1,"amount":12000,"itemId":1}],"tableNo":{"createdBy":"admin","createdDate":"2015-09-02T17:39:08Z","id":1,"name":"Bàn Số 1","description":null},"status":"PAYMENT"}' -H 'Authorization: Bearer '
+
 

@@ -24,5 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("select u from User u inner join u.authorities a where u.activated = ?1 and a.name = ?2")
     List<User> findAllByActivatedIsAndAuthorityNameIs(boolean activated, String authorityName);
+    
+    @Query("select u.email from User u inner join u.authorities a where u.activated = ?1 and a.name = ?2")
+    List<String> findAllEmailByActivatedIsAndAuthorityNameIs(boolean activated, String authorityName);
 
 }

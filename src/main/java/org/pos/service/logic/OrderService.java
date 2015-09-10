@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.pos.domain.User;
 import org.pos.domain.logic.OrderDetail;
@@ -260,18 +261,15 @@ public class OrderService {
         log.debug("Sending revenue report e-mail");
         DateTime now = new DateTime();
         List<OrderNo> orders = orderNoRepository.findByStatusIsAndCreatedDateBetween(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
-        List<User> users = userRepository.findAllByActivatedIsAndAuthorityNameIs(true, AuthoritiesConstants.ADMIN);
-        if (CollectionUtils.isNotEmpty(orders) && CollectionUtils.isNotEmpty(users)) {
+        List<String> emails = userRepository.findAllEmailByActivatedIsAndAuthorityNameIs(true, AuthoritiesConstants.ADMIN);
+        if (CollectionUtils.isNotEmpty(orders) && CollectionUtils.isNotEmpty(emails)) {
         	BigDecimal revenueAmount = getSumReceivableAmountByStatusCreatedDate(OrderStatus.PAYMENT.toString(), now.withTimeAtStartOfDay(), JodaTimeUtil.withTimeAtEndOfDay(now));
 	        Locale locale = Locale.forLanguageTag("vi");
 	        Context context = new Context(locale);
 	        context.setVariable("now", now);
 	        context.setVariable("revenueAmount", revenueAmount);
 	        context.setVariable("orders", orders);
-	        String to = "";
-	        for (User user : users) {
-				to += user.getEmail() + ";";
-			}
+	        String to = StringUtils.join(emails, ";");
 	        String subject = messageSource.getMessage("revenue.report.email.title", null, locale);
 	        String content = templateEngine.process("revenueReportEmail", context);
 	        mailService.sendEmail(to, subject, content, false, true);

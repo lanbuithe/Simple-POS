@@ -42,5 +42,12 @@ public class UserRepositoryTest {
 		assertThat(users).isNotNull().isNotEmpty();
 		assertThat(users.size()).isEqualTo(2);
 	}
+	
+	@Test
+	public void testFindAllEmailByActivatedIsAndAuthorityNameIs() {
+		List<String> emails = userRepository.findAllEmailByActivatedIsAndAuthorityNameIs(true, AuthoritiesConstants.ADMIN);
+		assertThat(emails).isNotNull().isNotEmpty();
+		assertThat(emails.size()).isEqualTo(2);
+	}
     
 }
