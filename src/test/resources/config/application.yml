@@ -24,7 +24,7 @@ spring:
         #password:
         dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
         url: jdbc:postgresql://localhost:5432/pos_test
-        databaseName: pos
+        databaseName: pos_test
         serverName: localhost
         username: postgres
         password: postgres      
