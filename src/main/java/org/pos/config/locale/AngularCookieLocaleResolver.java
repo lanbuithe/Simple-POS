@@ -84,4 +84,11 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
                     (timeZone != null ? timeZone : determineDefaultTimeZone(request)));
         }
     }
+    
+    @Override
+	protected Locale determineDefaultLocale(HttpServletRequest request) {
+		Locale defaultLocale = new Locale("vi");
+		return defaultLocale;
+	}
+    
 }

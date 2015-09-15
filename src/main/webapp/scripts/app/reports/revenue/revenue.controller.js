@@ -9,6 +9,10 @@ angular.module('posApp')
         $scope.page = 1;
         $scope.totalAmount = 0;
 
+        $scope.downloadRevenueReport = function() {
+            Utils.downloadReport('/revenue');
+        };
+
         $scope.loadAll = function() {
             getPaymentOrder();
             OrderService.getSumReceivableAmountByStatusCreatedDate(Constants.orderStatus.payment, $scope.from, $scope.to).then(

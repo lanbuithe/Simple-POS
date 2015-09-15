@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-09-11T18:28:47 -->
+<!-- 2015-09-14T13:24:00 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Coffee_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df013db5-f76e-44d3-b0df-bcbc46d93160">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PostgreSQL POS Data Adapter "/>
-	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<style name="Row" mode="Transparent">
+	<style name="Title" fontName="DejaVu Sans" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="DejaVu Sans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="DejaVu Sans" fontSize="12"/>
+	<style name="Row" mode="Transparent" fontName="DejaVu Sans">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style backcolor="#E6DAC3"/>
@@ -60,7 +60,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="136" splitType="Stretch">
+		<band height="151" splitType="Stretch">
 			<image onErrorType="Blank">
 				<reportElement x="0" y="0" width="164" height="126" uuid="1c003177-754c-448f-8ce1-16868856f545"/>
 				<imageExpression><![CDATA["reports/coffee.jpg"]]></imageExpression>
@@ -70,13 +70,10 @@
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Coffee Title]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="303" y="62" width="196" height="22" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
-				<textElement>
-					<font fontName="Times New Roman"/>
-				</textElement>
-				<text><![CDATA[Coffee SubTitle]]></text>
-			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="SubTitle" x="303" y="62" width="196" height="22" uuid="14c0d37d-0bae-49de-84f3-e42e5f02235b"/>
+				<textFieldExpression><![CDATA[$R{revenue.report.title}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="172" y="94" width="383" height="42" uuid="8240065e-64b6-4170-b5d9-6341598e7b35"/>
 				<textElement textAlignment="Right">
@@ -103,34 +100,31 @@
 			</line>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Column header" x="0" y="0" width="160" height="15" uuid="3dd66723-357d-4922-95b3-807007b7d354"/>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
-				</textElement>
 				<textFieldExpression><![CDATA[$R{created.date}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement style="Column header" x="160" y="0" width="160" height="15" forecolor="#736343" uuid="4865635a-5b8a-415a-98e4-b2e02ec5f8a2"/>
-				<text><![CDATA[amount]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="320" y="0" width="160" height="15" forecolor="#736343" uuid="d905c1bf-bb85-402f-a5cf-a7999d50f778"/>
-				<text><![CDATA[discountamount]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="480" y="0" width="160" height="15" forecolor="#736343" uuid="521d60da-cb09-4ce1-844b-2a728b95205d"/>
-				<text><![CDATA[receivableamount]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="640" y="0" width="160" height="15" forecolor="#736343" uuid="d1d540cd-4fab-46ed-9815-1057ab422b15"/>
-				<text><![CDATA[tablename]]></text>
-			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Column header" x="159" y="0" width="160" height="15" uuid="6591a1f7-02d5-49ee-9c39-e85a813dee61"/>
+				<textFieldExpression><![CDATA[$R{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Column header" x="320" y="1" width="160" height="15" uuid="2038f29e-a078-4e29-b422-33d73946f6c8"/>
+				<textFieldExpression><![CDATA[$R{discount.amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Column header" x="485" y="0" width="160" height="15" uuid="c518f236-03b7-41c3-81af-0ef641ddb5af"/>
+				<textFieldExpression><![CDATA[$R{receivable.amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Column header" x="645" y="0" width="157" height="15" uuid="75b691dc-a186-441a-b9af-4c2266bac480"/>
+				<textFieldExpression><![CDATA[$R{table}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="15" splitType="Stretch">
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="fa7cec56-4ec1-48e6-a26e-7266a995d174"/>
-				<textField isStretchWithOverflow="true">
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm:ss">
 					<reportElement style="Detail" x="0" y="0" width="160" height="15" uuid="4d01da67-ceda-4de6-9348-ae0ecf8ef3df"/>
 					<textFieldExpression><![CDATA[$F{createddate}]]></textFieldExpression>
 				</textField>
@@ -143,11 +137,11 @@
 					<textFieldExpression><![CDATA[$F{discountamount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" x="480" y="0" width="160" height="15" uuid="80abcebe-2f97-4ecd-bb2a-a0458937385a"/>
+					<reportElement style="Detail" x="485" y="0" width="160" height="15" uuid="80abcebe-2f97-4ecd-bb2a-a0458937385a"/>
 					<textFieldExpression><![CDATA[$F{receivableamount}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" x="640" y="0" width="160" height="15" uuid="1d7d123d-7bfb-4248-a11c-5d7dfdd10aaa"/>
+					<reportElement style="Detail" x="645" y="0" width="157" height="15" uuid="1d7d123d-7bfb-4248-a11c-5d7dfdd10aaa"/>
 					<textFieldExpression><![CDATA[$F{tablename}]]></textFieldExpression>
 				</textField>
 			</frame>
