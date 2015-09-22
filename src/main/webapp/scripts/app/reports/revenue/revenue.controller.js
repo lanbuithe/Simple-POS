@@ -10,7 +10,10 @@ angular.module('posApp')
         $scope.totalAmount = 0;
 
         $scope.downloadRevenueReport = function() {
-            Utils.downloadReport('/revenue');
+            var parameters = new Object();
+            parameters['from'] = $scope.from;
+            parameters['to'] = $scope.to;
+            Utils.downloadReport('/revenue', parameters);
         };
 
         $scope.loadAll = function() {

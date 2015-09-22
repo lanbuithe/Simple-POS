@@ -20,7 +20,7 @@ angular.module('posApp')
                 url = url.concat(uri);
                 $window.open(url, '_blank');
             },
-            downloadReport: function(uri) {
+            downloadReport: function(uri, parameters) {
                 var endIndex = $location.absUrl().length - $location.path().length;
                 var url = $location.absUrl().substring(0, endIndex - 1);
                 url = url.concat('api/report').concat(uri);

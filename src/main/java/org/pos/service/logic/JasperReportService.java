@@ -49,7 +49,7 @@ public class JasperReportService {
     @Inject
     private DataSource dataSource;
     
-    public FileSystemResource generateReport(String reportTemlateName, JasperReportType jasperReportType) throws JRException, IOException, SQLException {
+    public FileSystemResource generateReport(String reportTemlateName, JasperReportType jasperReportType, Map<String, Object> parameters) throws JRException, IOException, SQLException {
     	FileSystemResource fileSystemResource = null;
     	String reportTemplateClassPath = "classpath:reports/";
     	reportTemplateClassPath = reportTemplateClassPath.concat(reportTemlateName).concat(".jasper");
@@ -59,7 +59,9 @@ public class JasperReportService {
     	/*JasperDesign jasperDesign = JRXmlLoader.load(file);
     	JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);*/
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(file);
-    	Map<String, Object> parameters = new HashMap<String, Object>();
+        if (null == parameters) {
+        	parameters = new HashMap<String, Object>();
+        }
     	Locale locale = Locale.forLanguageTag("vi");
     	ResourceBundle resourceBundle = new MessageSourceResourceBundle(messageSource, locale);
     	parameters.put(JRParameter.REPORT_LOCALE, locale);

@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.JRException;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +31,11 @@ import org.pos.repository.logic.OrderDetailRepository;
 import org.pos.repository.logic.OrderNoRepository;
 import org.pos.repository.logic.TableNoRepository;
 import org.pos.service.logic.JasperReportService;
+import org.pos.util.DateTimePattern;
 import org.pos.util.JasperReportType;
+import org.pos.util.JodaTimeUtil;
 import org.pos.util.OrderStatus;
+import org.pos.util.ReportParameter;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.Profile;
@@ -137,7 +143,11 @@ public class ReportServiceTest {
 	
 	@Test
 	public void testGenerateReport() throws JRException, IOException, SQLException {
-		FileSystemResource fileSystemResource = reportService.generateReport("revenue_report", JasperReportType.PDF);
+		DateTime now = new DateTime();
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(ReportParameter.POS_FROM_DATE.toString(), now.withTimeAtStartOfDay().toString(DateTimePattern.ISO_DATE_TIME));
+		parameters.put(ReportParameter.POS_TO_DATE.toString(), JodaTimeUtil.withTimeAtEndOfDay(now).toString(DateTimePattern.ISO_DATE_TIME));
+		FileSystemResource fileSystemResource = reportService.generateReport("revenue_report", JasperReportType.PDF, parameters);
 		assertThat(fileSystemResource).isNotNull();
 	}
 	
