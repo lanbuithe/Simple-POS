@@ -24,8 +24,12 @@ angular.module('posApp')
                 var endIndex = $location.absUrl().length - $location.path().length;
                 var url = $location.absUrl().substring(0, endIndex - 1);
                 url = url.concat('api/report').concat(uri);
-                
                 url = url.concat('?access_token=').concat(AuthServerProvider.getToken().access_token);
+                if (!utils.isUndefinedOrNull(parameters)) {
+                    angular.forEach(parameters, function(value, key) {
+                        url = url.concat('&').concat(key).concat('=').concat(value);
+                    });
+                }
                 $window.open(url, '_blank');
             }		    								
 		};

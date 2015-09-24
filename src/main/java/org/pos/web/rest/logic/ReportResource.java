@@ -17,8 +17,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.util.MimeType;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,14 +47,14 @@ public class ReportResource {
     		Map<String, Object> parameters = new HashMap<String, Object>();
     		DateTime now = new DateTime();
     		if (null == from) {
-    			parameters.put(ReportParameter.POS_FROM_DATE.toString(), now.withTimeAtStartOfDay().toString(DateTimePattern.ISO_DATE_TIME));
+    			parameters.put(ReportParameter.POS_FROM_DATE.toString(), now.toString(DateTimePattern.ISO_DATE));
     		} else {
-    			parameters.put(ReportParameter.POS_FROM_DATE.toString(), from.toString(DateTimePattern.ISO_DATE_TIME));
+    			parameters.put(ReportParameter.POS_FROM_DATE.toString(), from.toString(DateTimePattern.ISO_DATE));
     		}
     		if (null == to) {
-    			parameters.put(ReportParameter.POS_TO_DATE.toString(), now.withTimeAtStartOfDay().toString(DateTimePattern.ISO_DATE_TIME));
+    			parameters.put(ReportParameter.POS_TO_DATE.toString(), now.toString(DateTimePattern.ISO_DATE));
     		} else {
-    			parameters.put(ReportParameter.POS_TO_DATE.toString(), to.toString(DateTimePattern.ISO_DATE_TIME));
+    			parameters.put(ReportParameter.POS_TO_DATE.toString(), to.toString(DateTimePattern.ISO_DATE));
     		}
     		fileSystemResource = jasperReportService.generateReport(REVENUE_REPORT_NAME, JasperReportType.PDF, parameters);
         	response.setContentType("application/pdf");

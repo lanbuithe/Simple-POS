@@ -4,21 +4,19 @@
     <div class="form-inline" role="form">
         <label class="control-label" for="from" translate="revenue.fromDate">From date</label>
         <div class="form-group">
-            
-            <input type="datetime-local" class="form-control input-sm" name="from" ng-model="from">
+            <input type="datetime-local" class="form-control input-sm" name="from" ng-model="revenue.from">
         </div>
         <label class="control-label" for="to" translate="revenue.toDate">To date</label>
         <div class="form-group">
-            
-            <input type="datetime-local" class="form-control input-sm" name="to" ng-model="to">
+            <input type="datetime-local" class="form-control input-sm" name="to" ng-model="revenue.to">
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-primary btn-sm" ng-click="search()">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="revenue.search()">
                 <i class="glyphicon glyphicon-search"></i>
             </button>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-primary btn-sm" ng-click="downloadRevenueReport()">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="revenue.downloadRevenueReport()">
                 <i class="glyphicon glyphicon-export"></i>
             </button>
         </div>
@@ -27,7 +25,7 @@
     <h3>
         <span class="label label-primary">
             <span translate="revenue.totalAmount"></span>
-            <span number-format="totalAmount"></span>
+            <span number-format="revenue.totalAmount"></span>
         </span>
     </h3>
 
@@ -43,8 +41,8 @@
                     <th translate="revenue.createdBy">Created by</th>
                 </tr>
             </thead>
-            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-                <tr ng-repeat="order in orders">
+            <tbody infinite-scroll="revenue.loadPage(revenue.page + 1)" infinite-scroll-disabled="revenue.links['last'] == revenue.page">
+                <tr ng-repeat="order in revenue.orders">
                     <td>{{order.createdDate | amDateFormat: constants.dateTimePattern}}</td>
                     <td><span number-format="order.amount"></span></td>
                     <td><span number-format="order.discountAmount"></span></td>

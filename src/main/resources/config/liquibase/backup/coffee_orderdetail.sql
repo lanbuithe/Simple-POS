@@ -1,1 +1,0 @@
-INSERT INTO orderdetail VALUES (1,1,12000.00,1,1,'admin',now(),NULL,NULL),(2,1,14000.00,1,2,'admin',now(),NULL,NULL),(3,1,20000.00,1,3,'admin',now(),NULL,NULL),(4,1,25000.00,1,4,'admin',now(),NULL,NULL);

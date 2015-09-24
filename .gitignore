@@ -131,3 +131,8 @@ Desktop.ini
 /*.sublime-workspace
 
 *.out
+
+######################
+# Jasper Report
+######################
+*.jasper

@@ -13,7 +13,8 @@ angular.module('posApp')
                 views: {
                     'content@': {
                         templateUrl: 'scripts/app/reports/revenue/revenue.html',
-                        controller: 'RevenueController'
+                        controller: 'RevenueController',
+                        controllerAs: 'revenue'
                     }
                 },
                 resolve: {

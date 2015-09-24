@@ -108,6 +108,10 @@ public class OrderService {
     		}
     	} catch (Exception e) {
     		log.error("Exception", e);
+    	} finally {
+    		if (null == sumAmount) {
+    			sumAmount = new BigDecimal(0);
+    		}
     	}
     	return sumAmount;
     }    

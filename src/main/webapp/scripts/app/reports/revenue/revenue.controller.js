@@ -1,56 +1,60 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('RevenueController', function ($scope, ParseLinks, moment, Constants, Utils, OrderService) {
-        $scope.from = moment().set('date', 1).toDate();
-        $scope.to = moment().toDate();
+    .controller('RevenueController', ['$scope', 'moment', 'ParseLinks', 'Constants', 'Utils', 'OrderService', 
+        function ($scope, moment, ParseLinks, Constants, Utils, OrderService) {
 
-        $scope.orders = [];
-        $scope.page = 1;
-        $scope.totalAmount = 0;
+        var revenue = this;
 
-        $scope.downloadRevenueReport = function() {
-            var parameters = new Object();
-            parameters['from'] = $scope.from;
-            parameters['to'] = $scope.to;
+        revenue.from = moment().set('date', 1).toDate();
+        revenue.to = moment().toDate();
+
+        revenue.orders = [];
+        revenue.page = 1;
+        revenue.totalAmount = 0;
+
+        revenue.downloadRevenueReport = function() {
+            var parameters = {};
+            parameters['from'] = moment(revenue.from).toISOString();
+            parameters['to'] = moment(revenue.to).toISOString();
             Utils.downloadReport('/revenue', parameters);
         };
 
-        $scope.loadAll = function() {
+        revenue.loadAll = function() {
             getPaymentOrder();
-            OrderService.getSumReceivableAmountByStatusCreatedDate(Constants.orderStatus.payment, $scope.from, $scope.to).then(
+            OrderService.getSumReceivableAmountByStatusCreatedDate(Constants.orderStatus.payment, revenue.from, revenue.to).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data)) {
-                        $scope.totalAmount = response.data;
+                        revenue.totalAmount = response.data;
                     }
             });            
         };
 
-        $scope.search = function() {
-            $scope.page = 1;
-            $scope.orders = [];
-            $scope.loadAll();
+        revenue.search = function() {
+            revenue.page = 1;
+            revenue.orders = [];
+            revenue.loadAll();
         };
 
-        $scope.loadPage = function(page) {
-            $scope.page = page;
+        revenue.loadPage = function(page) {
+            revenue.page = page;
             getPaymentOrder();
         };
 
         function getPaymentOrder() {
             var tableId = null;
-            OrderService.getByTableIdStatusCreatedDate($scope.page, 6, tableId, Constants.orderStatus.payment, $scope.from, $scope.to).then(
+            OrderService.getByTableIdStatusCreatedDate(revenue.page, 6, tableId, Constants.orderStatus.payment, revenue.from, revenue.to).then(
                 function(response) {
                     if (!Utils.isUndefinedOrNull(response.data) && 
                         response.data.length !== 0) {
-                        $scope.links = ParseLinks.parse(response.headers('link'));
+                        revenue.links = ParseLinks.parse(response.headers('link'));
                         for (var i = 0; i < response.data.length; i++) {
-                            $scope.orders.push(response.data[i]);
+                            revenue.orders.push(response.data[i]);
                         }
                     }
             });
         };
 
-        $scope.loadAll();
+        revenue.loadAll();
 
-    });
+    }]);
