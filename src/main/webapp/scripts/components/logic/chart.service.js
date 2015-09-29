@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('posApp')
-    .factory('ChartService', ['$http', '$q', '$window', '$cookies', 'localStorageService', 'CLOUD', 'Constants',
-        function ($http, $q, $window, $cookies, localStorageService, CLOUD, Constants) {
+    .factory('ChartService', ['$http', '$q', '$window', '$cookies', 'localStorageService', 'Principal', 'CLOUD', 'Constants',
+        function ($http, $q, $window, $cookies, localStorageService, Principal, CLOUD, Constants) {
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -44,13 +44,22 @@ angular.module('posApp')
                     obj.subscribe();
                 });
             },
-            subscribe: function() {
+            /*subscribe: function() {
                 connected.promise.then(function() {
                     subscriber = stompClient.subscribe("/topic/chart", function(data) {
                         listener.notify(JSON.parse(data.body));
                     });
                 }, null, null);
-            },
+            },*/
+            subscribe: function() {
+                connected.promise.then(function() {
+                    Principal.identity().then(function(account) {
+                        subscriber = stompClient.subscribe('/user/' + account.login + '/queue/sale', function(data) {
+                            listener.notify(JSON.parse(data.body));
+                        });
+                    });
+                }, null, null);
+            },            
             unsubscribe: function() {
                 if (subscriber != null) {
                     subscriber.unsubscribe();
@@ -65,7 +74,7 @@ angular.module('posApp')
                     stompClient = null;
                 }
             },
-            sendMail: function () {
+            sendMail: function() {
                 return $http.get('/api/charts/mail');
             }                        
         };

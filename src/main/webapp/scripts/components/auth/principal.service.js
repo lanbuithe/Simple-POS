@@ -13,15 +13,16 @@ angular.module('posApp')
                 return _authenticated;
             },
             isInRole: function (role) {
-                if (!_authenticated) {
-                   return false;
-               }
+                if (!_authenticated || !_identity || !_identity.roles) {
+                    return false;
+                }
 
-               return this.identity().then(function(_id) {
+                /*return this.identity().then(function(_id) {
                    return _id.roles && _id.roles.indexOf(role) !== -1;
-               }, function(err){
+                }, function(err){
                    return false;
-               });
+                });*/
+                return _identity.roles && _identity.roles.indexOf(role) !== -1;
             },
             isInAnyRole: function (roles) {
                 if (!_authenticated || !_identity || !_identity.roles) {
@@ -33,8 +34,7 @@ angular.module('posApp')
                         return true;
                     }
                 }
-
-                return false;
+                return false;              
             },
             authenticate: function (identity) {
                 _identity = identity;

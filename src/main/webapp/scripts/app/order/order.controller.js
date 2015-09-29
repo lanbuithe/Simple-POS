@@ -1,449 +1,453 @@
 'use strict';
 
 angular.module('posApp')
-    .controller('OrderController', function ($scope, $filter, $window, Principal, toaster, TableNo, 
-        ItemCategory, Item, ItemService, Constants, Utils, OrderService, ParseLinks) {
-    	
-    	$scope.tables = TableNo.query();
-        $scope.itemCategories = [];
-        $scope.items = [];
-        $scope.endCategoryIndex = Constants.perCategory - 1;
-        $scope.endItemIndex = Constants.perItem - 1;
-        $scope.order = {};
-        // for hold order
-        $scope.holdOrders = [];
-        $scope.pageHoldOrder = 1;
-        $scope.linkHoldOrders = [];
-        // for move item from order
-        $scope.moveItemFromTable = {};
-        $scope.moveItemFromOrders = [];
-        $scope.pageMoveItemFromOrder = 1;
-        $scope.linkMoveItemFromOrders = [];
-        $scope.moveItemFromOrder = {};
-        // for move item to order
-        $scope.moveItemToTable = {};
-        $scope.moveItemToOrders = [];
-        $scope.pageMoveItemToOrder = 1;
-        $scope.linkMoveItemToOrders = [];
-        $scope.moveItemToOrder = {};
+  .controller('OrderController', ['$scope', '$filter', '$window', 'toaster', 'Principal', 'ParseLinks', 
+    'TableNo', 'ItemCategory', 'Item', 'ItemService', 'Constants', 'Utils', 'OrderService', 
+    function($scope, $filter, $window, toaster, Principal, ParseLinks, 
+    TableNo, ItemCategory, Item, ItemService, Constants, Utils, OrderService) {
 
-        $scope.filterMoveItemToTable = function(moveItemToTable) {
-            return !Utils.isUndefinedOrNull(moveItemToTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
-                moveItemToTable.id !== $scope.moveItemFromTable.id; 
-        };
+    var orderCtrl = this;
+	
+    orderCtrl.tables = TableNo.query();
+    orderCtrl.itemCategories = [];
+    orderCtrl.items = [];
+    orderCtrl.endCategoryIndex = Constants.perCategory - 1;
+    orderCtrl.endItemIndex = Constants.perItem - 1;
+    orderCtrl.order = {};
+    // for hold order
+    orderCtrl.holdOrders = [];
+    orderCtrl.pageHoldOrder = 1;
+    orderCtrl.linkHoldOrders = [];
+    // for move item from order
+    orderCtrl.moveItemFromTable = {};
+    orderCtrl.moveItemFromOrders = [];
+    orderCtrl.pageMoveItemFromOrder = 1;
+    orderCtrl.linkMoveItemFromOrders = [];
+    orderCtrl.moveItemFromOrder = {};
+    // for move item to order
+    orderCtrl.moveItemToTable = {};
+    orderCtrl.moveItemToOrders = [];
+    orderCtrl.pageMoveItemToOrder = 1;
+    orderCtrl.linkMoveItemToOrders = [];
+    orderCtrl.moveItemToOrder = {};
 
-        function checkMoveItemOrder(moveItemOrder) {
-            if (!Utils.isUndefinedOrNull(moveItemOrder) && !Utils.isUndefinedOrNull($scope.order) && 
-                $scope.order.id === moveItemOrder.id) {
-                if (Utils.isUndefinedOrNull(moveItemOrder.details) || 
-                    moveItemOrder.details.length === 0) {
-                    init();
-                } else {
-                    $scope.order = angular.copy(moveItemOrder);
-                    sumOrderAmount($scope.order);
-                }
-            }
-        };
+    orderCtrl.filterMoveItemToTable = function(moveItemToTable) {
+      return !Utils.isUndefinedOrNull(moveItemToTable) && 
+          !Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable) && 
+          moveItemToTable.id !== orderCtrl.moveItemFromTable.id; 
+    };
 
-        $scope.acceptMoveItem = function() {
-            var moveItemOrders = [$scope.moveItemFromOrder, $scope.moveItemToOrder];
-            OrderService.moveItem(moveItemOrders).then(function(response) {
-                if (response.data) {
-                    checkMoveItemOrder($scope.moveItemFromOrder);
-                    checkMoveItemOrder($scope.moveItemToOrder);                   
-                    toaster.pop('success', $filter('translate')('order.messages.info.order.move.item.successfully'));
-                    $('#moveItemModal').modal('hide');
-                } else {
-                    toaster.pop('warning', $filter('translate')('order.messages.info.order.move.item.failed'));
-                }
-            });            
-        };
+    function checkMoveItemOrder(moveItemOrder) {
+      if (!Utils.isUndefinedOrNull(moveItemOrder) && !Utils.isUndefinedOrNull(orderCtrl.order) && 
+        orderCtrl.order.id === moveItemOrder.id) {
+        if (Utils.isUndefinedOrNull(moveItemOrder.details) || 
+          moveItemOrder.details.length === 0) {
+          init();
+        } else {
+          orderCtrl.order = angular.copy(moveItemOrder);
+          sumOrderAmount(orderCtrl.order);
+        }
+      }
+    };
 
-        $scope.moveItem = function() {
-            if (Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
-                toaster.pop('warning', $filter('translate')('order.messages.info.order.table.select'));
-                return;
-            }
-            var fromOrderDetails = _.where($scope.moveItemFromOrder.details, {selected: true});
-            var toOrderDetail = null;
-            if (!Utils.isUndefinedOrNull(fromOrderDetails) && fromOrderDetails.length > 0) {
-                angular.forEach(fromOrderDetails, function(fromOrderDetail) {
-                    toOrderDetail = _.findWhere($scope.toMoveItemOrder, {itemId: fromOrderDetail.itemId});
-                    if (Utils.isUndefinedOrNull(toOrderDetail)) {
-                        toOrderDetail = angular.copy(fromOrderDetail);
-                        toOrderDetail.quantity = angular.copy(toOrderDetail.tmpQuantity);
-                        $scope.moveItemToOrder.details.push(toOrderDetail);
-                    } else {
-                        toOrderDetail.quantity = toOrderDetail.quantity + toOrderDetail.tmpQuantity;
-                    }
-                    toOrderDetail.amount = toOrderDetail.quantity * toOrderDetail.item.price;
-                    fromOrderDetail.quantity = fromOrderDetail.quantity - fromOrderDetail.tmpQuantity;
-                    fromOrderDetail.tmpQuantity = angular.copy(fromOrderDetail.quantity);
-                    fromOrderDetail.amount = fromOrderDetail.quantity * fromOrderDetail.item.price;
-                    if (fromOrderDetail.quantity <= 0) {
-                        $scope.moveItemFromOrder.details = _.without($scope.moveItemFromOrder.details, _.findWhere($scope.moveItemFromOrder.details, {quantity: fromOrderDetail.quantity})); 
-                    }
-                    sumOrderAmount($scope.moveItemFromOrder);
-                    sumOrderAmount($scope.moveItemToOrder);
-                });
+    orderCtrl.acceptMoveItem = function() {
+      orderCtrl.moveItemToOrder.tableNo = orderCtrl.moveItemToTable;
+      var moveItemOrders = [orderCtrl.moveItemFromOrder, orderCtrl.moveItemToOrder];
+      OrderService.moveItem(moveItemOrders).then(function(response) {
+        if (response.data) {
+          checkMoveItemOrder(orderCtrl.moveItemFromOrder);
+          checkMoveItemOrder(orderCtrl.moveItemToOrder);                   
+          toaster.pop('success', $filter('translate')('order.messages.info.order.move.item.successfully'));
+          $('#moveItemModal').modal('hide');
+        } else {
+          toaster.pop('warning', $filter('translate')('order.messages.info.order.move.item.failed'));
+        }
+      });            
+    };
+
+    orderCtrl.moveItem = function() {
+      if (Utils.isUndefinedOrNull(orderCtrl.moveItemToTable.id)) {
+        toaster.pop('warning', $filter('translate')('order.messages.info.order.table.select'));
+        return;
+      }
+      var fromOrderDetails = _.where(orderCtrl.moveItemFromOrder.details, {selected: true});
+      var toOrderDetail = null;
+      if (!Utils.isUndefinedOrNull(fromOrderDetails) && fromOrderDetails.length > 0) {
+          angular.forEach(fromOrderDetails, function(fromOrderDetail) {
+            toOrderDetail = _.findWhere(orderCtrl.toMoveItemOrder, {itemId: fromOrderDetail.itemId});
+            if (Utils.isUndefinedOrNull(toOrderDetail)) {
+              toOrderDetail = angular.copy(fromOrderDetail);
+              toOrderDetail.quantity = angular.copy(toOrderDetail.tmpQuantity);
+              orderCtrl.moveItemToOrder.details.push(toOrderDetail);
             } else {
-                toaster.pop('warning', $filter('translate')('order.messages.info.order.item.select'));
+              toOrderDetail.quantity = toOrderDetail.quantity + toOrderDetail.tmpQuantity;
             }
-        };
-
-        $scope.changeMoveItemToTable = function() {
-            $scope.moveItemToOrders.length = 0;
-            $scope.pageMoveItemToOrder = 1;
-            $scope.linkMoveItemToOrders = {};
-            $scope.moveItemToOrder.details = [];
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
-                tableId = $scope.moveItemToTable.id;
+            toOrderDetail.amount = toOrderDetail.quantity * toOrderDetail.item.price;
+            fromOrderDetail.quantity = fromOrderDetail.quantity - fromOrderDetail.tmpQuantity;
+            fromOrderDetail.tmpQuantity = angular.copy(fromOrderDetail.quantity);
+            fromOrderDetail.amount = fromOrderDetail.quantity * fromOrderDetail.item.price;
+            if (fromOrderDetail.quantity <= 0) {
+              orderCtrl.moveItemFromOrder.details = _.without(orderCtrl.moveItemFromOrder.details, _.findWhere(orderCtrl.moveItemFromOrder.details, {quantity: fromOrderDetail.quantity})); 
             }
-            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.moveItemToOrders = response.data;
-                        if ($scope.moveItemToOrders.length > 1) {
-                            $('#moveItemToOrderModal').modal('show');    
-                        } else {
-                            $scope.moveItemToOrder = $scope.moveItemToOrders[0];
-                            copyItemIdOrderDetail($scope.moveItemToOrder);
-                        }                        
-                    }
-            });
-        };
+            sumOrderAmount(orderCtrl.moveItemFromOrder);
+            sumOrderAmount(orderCtrl.moveItemToOrder);
+          });
+      } else {
+        toaster.pop('warning', $filter('translate')('order.messages.info.order.item.select'));
+      }
+    };
 
-        $scope.selectMoveItemToOrder = function(moveItemToOrder) {
-            $scope.moveItemToOrder = moveItemToOrder;
-            copyItemIdOrderDetail($scope.moveItemToOrder);
-            $('#moveItemToOrderModal').modal('hide');
-        };
-
-        function copyItemIdOrderDetail(order) {
-            if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
-                order.details.length > 0) {
-                angular.forEach(order.details, function(orderDetail) {
-                    orderDetail.itemId = angular.copy(orderDetail.item.id);
-                });
-            }            
-        };
-
-        $scope.loadPageMoveItemToOrder = function(page) {
-            $scope.moveItemToOrders.length = 0;
-            $scope.pageMoveItemToOrder = page;
-            $scope.linkMoveItemToOrders = {};
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.moveItemToTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemToTable.id)) {
-                tableId = $scope.moveItemToTable.id;
-            }           
-            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.moveItemToOrders = response.data;
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };
-
-        function copyQuantityOrderDetail(order) {
-            if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
-                order.details.length > 0) {
-                angular.forEach(order.details, function(orderDetail) {
-                    orderDetail.tmpQuantity = angular.copy(orderDetail.quantity);
-                    orderDetail.itemId = angular.copy(orderDetail.item.id);
-                });
-            }
-        }; 
-
-        $scope.changeMoveItemFromTable = function() {
-            $scope.moveItemFromOrders.length = 0;
-            $scope.pageMoveItemFromOrder = 1;
-            $scope.linkMoveItemFromOrders = {};
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
-                tableId = $scope.moveItemFromTable.id;
-            }
-            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.moveItemFromOrders = response.data;
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };
-
-        $scope.selectMoveItemFromOrder = function(moveItemFromOrder) {
-            $scope.moveItemFromOrder = moveItemFromOrder;
-            $scope.moveItemFromTable = moveItemFromOrder.tableNo;
-            copyQuantityOrderDetail($scope.moveItemFromOrder);
-            $('#moveItemFromOrderModal').modal('hide');
-            $('#moveItemModal').modal('show');
-        };
-
-        $scope.loadPageMoveItemFromOrder = function(page) {
-            $scope.moveItemFromOrders.length = 0;
-            $scope.pageMoveItemFromOrder = page;
-            $scope.linkMoveItemFromOrders = {};
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
-                tableId = $scope.moveItemFromTable.id;
-            }           
-            OrderService.getByTableIdStatusCreatedDate($scope.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.moveItemFromOrders = response.data;
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };
-
-        $scope.openMoveItem = function() {
-            $scope.pageMoveItemOrder = 1;
-            $scope.moveItemFromTable = angular.copy($scope.order.tableNo);
-            $scope.linkMoveItemFromOrders = {};
-            $scope.moveItemFromOrders.length = 0;
-            $scope.moveItemToTable = {};
-            $scope.moveItemToOrder = {};            
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.moveItemFromTable) && 
-                !Utils.isUndefinedOrNull($scope.moveItemFromTable.id)) {
-                tableId = $scope.moveItemFromTable.id;
-            }
-            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.moveItemFromOrders = response.data;
-                        if ($scope.moveItemFromOrders.length > 1) {
-                            $('#moveItemFromOrderModal').modal('show');    
-                        } else {
-                            $scope.moveItemFromOrder = $scope.moveItemFromOrders[0];
-                            $scope.moveItemFromTable = $scope.moveItemFromOrders[0].tableNo;
-                            copyQuantityOrderDetail($scope.moveItemFromOrder);
-                            $('#moveItemModal').modal('show');
-                        }
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };        
-
-        $scope.selectHoldOrder = function(holdOrder) {
-            $scope.order = holdOrder;
-            sumOrderAmount($scope.order);
-            $('#holdOrderModal').modal('hide');
-        };
-
-        $scope.loadPageHoldOrder = function(page) {
-            $scope.holdOrders.length = 0;
-            $scope.pageHoldOrder = page;
-            $scope.linkHoldOrders = {};
-            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, $scope.order.tableNo.id, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.holdOrders = response.data;
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };        
-
-        $scope.openHoldOrder = function() {
-            var tableId = null;
-            if (!Utils.isUndefinedOrNull($scope.order) 
-                && !Utils.isUndefinedOrNull($scope.order.tableNo)) {
-                tableId = $scope.order.tableNo.id;
-            }
-            $scope.holdOrders.length = 0;
-            $scope.pageHoldOrder = 1;
-            $scope.linkHoldOrders = {};
-            OrderService.getByTableIdStatusCreatedDate($scope.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
-                function(response) {
-                    if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
-                        $scope.linkHoldOrders = ParseLinks.parse(response.headers('link'));
-                        $scope.holdOrders = response.data;
-                        $('#holdOrderModal').modal('show');
-                    } else {
-                        toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
-                    }
-            });
-        };
-
-        $scope.nextItem = function() {
-            $scope.endItemIndex += Constants.perItem;
-        };
-
-        $scope.prevItem = function() {
-            $scope.endItemIndex -= Constants.perItem;
-        };        
-
-        $scope.nextCategory = function() {
-            $scope.endCategoryIndex += Constants.perCategory;
-        };
-
-        $scope.prevCategory = function() {
-            $scope.endCategoryIndex -= Constants.perCategory;
-        };
-
-        $scope.cancelOrder = function() {
-            var message = $filter('translate')('order.messages.info.order.cancel');
-        	if (Utils.isUndefinedOrNull($scope.order.id)) {
-                toaster.pop('success', message);
-        		init();
-        	} else {
-        		$scope.order.status = Constants.orderStatus.cancel;
-        		OrderService.updateOrder($scope.order).then(function(response) {
-                    toaster.pop('success', message);                        
-    				init();
-                });        		
-        	} 
-        };
-        
-        $scope.holdOrder = function() {
-            var message = $filter('translate')('order.messages.info.order.hold');
-            handleOrder(message, Constants.orderStatus.hold);
-        };
-
-        $scope.payOrder = function() {
-            var message = $filter('translate')('order.messages.info.order.pay');
-            handleOrder(message, Constants.orderStatus.payment);
-        };
-
-        function handleOrder(message, status) {
-            $scope.order.status = status;
-            if (Utils.isUndefinedOrNull($scope.order.id)) {
-                OrderService.createOrder($scope.order).then(function(response) {
-                    var orderId = null;
-                    if (!Utils.isUndefinedOrNull(response) && !Utils.isUndefinedOrNull(response.data)) {
-                        orderId = response.data.id;
-                    }
-                    processOrder(message, status, orderId);
-                });
+    orderCtrl.changeMoveItemToTable = function() {
+      orderCtrl.moveItemToOrders.length = 0;
+      orderCtrl.pageMoveItemToOrder = 1;
+      orderCtrl.linkMoveItemToOrders = {};
+      orderCtrl.moveItemToOrder.details = [];
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.moveItemToTable) && 
+          !Utils.isUndefinedOrNull(orderCtrl.moveItemToTable.id)) {
+        tableId = orderCtrl.moveItemToTable.id;
+      }
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.moveItemToOrders = response.data;
+            if (orderCtrl.moveItemToOrders.length > 1) {
+              $('#moveItemToOrderModal').modal('show');    
             } else {
-                OrderService.updateOrder($scope.order).then(function(response) {
-                    processOrder(message, status, $scope.order.id);
-                });             
-                
-            }            
-        }        
+              orderCtrl.moveItemToOrder = orderCtrl.moveItemToOrders[0];
+              copyItemIdOrderDetail(orderCtrl.moveItemToOrder);
+            }                        
+          }
+      });
+    };
 
-        function processOrder(message, status, orderId) {
-            toaster.pop('success', message);                        
-            init();
-            if (Constants.orderStatus.payment === status) {
-                var url = $window.location.origin;
-                $window.open(url + '/blank#/print/' + orderId);            
-            }
-        }      
-        
-        function sumOrderAmount(order) {
-        	order.amount = 0;
-            order.quantity = 0;
-            order.discountAmount = 0;
-            order.taxAmount = 0;
-            order.receivableAmount = 0;
-        	angular.forEach(order.details, function(orderDetail) {
-        		order.amount += orderDetail.amount;
-                order.quantity += orderDetail.quantity;
-                // for function addOrderDetail
-                orderDetail.itemId = orderDetail.item.id;
-        	});
-            order.discountAmount = order.discount * order.amount;
-            order.taxAmount = order.tax * order.amount;
-        	order.receivableAmount = order.amount - order.discountAmount + order.taxAmount;
-        };
-        
-        $scope.quantityBlur = function(index) {
-        	var orderDetail = $scope.order.details[index];
-            if (!Utils.isUndefinedOrNull(orderDetail.quantity) && angular.isNumber(orderDetail.quantity)) {
-                orderDetail.amount = orderDetail.item.price * orderDetail.quantity;
-                sumOrderAmount($scope.order);
-            }
-        };
-        
-        $scope.removeOrderDetail = function(index) {
-        	$scope.order.details.splice(index, 1);
-        	sumOrderAmount($scope.order);
-        };        
-        
-        $scope.addOrderDetail = function(selectedItem) {
-        	var orderDetail = _.findWhere($scope.order.details, {itemId: selectedItem.id});
-        	if (Utils.isUndefinedOrNull(orderDetail)) {
-        		orderDetail = {
-            		item: selectedItem,
-            		quantity: 1,
-            		amount: 1 * selectedItem.price,
-            		itemId: selectedItem.id
-            	};
-                $scope.order.details.push(angular.copy(orderDetail));        		
-        	} else {
-        		orderDetail.quantity += 1;
-        		orderDetail.amount = orderDetail.quantity * selectedItem.price;
-        	}
-        	sumOrderAmount($scope.order)
-        };
-        
-        $scope.getItemByCategoryId = function(itemCategoryId) {
-            if (Utils.isUndefinedOrNull(itemCategoryId)) {
-                Item.query(function(result, headers) {
-                    $scope.items = result;
-                });
+    orderCtrl.selectMoveItemToOrder = function(moveItemToOrder) {
+      orderCtrl.moveItemToOrder = moveItemToOrder;
+      copyItemIdOrderDetail(orderCtrl.moveItemToOrder);
+      $('#moveItemToOrderModal').modal('hide');
+    };
+
+    function copyItemIdOrderDetail(order) {
+      if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
+        order.details.length > 0) {
+        angular.forEach(order.details, function(orderDetail) {
+            orderDetail.itemId = angular.copy(orderDetail.item.id);
+        });
+      }            
+    };
+
+    orderCtrl.loadPageMoveItemToOrder = function(page) {
+      orderCtrl.moveItemToOrders.length = 0;
+      orderCtrl.pageMoveItemToOrder = page;
+      orderCtrl.linkMoveItemToOrders = {};
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.moveItemToTable) && 
+        !Utils.isUndefinedOrNull(orderCtrl.moveItemToTable.id)) {
+        tableId = orderCtrl.moveItemToTable.id;
+      }           
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageMoveItemToOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkMoveItemToOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.moveItemToOrders = response.data;
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };
+
+    function copyQuantityOrderDetail(order) {
+      if (!Utils.isUndefinedOrNull(order) && !Utils.isUndefinedOrNull(order.details) && 
+        order.details.length > 0) {
+        angular.forEach(order.details, function(orderDetail) {
+          orderDetail.tmpQuantity = angular.copy(orderDetail.quantity);
+          orderDetail.itemId = angular.copy(orderDetail.item.id);
+        });
+      }
+    }; 
+
+    orderCtrl.changeMoveItemFromTable = function() {
+      orderCtrl.moveItemFromOrders.length = 0;
+      orderCtrl.pageMoveItemFromOrder = 1;
+      orderCtrl.linkMoveItemFromOrders = {};
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable) && 
+        !Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable.id)) {
+        tableId = orderCtrl.moveItemFromTable.id;
+      }
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.moveItemFromOrders = response.data;
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };
+
+    orderCtrl.selectMoveItemFromOrder = function(moveItemFromOrder) {
+      orderCtrl.moveItemFromOrder = moveItemFromOrder;
+      orderCtrl.moveItemFromTable = moveItemFromOrder.tableNo;
+      copyQuantityOrderDetail(orderCtrl.moveItemFromOrder);
+      $('#moveItemFromOrderModal').modal('hide');
+      $('#moveItemModal').modal('show');
+    };
+
+    orderCtrl.loadPageMoveItemFromOrder = function(page) {
+      orderCtrl.moveItemFromOrders.length = 0;
+      orderCtrl.pageMoveItemFromOrder = page;
+      orderCtrl.linkMoveItemFromOrders = {};
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable) && 
+          !Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable.id)) {
+        tableId = orderCtrl.moveItemFromTable.id;
+      }           
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageMoveItemFromOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.moveItemFromOrders = response.data;
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };
+
+    orderCtrl.openMoveItem = function() {
+      orderCtrl.pageMoveItemOrder = 1;
+      orderCtrl.moveItemFromTable = angular.copy(orderCtrl.order.tableNo);
+      orderCtrl.linkMoveItemFromOrders = {};
+      orderCtrl.moveItemFromOrders.length = 0;
+      orderCtrl.moveItemToTable = {};
+      orderCtrl.moveItemToOrder = {};            
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable) && 
+        !Utils.isUndefinedOrNull(orderCtrl.moveItemFromTable.id)) {
+        tableId = orderCtrl.moveItemFromTable.id;
+      }
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkMoveItemFromOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.moveItemFromOrders = response.data;
+            if (orderCtrl.moveItemFromOrders.length > 1) {
+              $('#moveItemFromOrderModal').modal('show');    
             } else {
-                ItemService.getByCategory(itemCategoryId).then(function(data) {
-                    $scope.items = data;
-                });
+              orderCtrl.moveItemFromOrder = orderCtrl.moveItemFromOrders[0];
+              orderCtrl.moveItemFromTable = orderCtrl.moveItemFromOrders[0].tableNo;
+              copyQuantityOrderDetail(orderCtrl.moveItemFromOrder);
+              $('#moveItemModal').modal('show');
             }
-        };
-        
-        function init() {
-            $scope.order = {
-                quantity: 0,
-            	amount: 0,
-                discount: 0,
-                tax: 0,
-                discountAmount: 0,
-                taxAmount: 0,
-                receivableAmount: 0,
-            	details: []
-            };       	
-        };
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };        
 
-        $scope.loadAll = function() {
-        	init();
-	        Principal.identity().then(function(account) {
-	            $scope.account = account;
-	            $scope.isAuthenticated = Principal.isAuthenticated;
-	        });
-            // load all item category
-            ItemCategory.query(function(result, headers) {
-                $scope.itemCategories = result;
-                if (!Utils.isUndefinedOrNull($scope.itemCategories) && $scope.itemCategories.length > 0) {
-                    var itemCategory = {
-                        name: $filter('translate')('common.all')
-                    };
-                    $scope.itemCategories.unshift(itemCategory);
-                }
-            });
-            // load all item
-            Item.query(function(result, headers) {
-                $scope.items = result;
-            });            
-        };
+    orderCtrl.selectHoldOrder = function(holdOrder) {
+      orderCtrl.order = holdOrder;
+      sumOrderAmount(orderCtrl.order);
+      $('#holdOrderModal').modal('hide');
+    };
 
-        $scope.loadAll();        
+    orderCtrl.loadPageHoldOrder = function(page) {
+      orderCtrl.holdOrders.length = 0;
+      orderCtrl.pageHoldOrder = page;
+      orderCtrl.linkHoldOrders = {};
+      OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageHoldOrder, 6, orderCtrl.order.tableNo.id, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkHoldOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.holdOrders = response.data;
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };        
 
-    });
+    orderCtrl.openHoldOrder = function() {
+      var tableId = null;
+      if (!Utils.isUndefinedOrNull(orderCtrl.order) 
+          && !Utils.isUndefinedOrNull(orderCtrl.order.tableNo)) {
+        tableId = orderCtrl.order.tableNo.id;
+      }
+      orderCtrl.holdOrders.length = 0;
+      orderCtrl.pageHoldOrder = 1;
+      orderCtrl.linkHoldOrders = {};
+    OrderService.getByTableIdStatusCreatedDate(orderCtrl.pageHoldOrder, 6, tableId, Constants.orderStatus.hold, null, null).then(
+        function(response) {
+          if (!Utils.isUndefinedOrNull(response.data) && response.data.length > 0) {
+            orderCtrl.linkHoldOrders = ParseLinks.parse(response.headers('link'));
+            orderCtrl.holdOrders = response.data;
+            $('#holdOrderModal').modal('show');
+          } else {
+            toaster.pop('warning', $filter('translate')('common.messages.info.data.notFound'));
+          }
+      });
+    };
+
+    orderCtrl.nextItem = function() {
+      orderCtrl.endItemIndex += Constants.perItem;
+    };
+
+    orderCtrl.prevItem = function() {
+      orderCtrl.endItemIndex -= Constants.perItem;
+    };        
+
+    orderCtrl.nextCategory = function() {
+      orderCtrl.endCategoryIndex += Constants.perCategory;
+    };
+
+    orderCtrl.prevCategory = function() {
+      orderCtrl.endCategoryIndex -= Constants.perCategory;
+    };
+
+    orderCtrl.cancelOrder = function() {
+      var message = $filter('translate')('order.messages.info.order.cancel');
+    	if (Utils.isUndefinedOrNull(orderCtrl.order.id)) {
+        toaster.pop('success', message);
+    		init();
+    	} else {
+    		orderCtrl.order.status = Constants.orderStatus.cancel;
+    		OrderService.updateOrder(orderCtrl.order).then(function(response) {
+          toaster.pop('success', message);                        
+				  init();
+        });        		
+    	} 
+    };
+    
+    orderCtrl.holdOrder = function() {
+      var message = $filter('translate')('order.messages.info.order.hold');
+      handleOrder(message, Constants.orderStatus.hold);
+    };
+
+    orderCtrl.payOrder = function() {
+      var message = $filter('translate')('order.messages.info.order.pay');
+      handleOrder(message, Constants.orderStatus.payment);
+    };
+
+    function handleOrder(message, status) {
+      orderCtrl.order.status = status;
+      if (Utils.isUndefinedOrNull(orderCtrl.order.id)) {
+        OrderService.createOrder(orderCtrl.order).then(function(response) {
+          var orderId = null;
+          if (!Utils.isUndefinedOrNull(response) && !Utils.isUndefinedOrNull(response.data)) {
+              orderId = response.data.id;
+          }
+          processOrder(message, status, orderId);
+        });
+      } else {
+        OrderService.updateOrder(orderCtrl.order).then(function(response) {
+            processOrder(message, status, orderCtrl.order.id);
+        });             
+      }            
+    };        
+
+    function processOrder(message, status, orderId) {
+      toaster.pop('success', message);                        
+      init();
+      if (Constants.orderStatus.payment === status) {
+        var url = $window.location.origin;
+        $window.open(url + '/blank#/print/' + orderId);            
+      }
+    }      
+    
+    function sumOrderAmount(order) {
+    	order.amount = 0;
+      order.quantity = 0;
+      order.discountAmount = 0;
+      order.taxAmount = 0;
+      order.receivableAmount = 0;
+    	angular.forEach(order.details, function(orderDetail) {
+    	order.amount += orderDetail.amount;
+        order.quantity += orderDetail.quantity;
+        // for function addOrderDetail
+        orderDetail.itemId = orderDetail.item.id;
+    	});
+      order.discountAmount = order.discount * order.amount;
+      order.taxAmount = order.tax * order.amount;
+    	order.receivableAmount = order.amount - order.discountAmount + order.taxAmount;
+    };
+    
+    orderCtrl.quantityBlur = function(index) {
+    	var orderDetail = orderCtrl.order.details[index];
+        if (!Utils.isUndefinedOrNull(orderDetail.quantity) && angular.isNumber(orderDetail.quantity)) {
+          orderDetail.amount = orderDetail.item.price * orderDetail.quantity;
+          sumOrderAmount(orderCtrl.order);
+        }
+    };
+    
+    orderCtrl.removeOrderDetail = function(index) {
+    	orderCtrl.order.details.splice(index, 1);
+    	sumOrderAmount(orderCtrl.order);
+    };        
+    
+    orderCtrl.addOrderDetail = function(selectedItem) {
+    	var orderDetail = _.findWhere(orderCtrl.order.details, {itemId: selectedItem.id});
+    	if (Utils.isUndefinedOrNull(orderDetail)) {
+    		orderDetail = {
+      		item: selectedItem,
+      		quantity: 1,
+      		amount: 1 * selectedItem.price,
+      		itemId: selectedItem.id
+      	};
+        orderCtrl.order.details.push(angular.copy(orderDetail));        		
+    	} else {
+    		orderDetail.quantity += 1;
+    		orderDetail.amount = orderDetail.quantity * selectedItem.price;
+    	}
+    	sumOrderAmount(orderCtrl.order)
+    };
+    
+    orderCtrl.getItemByCategoryId = function(itemCategoryId) {
+      if (Utils.isUndefinedOrNull(itemCategoryId)) {
+        Item.query(function(result, headers) {
+          orderCtrl.items = result;
+        });
+      } else {
+        ItemService.getByCategory(itemCategoryId).then(function(data) {
+          orderCtrl.items = data;
+        });
+      }
+    };
+    
+    function init() {
+      orderCtrl.order = {
+        quantity: 0,
+      	amount: 0,
+        discount: 0,
+        tax: 0,
+        discountAmount: 0,
+        taxAmount: 0,
+        receivableAmount: 0,
+      	details: []
+      };       	
+    };
+
+    orderCtrl.loadAll = function() {
+    	init();
+      Principal.identity().then(function(account) {
+        orderCtrl.account = account;
+        orderCtrl.isAuthenticated = Principal.isAuthenticated;
+      });
+      // load all item category
+      ItemCategory.query(function(result, headers) {
+        orderCtrl.itemCategories = result;
+        if (!Utils.isUndefinedOrNull(orderCtrl.itemCategories) && orderCtrl.itemCategories.length > 0) {
+          var itemCategory = {
+              name: $filter('translate')('common.all')
+          };
+          orderCtrl.itemCategories.unshift(itemCategory);
+        }
+      });
+      // load all item
+      Item.query(function(result, headers) {
+        orderCtrl.items = result;
+      });            
+    };
+
+    orderCtrl.loadAll();        
+
+  }]);

@@ -9,14 +9,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
-import org.pos.domain.logic.OrderDetail;
 import org.pos.domain.logic.OrderNo;
 import org.pos.repository.logic.OrderNoRepository;
 import org.pos.service.logic.OrderService;
 import org.pos.util.DateTimePattern;
-import org.pos.util.OrderStatus;
 import org.pos.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +59,6 @@ public class OrderNoResource {
         if (orderNo.getId() != null) {
             return ResponseEntity.badRequest().header("Failure", "A new orderNo cannot already have an ID").build();
         }
-        updateRelationship(orderNo);
         orderNoRepository.save(orderNo);
         return ResponseEntity.created(new URI("/api/orderNos/" + orderNo.getId())).build();
     }
@@ -79,22 +75,8 @@ public class OrderNoResource {
         if (orderNo.getId() == null) {
             return create(orderNo);
         }
-        updateRelationship(orderNo);
         orderNoRepository.save(orderNo);
         return ResponseEntity.ok().build();
-    }
-    
-    /**
-     * 
-     * @param orderNo
-     */
-    private void updateRelationship(OrderNo orderNo) {
-    	if (null != orderNo && CollectionUtils.isNotEmpty(orderNo.getDetails())) {
-    		for (OrderDetail orderDetail : orderNo.getDetails()) {
-    			log.debug("update OrderDetail : {}", orderDetail);
-    			orderDetail.setOrderNo(orderNo);
-			}
-    	}
     }
 
     /**
@@ -154,11 +136,7 @@ public class OrderNoResource {
         	headers.add("Failure", "A new orderNo cannot already have an ID");
             return new ResponseEntity<OrderNo>(orderNo, headers, HttpStatus.EXPECTATION_FAILED);
         }
-        updateRelationship(orderNo);
-        orderNoRepository.save(orderNo);
-        if (OrderStatus.PAYMENT.name().equalsIgnoreCase(orderNo.getStatus())) {
-        	orderService.getSaleChart(OrderStatus.PAYMENT.name(), null, null);
-        }
+        orderNo = orderService.saveOrder(orderNo);
         return new ResponseEntity<OrderNo>(orderNo, HttpStatus.CREATED);
     }
     
@@ -174,11 +152,7 @@ public class OrderNoResource {
         if (orderNo.getId() == null) {
             return create(orderNo);
         }
-        updateRelationship(orderNo);
-        orderNoRepository.save(orderNo);
-        if (OrderStatus.PAYMENT.name().equalsIgnoreCase(orderNo.getStatus())) {
-        	orderService.getSaleChart(OrderStatus.PAYMENT.name(), null, null);
-        }
+        orderNo = orderService.saveOrder(orderNo);
         return ResponseEntity.ok().build();
     }
     

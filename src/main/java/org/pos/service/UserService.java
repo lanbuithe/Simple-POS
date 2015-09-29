@@ -152,21 +152,24 @@ public class UserService {
     	String encryptedPassword = passwordEncoder.encode(newUser.getPassword());
 		// new user gets initially a generated password
 		newUser.setPassword(encryptedPassword);
-		// new user is active
-		newUser.setActivated(true);
-		userRepository.save(newUser);
+		newUser = userRepository.save(newUser);
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
     }
     
-    public void changePassword(String username, String password) {
-        User user = userRepository.findOneByLogin(username);
-        if (null != user) {
-            String encryptedPassword = passwordEncoder.encode(password);
-            user.setPassword(encryptedPassword);
-            userRepository.save(user);
-            log.debug("Changed password for User: {}", user);        	
-        }
+    public User updateUserByAdmin(User user) {
+		user = userRepository.save(user);
+		log.debug("Updated Information for User: {}", user);
+		return user;
+    }
+    
+    public User changePasswordByAdmin(User user) {
+    	String encryptedPassword = passwordEncoder.encode(user.getPassword());
+		// new user gets initially a generated password
+    	user.setPassword(encryptedPassword);
+    	user = userRepository.save(user);
+		log.debug("Created Information for User: {}", user);
+		return user;
     }
     
 }

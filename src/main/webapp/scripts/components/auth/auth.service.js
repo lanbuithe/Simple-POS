@@ -39,7 +39,7 @@ angular.module('posApp')
                         var isAuthenticated = Principal.isAuthenticated();
 
                         if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && !Principal.isInAnyRole($rootScope.toState.data.roles)) {
-                            if (isAuthenticated) {
+                            if (isAuthenticated) {console.log('accessdenied');
                                 // user is signed in but not authorized for desired state
                                 $state.go('accessdenied');
                             }

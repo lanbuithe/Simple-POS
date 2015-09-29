@@ -221,24 +221,6 @@ public class AccountResource {
         throws URISyntaxException {
         List<Authority> entities = authorityRepository.findAll();
         return new ResponseEntity<List<Authority>>(entities, HttpStatus.OK);
-    }
-    
-    /**
-     * POST  /account/admin/change_password -> changes the user's password
-     */
-    @RequestMapping(value = "/account/admin/change_password",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<?> changePassword(@RequestBody UserDTO userDTO) {
-    	if (null == userDTO || StringUtils.isBlank(userDTO.getLogin())) {
-    		return new ResponseEntity<>("Incorrect username", HttpStatus.BAD_REQUEST);
-    	}
-        if (!checkPasswordLength(userDTO.getPassword())) {
-            return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
-        }
-        userService.changePassword(userDTO.getLogin(), userDTO.getPassword());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }    
+    }  
     
 }

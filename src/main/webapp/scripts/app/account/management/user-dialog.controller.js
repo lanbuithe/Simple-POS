@@ -12,12 +12,16 @@ angular.module('posApp').controller('UserDialogController',
             $modalInstance.close(result);
         };
 
-        $scope.save = function () {
+        $scope.save = function() {
             if (!Utils.isUndefinedOrNull($scope.user.id)) {
                 User.update($scope.user, onSaveFinished);
             } else {
                 User.save($scope.user, onSaveFinished);
             }
+        };
+
+        $scope.changePassword = function() {
+            User.changePassword({id: $scope.user.id}, $scope.user);
         };
 
         $scope.clear = function() {

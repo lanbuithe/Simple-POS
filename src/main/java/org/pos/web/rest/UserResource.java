@@ -87,11 +87,8 @@ public class UserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> update(@Valid @RequestBody User user) throws URISyntaxException {
-        log.debug("REST request to update Usser : {}", user);
-        if (user.getId() == null) {
-            return create(user);
-        }
-        userRepository.save(user);
+        log.debug("REST request to update User : {}", user);
+        userService.updateUserByAdmin(user);
         return ResponseEntity.ok().build();
     }    
     
@@ -137,5 +134,18 @@ public class UserResource {
         log.debug("REST request to delete User : {}", id);
         userRepository.delete(id);
     }
+    
+    /**
+     * PUT  /users -> Change password user.
+     */
+    @RequestMapping(value = "/users/{id}",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> changePasword(@Valid @RequestBody User user) throws URISyntaxException {
+        log.debug("REST request to change password User : {}", user);
+        userService.changePasswordByAdmin(user);
+        return ResponseEntity.ok().build();
+    }   
     
 }

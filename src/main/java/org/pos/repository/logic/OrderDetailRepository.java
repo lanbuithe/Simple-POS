@@ -14,5 +14,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail,Long> {
 	
 	@Query(value = "select new org.pos.web.rest.dto.logic.PieChartDTO(a.itemName, sum(a.amount)) from OrderDetail a where a.orderNo.status = ?1 and a.orderNo.createdDate between ?2 and ?3 group by a.itemName")
-    public List<PieChartDTO> getSaleItemByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
+    public List<PieChartDTO> getSaleItemByStatusIsAndCreatedDateBetween(String status, DateTime from, DateTime to);
+	
+	@Query(value = "select new org.pos.web.rest.dto.logic.PieChartDTO(a.itemName, sum(a.amount)) from OrderDetail a where a.orderNo.status = ?1 and a.orderNo.createdDate between ?2 and ?3 and a.createdBy = ?4 group by a.itemName")
+    public List<PieChartDTO> getSaleItemByStatusIsAndCreatedDateBetweenAndCreatedByIs(String status, DateTime from, DateTime to, String createdBy);
+	
 }

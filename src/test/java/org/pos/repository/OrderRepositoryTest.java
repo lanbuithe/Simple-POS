@@ -238,7 +238,7 @@ public class OrderRepositoryTest {
     public void testGetSaleByStatusCreatedDateBetween() {
     	DateTime now = new DateTime();
     	DateTime to = JodaTimeUtil.withTimeAtEndOfDay(now);
-    	List<LineChartDTO> lineChartDTOs = orderNoRepository.getSaleByStatusCreatedDateBetween(OrderStatus.PAYMENT.name(), now.withTimeAtStartOfDay(), to);
+    	List<LineChartDTO> lineChartDTOs = orderNoRepository.getSaleByStatusIsAndCreatedDateBetween(OrderStatus.PAYMENT.name(), now.withTimeAtStartOfDay(), to);
 		assertThat(lineChartDTOs).isNotNull();
 		assertThat(lineChartDTOs).isNotEmpty();
 		assertThat(lineChartDTOs.size()).isEqualTo(1);
@@ -251,7 +251,7 @@ public class OrderRepositoryTest {
     public void testGetSaleItemByStatusCreatedDateBetween() {
     	DateTime now = new DateTime();
     	DateTime to = JodaTimeUtil.withTimeAtEndOfDay(now);
-    	List<PieChartDTO> pieChartDTOs = orderDetailRepository.getSaleItemByStatusCreatedDateBetween(OrderStatus.PAYMENT.name(), now.withTimeAtStartOfDay(), to);
+    	List<PieChartDTO> pieChartDTOs = orderDetailRepository.getSaleItemByStatusIsAndCreatedDateBetween(OrderStatus.PAYMENT.name(), now.withTimeAtStartOfDay(), to);
 		assertThat(pieChartDTOs).isNotNull();
 		assertThat(pieChartDTOs).isNotEmpty();
 		assertThat(pieChartDTOs.size()).isEqualTo(2);

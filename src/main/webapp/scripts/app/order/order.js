@@ -13,7 +13,8 @@ angular.module('posApp')
                 views: {
                     'content@': {
                         templateUrl: 'scripts/app/order/order.html',
-                        controller: 'OrderController'
+                        controller: 'OrderController',
+                        controllerAs: 'orderCtrl'
                     }
                 },
                 resolve: {

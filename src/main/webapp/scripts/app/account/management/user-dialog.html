@@ -126,6 +126,13 @@
                         Your authority is required.
                     </p>
                 </div>                
+            </div>
+
+            <div class="form-group">
+                <label translate="user.activated" for="activated">Activated</label>
+                <span>
+                    <input type="checkbox" name="activated" ng-model="user.activated">
+                </span>
             </div>            
 
             <div class="form-group" ng-if="null == user.id">

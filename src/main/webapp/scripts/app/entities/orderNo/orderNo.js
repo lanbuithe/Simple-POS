@@ -7,7 +7,7 @@ angular.module('posApp')
                 parent: 'entity',
                 url: '/orderNo',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                     pageTitle: 'posApp.orderNo.home.title'
                 },
                 views: {
@@ -27,7 +27,7 @@ angular.module('posApp')
                 parent: 'entity',
                 url: '/orderNo/:id',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                     pageTitle: 'posApp.orderNo.detail.title'
                 },
                 views: {

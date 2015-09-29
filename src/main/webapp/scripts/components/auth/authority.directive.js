@@ -48,14 +48,19 @@ angular.module('posApp')
                             setVisible();
                         }
 
-                        Principal.isInRole(role)
+                        /*Principal.isInRole(role)
                             .then(function(result) {
                                 if (result) {
                                     setVisible();
                                 } else {
                                     setHidden();
                                 }
-                            });
+                            });*/
+                        if (Principal.isInRole(role)) {
+                            setVisible();
+                        } else {
+                            setHidden();
+                        }
                     },
                     role = attrs.hasRole.replace(/\s+/g, '');
 

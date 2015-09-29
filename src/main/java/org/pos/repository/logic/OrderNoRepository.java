@@ -50,7 +50,10 @@ public interface OrderNoRepository extends JpaRepository<OrderNo, Long>, JpaSpec
 	public OrderNo findById(Long id);
 
 	@Query(value = "select new org.pos.web.rest.dto.logic.LineChartDTO(a.status, to_char(a.createdDate, 'yyyy-mm-dd'), sum(a.receivableAmount)) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3 group by to_char(a.createdDate, 'yyyy-mm-dd'), a.status order by to_char(a.createdDate, 'yyyy-mm-dd') asc")
-    public List<LineChartDTO> getSaleByStatusCreatedDateBetween(String status, DateTime from, DateTime to);
+    public List<LineChartDTO> getSaleByStatusIsAndCreatedDateBetween(String status, DateTime from, DateTime to);
+	
+	@Query(value = "select new org.pos.web.rest.dto.logic.LineChartDTO(a.status, to_char(a.createdDate, 'yyyy-mm-dd'), sum(a.receivableAmount)) from OrderNo a where a.status = ?1 and a.createdDate between ?2 and ?3 and a.createdBy = ?4 group by to_char(a.createdDate, 'yyyy-mm-dd'), a.status order by to_char(a.createdDate, 'yyyy-mm-dd') asc")
+    public List<LineChartDTO> getSaleByStatusIsAndCreatedDateBetweenAndCreatedByIs(String status, DateTime from, DateTime to, String createdBy);
 	
 	public List<OrderNo> findByStatusIsAndCreatedDateBetween(String status, DateTime from, DateTime to);
 	

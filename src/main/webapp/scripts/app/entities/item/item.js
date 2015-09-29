@@ -27,7 +27,7 @@ angular.module('posApp')
                 parent: 'entity',
                 url: '/item/:id',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                     pageTitle: 'posApp.item.detail.title'
                 },
                 views: {
